@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { resetPassword } from '../../services/authService';
 import { toast } from 'react-toastify';  // import toast
 import 'react-toastify/dist/ReactToastify.css'; // import style toast
@@ -82,6 +82,12 @@ const ResetPasswordPage = () => {
         <button className="button" type="submit">
           Réinitialiser
         </button>
+<div style={{ marginTop: '1rem', textAlign: 'center' }}>
+          <Link to="/login" style={{ color: '#0e7490', textDecoration: 'underline', fontSize: '0.9rem' }}>
+            Retour à la page de connexion
+          </Link>
+        </div>
+
       </form>
     </div>
   );
