@@ -1,0 +1,96 @@
+/* Conteneur principal */
+.register-container {
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+/* Formulaire centré */
+.register-form-container {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Titre */
+.register-form .text-xl {
+  font-size: 1.8rem;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 2rem;
+}
+
+/* Groupe de champ */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+/* Label */
+.input-label {
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Champ de saisie et liste déroulante */
+.input-group input,
+.input-group select {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border 0.2s ease-in-out, box-shadow 0.2s;
+  background-color: #fdfdfd;
+}
+
+/* Effet focus */
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #0e7490;
+  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.2);
+}
+
+/* Bouton de soumission */
+.buttonRegister {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #0e7490;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.buttonRegister:hover {
+  background-color: #0c6b84;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .register-form-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .register-form .text-xl {
+    font-size: 1.5rem;
+  }
+
+  .buttonRegister {
+    font-size: 1rem;
+  }
+}

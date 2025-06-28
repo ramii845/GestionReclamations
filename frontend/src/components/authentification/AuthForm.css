@@ -1,0 +1,122 @@
+.auth-container {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.auth-form-container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 430px;
+}
+
+.auth-form-container h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group p {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #ccc;
+  border-radius: 15px;
+  padding: 0.5rem 0.75rem;
+  transition: border 0.3s ease;
+  background-color: #fafafa;
+}
+
+.input-wrapper i {
+  color: #888;
+  margin-right: 10px;
+}
+
+.input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.5rem 0.25rem;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.input-wrapper input:focus {
+  background-color: #fff;
+}
+
+.input-group input:focus-visible {
+  outline: none;
+  border-color: #0E7490;
+  box-shadow: 0 0 5px rgba(14, 116, 144, 0.2);
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 15px;
+  background-color: #0E7490;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #1C7490;
+}
+
+a {
+  text-decoration: none;
+  color: #555;
+  margin-top: 15px;
+  display: inline-block;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.auth-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #0e7490;
+}
+
+.links-below-inputs {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.forgot-link {
+  font-size: 0.85rem;
+  color: #0e7490;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #0c6b84;
+  text-decoration: underline;
+}
+
