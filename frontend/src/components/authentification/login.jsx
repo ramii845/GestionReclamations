@@ -22,6 +22,7 @@ const Login = () => {
       const result = res.data;
 
       if (result.token) {
+        console.log(res.data)
         localStorage.setItem("CC_Token", result.token);
         localStorage.setItem("user", JSON.stringify(result));
 
@@ -71,15 +72,21 @@ const Login = () => {
 
         <button className="button" type="submit">Se connecter</button>
 
-        <div className="below-button-links">
-          <Link className="forgot-link" to="/reset-password">
-            Mot de passe oublié ?
-          </Link>
-        </div>
+   <div className="below-button-links">
+  <Link className="custom-link" to="/reset-password">
+    Mot de passe oublié ?
+  </Link>
+</div>
 
-        <Link className="pt-4 text-slate-500 text-sm block text-center" to="/register">
-          Vous n’avez pas de compte ? S’inscrire
-        </Link>
+<p className="text-center text-sm pt-4" style={{ color: '#555', fontWeight: 'normal' }}>
+  Vous n’avez pas de compte ?{' '}
+  <Link to="/register" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
+    S’inscrire
+  </Link>
+</p>
+
+
+
       </form>
     </div>
   );

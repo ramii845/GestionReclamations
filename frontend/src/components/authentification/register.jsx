@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import { signup } from '../../services/authService';
 import { toast } from 'react-toastify';  // Import toastify
 import './registerForm.css';
+
+// ... imports inchangés
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,19 +20,22 @@ const Register = () => {
   });
 
   const modelesParMarque = {
-    Peugeot: ['208', '308', '508'],
-    Citroen: ['C3', 'C4', 'C5'],
-    Opel: ['Corsa', 'Astra', 'Mokka'],
-  };
+  Peugeot: [
+    'LANDTREK','EXPERT','Boxer','Traveller','208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner','Traveller'
+  ],
+  Citroen: [
+    'C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo','BERLINGO VAN','C4 X',,'Jumper'
+  ],
+  Opel: [
+    'Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'
+  ]
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (
-      (name === 'numero_telephone' || name === 'matricule_vehicule') &&
-      !/^\d*$/.test(value)
-    ) {
-      return; // n'accepte que les chiffres
+    if (name === 'numero_telephone') {
+      if (!/^\d*$/.test(value) || value.length > 8) return;
     }
 
     setForm({ ...form, [name]: value, ...(name === 'marque' ? { modele: '' } : {}) });
@@ -41,6 +46,11 @@ const Register = () => {
 
     if (form.motdepasse !== form.motdepasse2) {
       toast.error('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    if (form.numero_telephone.length !== 8) {
+      toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
       return;
     }
 
@@ -75,7 +85,7 @@ const Register = () => {
           <p className="text-xl font-bold mb-6">Créer un compte</p>
 
           <div className="input-group">
-            <p className="text-sm font-semibold">Nom</p>
+            <p className="text-sm font-semibold">Nom et Prénom</p>
             <input
               type="text"
               name="nom"
@@ -92,6 +102,7 @@ const Register = () => {
               name="matricule_vehicule"
               value={form.matricule_vehicule}
               onChange={handleChange}
+              placeholder="0000TU000"
               required
             />
           </div>
@@ -137,6 +148,7 @@ const Register = () => {
               name="numero_telephone"
               value={form.numero_telephone}
               onChange={handleChange}
+              placeholder="ex: 20600800"
               required
             />
           </div>
@@ -166,6 +178,10 @@ const Register = () => {
           <button className="buttonRegister" type="submit">
             Créer un compte
           </button>
+          <div className="redirect-login">
+            <span>Vous avez déjà un compte ? </span>
+            <Link to="/login">Se connecter</Link>
+          </div>
         </form>
       </div>
     </div>

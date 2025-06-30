@@ -74,7 +74,7 @@
   padding: 12px;
   border: none;
   border-radius: 15px;
-  background-color: #0E7490;
+  background-color: #0c847e;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -83,7 +83,7 @@
 }
 
 .button:hover {
-  background-color: #1C7490;
+  background-color: #0c847e;
 }
 
 a {
@@ -119,4 +119,15 @@ a {
   color: #0c6b84;
   text-decoration: underline;
 }
+.custom-link {
+  color: #0c6b84;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+
 
