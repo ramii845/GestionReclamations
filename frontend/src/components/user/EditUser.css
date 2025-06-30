@@ -1,0 +1,97 @@
+.edit-user-container {
+  max-width: 600px;          /* un peu plus large */
+  min-width: 550px;          /* largeur minimale pour petits écrans */
+  min-height: 450px;         /* hauteur minimale pour éviter déformation */
+  margin: 50px auto;
+  padding: 40px 60px;        /* padding ajusté pour plus d’espace intérieur */
+  background: linear-gradient(to bottom right, #f9f9f9, #e6f2f1);
+  border: 1px solid #dfecec;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.3s ease-in-out;
+  box-sizing: border-box;    /* important pour que padding soit inclus dans la taille */
+}
+
+.edit-user-container h2 {
+  text-align: center;
+  color: #0c847e;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+form div {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"],
+input[type="tel"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #fff;
+  transition: border 0.3s ease;
+  box-sizing: border-box; /* inclure padding dans la largeur */
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus {
+  border-color: #0c847e;
+  outline: none;
+}
+
+input[disabled] {
+  background-color: #f1f1f1;
+  color: #7f8c8d;
+  cursor: not-allowed;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #0c847e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #08675f;
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 600px) {
+  .edit-user-container {
+    max-width: 90vw;       /* largeur à 90% de la fenêtre */
+    min-height: auto;      /* laisser la hauteur s’adapter au contenu */
+    margin: 30px 15px;
+    padding: 25px 20px;
+  }
+
+  .edit-user-container h2 {
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  input[type="tel"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 15px;
+  }
+}

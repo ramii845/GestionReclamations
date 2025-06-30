@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CategorieList from "./components/categories/CategorieList";
 import AddReclamation from "./components/reclamations/AddReclamationUser";
 import AddReclamationUser from "./components/reclamations/AddReclamationUser";
+import EditUser from "./components/user/EditUser";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/categories" element={<CategorieList/>} />
          <Route path="/categories/:categorie_id" element={<AddReclamationUser />} />
+            <Route path="/profil" element={<EditUser/>} />
 
         </Routes>
       </Router>

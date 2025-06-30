@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createReclamationWithFiles } from "../../services/reclamationService";
 import { getCategorieById } from "../../services/categorieService";
 import { toast } from "react-toastify";
 import "./AddReclamationUser.css";
+import "../Navbar/Navbar.css";
 
 function decodeJWT(token) {
   try {
@@ -25,7 +26,9 @@ function decodeJWT(token) {
 const AddReclamationUser = () => {
   const { categorie_id } = useParams();
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
+  // États formulaire
   const [descriptionProbleme, setDescriptionProbleme] = useState("");
   const [imageVehicule, setImageVehicule] = useState(null);
   const [facturation, setFacturation] = useState(null);
@@ -33,6 +36,10 @@ const AddReclamationUser = () => {
   const [nomCategorie, setNomCategorie] = useState("");
   const [listeDescriptions, setListeDescriptions] = useState([]);
 
+  // États menu utilisateur
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Récupération user_id depuis token JWT
   const token = localStorage.getItem("CC_Token");
   let user_id = null;
   if (token) {
@@ -41,6 +48,17 @@ const AddReclamationUser = () => {
       user_id = decoded.user_id;
     }
   }
+
+  useEffect(() => {
+    // Fermer menu si clic en dehors
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const fetchCategorie = async () => {
@@ -76,6 +94,11 @@ const AddReclamationUser = () => {
     fetchCategorie();
   }, [categorie_id]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("CC_Token");
+    navigate("/login");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user_id) {
@@ -103,28 +126,38 @@ const AddReclamationUser = () => {
 
   return (
     <div className="page-wrapper">
-      {/* Boutons fixes */}
-      <button
-        className="btn-accueil"
-        type="button"
-        onClick={() => navigate("/categories")}
-      >
-        Accueil
-      </button>
+      {/* NAVBAR */}
+      <nav className="navbar">
+        <div
+          className="navbar-accueil"
+          onClick={() => {
+            localStorage.removeItem("CC_Token");
+            navigate("/");
+          }}
+        >
+          Accueil
+        </div>
 
-      <button
-        className="btn-deconnexion"
-        type="button"
-        onClick={() => {
-          localStorage.removeItem("CC_Token");
-          navigate("/login");
-        }}
-      >
-        Déconnexion
-      </button>
+        <div className="navbar-user" ref={menuRef}>
+          <img
+            src="/images/logo3.png"
+            alt="Profil utilisateur"
+            className="user-image"
+            onClick={() => setMenuOpen(!menuOpen)}
+          />
+          {menuOpen && (
+            <div className="user-menu">
+              <button onClick={() => { setMenuOpen(false); navigate("/profil"); }}>
+                Gérer mon compte
+              </button>
+              <button onClick={handleLogout}>Déconnexion</button>
+            </div>
+          )}
+        </div>
+      </nav>
 
-      {/* Formulaire */}
-      <div className="add-reclamation-container">
+      {/* Contenu formulaire */}
+      <div className="add-reclamation-container" style={{ paddingTop: "80px" }}>
         <h2>Nouvelle Réclamation</h2>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -138,7 +171,9 @@ const AddReclamationUser = () => {
               >
                 <option value="">-- Sélectionner un problème --</option>
                 {listeDescriptions.map((item, idx) => (
-                  <option key={idx} value={item}>{item}</option>
+                  <option key={idx} value={item}>
+                    {item}
+                  </option>
                 ))}
               </select>
             ) : (
@@ -152,10 +187,11 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>Image du véhicule *</label>
-            <span style={{ fontWeight: 'normal', fontSize: '0.85rem', color: '#666' }}>
-              (si disponible)
-            </span>
+            <label>
+              Image du véhicule <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
+                (si disponible)
+              </span>
+            </label>
             <input
               type="file"
               accept="image/*"
@@ -164,10 +200,11 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>Facturation (PDF)*</label>
-            <span style={{ fontWeight: 'normal', fontSize: '0.85rem', color: '#666' }}>
-              (si disponible)
-            </span>
+            <label>
+              Facturation (PDF) <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
+                (si disponible)
+              </span>
+            </label>
             <input
               type="file"
               accept="application/pdf"

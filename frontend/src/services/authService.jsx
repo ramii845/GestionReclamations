@@ -17,3 +17,6 @@ export const logout = async () => {
 export const resetPassword = async (data) => {
   return await axios.post(`${API_BASE_URL}/reset-password/`, data);
 };
+export const updateUser = async (userId, updatedUserData) => {
+  return await axios.put(`${API_BASE_URL}/${userId}`, updatedUserData);
+};
