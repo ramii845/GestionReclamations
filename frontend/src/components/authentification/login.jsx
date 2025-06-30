@@ -29,7 +29,8 @@ const Login = () => {
         toast.success("Connexion réussie !", { autoClose: 2000 });
 
         if (result.role === "admin") navigate("/adminPage");
-        else navigate("/userPage");
+         else navigate("/categories");
+
       } else {
         toast.error("Identifiants invalides.");
       }

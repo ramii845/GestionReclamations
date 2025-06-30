@@ -31,7 +31,7 @@ const HomePage = () => {
         </div>
 
         <footer className="footer">
-          <p>© 2025 MaRéclamation — Tous droits réservés</p>
+          <p>© 2025 MyClaim — Tous droits réservés</p>
           <div className="footer-infos">
             <p>Mentions légales</p>
             <p>Politique de confidentialité</p>

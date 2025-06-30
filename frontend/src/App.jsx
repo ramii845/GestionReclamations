@@ -11,6 +11,7 @@ import ResetPasswordPage from "./components/authentification/ResetPasswordPage";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CategorieList from "./components/categories/CategorieList";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/adminPage" element={<AdminPage />} />
           <Route path="/userPage" element={<UserPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/categories" element={<CategorieList/>} />
         </Routes>
       </Router>
 

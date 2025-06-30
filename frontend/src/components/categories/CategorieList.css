@@ -1,0 +1,87 @@
+/* Conteneur */
+.categorie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  min-height: 100vh;
+  background-color: #e6f9f9; /* fond uniforme bleu clair */
+}
+
+/* Titre fixe en haut */
+.title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #0c6b84;
+  margin-bottom: 60px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Grille centrée */
+.categorie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  width: 90%;
+  max-width: 1200px;
+  margin-top: 80px; /* déplace les cartes vers le bas */
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Carte */
+.categorie-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(12, 107, 132, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+}
+
+.categorie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(12, 107, 132, 0.25);
+}
+
+/* Image */
+.categorie-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Bouton */
+.categorie-btn {
+  margin-top: 12px;
+  margin-bottom: 16px;
+  padding: 12px 24px;
+  background-color: #0c6b84;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.categorie-btn:hover {
+  background-color: #09586b;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  } 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -16,9 +16,15 @@ async def create_categorie(categorie: Categorie):
     return {"id": str(result.inserted_id)}
 
 @cat_router.get("/", response_model=List[Categorie])
-async def get_all_categories():
-    categories = await db.categories.find().to_list(100)
-    return [Categorie(**{**cat, "id": str(cat["_id"])}) for cat in categories]
+async def get_payes():
+    cats = await db.categories.find().to_list(100)
+
+    # Convertir _id en string et l'ajouter en tant que 'id'
+    for cat in cats:
+        cat["id"] = str(cat["_id"])
+        del cat["_id"]  # Supprimer _id original si nécessaire
+
+    return JSONResponse(status_code=200, content={"status_code": 200, "categories": cats})
 
 @cat_router.get("/{categorie_id}", response_model=Categorie)
 async def get_categorie(categorie_id: str):
