@@ -20,3 +20,6 @@ export const resetPassword = async (data) => {
 export const updateUser = async (userId, updatedUserData) => {
   return await axios.put(`${API_BASE_URL}/${userId}`, updatedUserData);
 };
+export const getUserbyId = async (userId) => {
+  return await axios.get(`${API_BASE_URL}/${userId}`);
+};

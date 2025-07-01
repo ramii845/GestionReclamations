@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserbyId } from "../../services/authService"; // adapte ce chemin si besoin
 import "./Navbar.css";
 
 const decodeJWT = (token) => {
@@ -25,18 +26,18 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [nom, setNom] = useState("");
 
-  // Récupération du nom utilisateur depuis token
   useEffect(() => {
     const token = localStorage.getItem("CC_Token");
     if (token) {
       const decoded = decodeJWT(token);
-      if (decoded) {
-        setNom(decoded.nom || "");
+      if (decoded?.user_id) {
+        getUserbyId(decoded.user_id)
+          .then((res) => setNom(res.data.nom))
+          .catch((err) => console.error("Erreur récupération nom :", err));
       }
     }
   }, []);
 
-  // Fermer menu si clic en dehors
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
