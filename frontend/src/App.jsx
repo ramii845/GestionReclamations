@@ -8,13 +8,14 @@ import Login from "./components/authentification/login";
 import AdminPage from "./components/admin/AdminPage";
 import UserPage from "./components/user/userPage";
 import ResetPasswordPage from "./components/authentification/ResetPasswordPage";
+import CategorieList from "./components/categories/CategorieList";
+import AddReclamationUser from "./components/reclamations/AddReclamationUser";
+import EditUser from "./components/user/EditUser";
+
+import PrivateRoute from "./components/utils/PrivateRoute"; // ✅ import
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CategorieList from "./components/categories/CategorieList";
-import AddReclamation from "./components/reclamations/AddReclamationUser";
-import AddReclamationUser from "./components/reclamations/AddReclamationUser";
-import EditUser from "./components/user/EditUser";
 
 function App() {
   return (
@@ -24,17 +25,19 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/adminPage" element={<AdminPage />} />
-          <Route path="/userPage" element={<UserPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/categories" element={<CategorieList/>} />
-         <Route path="/categories/:categorie_id" element={<AddReclamationUser />} />
-            <Route path="/profil" element={<EditUser/>} />
 
+          {/* Routes sécurisées pour utilisateur */}
+          <Route path="/userPage" element={<PrivateRoute element={<UserPage />} />} />
+          <Route path="/categories" element={<PrivateRoute element={<CategorieList />} />} />
+          <Route path="/categories/:categorie_id" element={<PrivateRoute element={<AddReclamationUser />} />} />
+          <Route path="/profil" element={<PrivateRoute element={<EditUser />} />} />
+
+          {/* Admin (à sécuriser plus tard) */}
+          <Route path="/adminPage" element={<AdminPage />} />
         </Routes>
       </Router>
 
-      {/* Container toast notifications - s’affiche partout */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

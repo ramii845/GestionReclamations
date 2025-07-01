@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { updateUser } from "../../services/authService";
 import './EditUser.css';
 import "../Navbar/Navbar.css";
+import Navbar from "../Navbar/Navbar";
 
 function decodeJWT(token) {
   try {
@@ -52,7 +53,8 @@ const EditUser = () => {
     setModele(decodedUser.modele || "");
     setMotdepasse(decodedUser.motdepasse || "");
     setRole(decodedUser.role || "user");
-  }, [decodedUser, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Une seule fois au montage
 
   // Fermer menu si clic en dehors
   useEffect(() => {
@@ -78,6 +80,17 @@ const EditUser = () => {
       return;
     }
 
+    // Vérifier si nom ou numéro a changé
+    const isChanged =
+      nom !== (decodedUser.nom || "") ||
+      numero_telephone !== (decodedUser.numero_telephone || "");
+
+    if (!isChanged) {
+      // Rien changé : redirection simple sans message
+      navigate("/categories");
+      return;
+    }
+
     const updatedUser = {
       nom,
       numero_telephone,
@@ -100,40 +113,7 @@ const EditUser = () => {
 
   return (
     <div className="page-wrapper">
-      {/* NAVBAR */}
-      <nav className="navbar">
-        <div
-          className="navbar-accueil"
-          onClick={() => {
-            localStorage.removeItem("CC_Token");
-            navigate("/");
-          }}
-        >
-          Accueil
-        </div>
-
-        <div className="navbar-user" ref={menuRef}>
-          <img
-            src="/images/logo3.png"
-            alt="Profil utilisateur"
-            className="user-image"
-            onClick={() => setMenuOpen(!menuOpen)}
-          />
-          {menuOpen && (
-            <div className="user-menu">
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  navigate("/profil");
-                }}
-              >
-                Gérer mon compte
-              </button>
-              <button onClick={handleLogout}>Déconnexion</button>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navbar/>
 
       {/* FORMULAIRE EDIT USER */}
       <div className="edit-user-container" style={{ paddingTop: "80px" }}>
@@ -176,6 +156,15 @@ const EditUser = () => {
 
           <button type="submit">Enregistrer</button>
         </form>
+         {/* Lien retour sous le bouton */}
+      <div style={{ marginTop: "15px", textAlign: "center" }}>
+        <Link
+          to="/categories"
+          style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}
+        >
+          Retour à la liste des catégories
+        </Link>
+      </div>
       </div>
     </div>
   );

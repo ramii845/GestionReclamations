@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate,Link } from "react-router-dom";
 import { createReclamationWithFiles } from "../../services/reclamationService";
 import { getCategorieById } from "../../services/categorieService";
 import { toast } from "react-toastify";
 import "./AddReclamationUser.css";
 import "../Navbar/Navbar.css";
+import Navbar from "../Navbar/Navbar";
 
 function decodeJWT(token) {
   try {
@@ -126,35 +127,7 @@ const AddReclamationUser = () => {
 
   return (
     <div className="page-wrapper">
-      {/* NAVBAR */}
-      <nav className="navbar">
-        <div
-          className="navbar-accueil"
-          onClick={() => {
-            localStorage.removeItem("CC_Token");
-            navigate("/");
-          }}
-        >
-          Accueil
-        </div>
-
-        <div className="navbar-user" ref={menuRef}>
-          <img
-            src="/images/logo3.png"
-            alt="Profil utilisateur"
-            className="user-image"
-            onClick={() => setMenuOpen(!menuOpen)}
-          />
-          {menuOpen && (
-            <div className="user-menu">
-              <button onClick={() => { setMenuOpen(false); navigate("/profil"); }}>
-                Gérer mon compte
-              </button>
-              <button onClick={handleLogout}>Déconnexion</button>
-            </div>
-          )}
-        </div>
-      </nav>
+  <Navbar/>
 
       {/* Contenu formulaire */}
       <div className="add-reclamation-container" style={{ paddingTop: "80px" }}>
@@ -224,6 +197,14 @@ const AddReclamationUser = () => {
 
           <button type="submit">Envoyer</button>
         </form>
+            <div style={{ marginTop: "-30px", textAlign: "center" }}>
+          <Link
+            to="/categories"
+            style={{ color: "#0c6b84", fontWeight: "500", textDecoration: "none" }}
+          >
+            Retour à la liste des catégories
+          </Link>
+        </div>
       </div>
     </div>
   );

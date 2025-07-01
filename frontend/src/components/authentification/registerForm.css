@@ -23,7 +23,7 @@
 .register-form .text-xl {
   font-size: 1.8rem;
   text-align: center;
-  color: #111827;
+  color: #0c847e; /* Couleur corrigée */
   margin-bottom: 2rem;
 }
 
@@ -34,12 +34,12 @@
   margin-bottom: 1.2rem;
 }
 
-/* Label */
-.input-label {
-  font-size: 0.95rem;
-  color: #374151;
-  margin-bottom: 0.4rem;
+/* Label (p dans input-group) */
+.input-group p {
   font-weight: 600;
+  color: #34495e; /* Couleur des labels login */
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
   text-transform: capitalize;
 }
 
@@ -77,7 +77,7 @@
 }
 
 .buttonRegister:hover {
-  background-color: #0c847e;
+  background-color: #08675f;
 }
 
 /* Responsive */
@@ -94,6 +94,7 @@
     font-size: 1rem;
   }
 }
+
 .redirect-login {
   margin-top: 15px;
   text-align: center;
@@ -110,4 +111,3 @@
 .redirect-login a:hover {
   text-decoration: underline;
 }
-

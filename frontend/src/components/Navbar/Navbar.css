@@ -33,12 +33,23 @@
   color: #a0dedc;
 }
 
-/* Logo utilisateur positionné à droite */
+/* Conteneur user avec nom à gauche et logo à droite */
 .navbar-user {
   position: relative;
   display: flex;
   align-items: center;
   margin-right: 50px;
+}
+
+/* Nom utilisateur affiché à gauche du logo */
+.user-name {
+  color: white;
+  font-weight: 600;
+  margin-left: 0; /* pas de marge à gauche, on peut ajuster */
+  margin-right: 10px; /* espace entre nom et logo */
+  font-size: 1rem;
+  user-select: none;
+  white-space: nowrap;
 }
 
 /* Image de l'utilisateur (logo) */
@@ -50,7 +61,11 @@
   border: 2px solid white;
   cursor: pointer;
   transition: transform 0.2s;
-  margin-right: 0px;
+}
+
+/* Effet hover sur le logo */
+.user-image:hover {
+  transform: scale(1.05);
 }
 
 /* Menu déroulant affiché sous le logo */
@@ -94,5 +109,10 @@
   .user-menu {
     right: 10px;
     min-width: 140px;
+  }
+
+  /* Masquer le nom sur petits écrans */
+  .user-name {
+    display: none;
   }
 }

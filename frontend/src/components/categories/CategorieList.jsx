@@ -3,12 +3,40 @@ import { useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../services/categorieService";
 import "./CategorieList.css";
 import "../Navbar/Navbar.css";
+import Navbar from "../Navbar/Navbar";
+
+function decodeToken(token) {
+  if (!token) return null;
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error('Erreur décodage token:', error);
+    return null;
+  }
+}
 
 const CategorieList = () => {
   const [categories, setCategories] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userName, setUserName] = useState('');
   const navigate = useNavigate();
   const menuRef = useRef();
+
+  useEffect(() => {
+    const token = localStorage.getItem("CC_Token");
+    const decoded = decodeToken(token);
+    if (decoded && decoded.nom) {
+      setUserName(decoded.nom);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +55,8 @@ const CategorieList = () => {
     navigate(`/categories/${id}`);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("CC_Token");
-    navigate("/login");
-  };
+ 
 
-  // Fermer menu si on clique ailleurs
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -45,35 +69,8 @@ const CategorieList = () => {
 
   return (
     <div>
-      {/* ✅ NAVBAR */}
-      <nav className="navbar">
-        <div
-          className="navbar-accueil"
-          onClick={() => {
-            localStorage.removeItem("CC_Token");
-            navigate("/");
-          }}
-        >
-          Accueil
-        </div>
+  <Navbar/>
 
-        <div className="navbar-user" ref={menuRef}>
-          <img
-            src="/images/logo3.png" // Remplace par le chemin réel de ton image utilisateur
-            alt="Profil utilisateur"
-            className="user-image"
-            onClick={() => setMenuOpen(!menuOpen)}
-          />
-          {menuOpen && (
-            <div className="user-menu">
-              <button onClick={() => navigate("/profil")}>Gérer mon compte</button>
-              <button onClick={handleLogout}>Déconnexion</button>
-            </div>
-          )}
-        </div>
-      </nav>
-
-      {/* ✅ CONTENU PRINCIPAL */}
       <div className="categorie-container">
         <h2 className="title">Liste des catégories</h2>
         <div className="categorie-grid">
