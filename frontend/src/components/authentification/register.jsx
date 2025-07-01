@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signup } from '../../services/authService';
 import { toast } from 'react-toastify';
 import './registerForm.css';
 
@@ -15,10 +14,10 @@ const Register = () => {
     motdepasse2: '',
     marque: '',
     modele: '',
-    photo: null,
+    photoFile: null,
   });
 
-  const [photoPreview, setPhotoPreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const modelesParMarque = {
     Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
@@ -34,9 +33,32 @@ const Register = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setForm({ ...form, photo: file });
-      setPhotoPreview(URL.createObjectURL(file));
+    if (file) setForm({ ...form, photoFile: file });
+  };
+
+  const uploadToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'ProjetRL');  // Ton upload preset Cloudinary
+    data.append('cloud_name', 'dxc5curxy');
+
+    setUploading(true);
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/dxc5curxy/image/upload', {
+        method: 'POST',
+        body: data,
+      });
+      const json = await res.json();
+      setUploading(false);
+      if (json.secure_url) {
+        return json.secure_url;
+      } else {
+        throw new Error('Upload Cloudinary a échoué');
+      }
+    } catch (error) {
+      setUploading(false);
+      toast.error("Erreur lors de l'upload de l'image");
+      throw error;
     }
   };
 
@@ -47,39 +69,59 @@ const Register = () => {
       toast.error('Les mots de passe ne correspondent pas');
       return;
     }
-
     if (form.numero_telephone.length !== 8) {
       toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
       return;
     }
 
-    const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => {
-      if (value) formData.append(key, value);
-    });
-    formData.append('role', 'user');
+    let photoUrl = "";
+
+    if (form.photoFile) {
+      try {
+        photoUrl = await uploadToCloudinary(form.photoFile);
+      } catch {
+        return; // Stop si upload échoue
+      }
+    }
+
+    // Préparer FormData pour envoyer au backend
+    const backendForm = new FormData();
+    backendForm.append('nom', form.nom);
+    backendForm.append('matricule_vehicule', form.matricule_vehicule);
+    backendForm.append('numero_telephone', form.numero_telephone);
+    backendForm.append('motdepasse', form.motdepasse);
+    backendForm.append('marque', form.marque);
+    backendForm.append('modele', form.modele);
+    backendForm.append('role', 'user');
+    backendForm.append('photo_url', photoUrl);
 
     try {
-      const res = await signup(formData);
-      if (res && res.data) {
-        toast.success('Inscription réussie !');
-        navigate('/login');
-      } else {
-        toast.error("Erreur lors de l’inscription");
+      const res = await fetch('http://localhost:8000/users/register/', {
+        method: 'POST',
+        body: backendForm,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        toast.error(errorData.detail || 'Erreur lors de l’inscription');
+        return;
       }
-    } catch (err) {
-      toast.error(err.response?.data?.detail || "Erreur lors de l’inscription");
+
+      toast.success('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+      navigate('/login');
+    } catch (error) {
+      toast.error("Erreur lors de la communication avec le serveur");
     }
   };
 
   return (
     <div className="register-container">
       <div className="register-form-container">
-        <form onSubmit={handleSubmit} className="register-form">
+        <form onSubmit={handleSubmit} className="register-form" encType="multipart/form-data">
           <div className="photo-upload-container">
             <label htmlFor="photo-input" className="camera-icon-label">
               <img
-                src={photoPreview || '/images/camera.jpg'}
+                src={form.photoFile ? URL.createObjectURL(form.photoFile) : 'images/camera.jpg'}
                 alt="photo"
                 className="camera-icon"
               />
@@ -143,7 +185,9 @@ const Register = () => {
             <input type="password" name="motdepasse2" value={form.motdepasse2} onChange={handleChange} required />
           </div>
 
-          <button className="buttonRegister" type="submit">Créer un compte</button>
+          <button className="buttonRegister" type="submit" disabled={uploading}>
+            {uploading ? 'Upload en cours...' : 'Créer un compte'}
+          </button>
 
           <div className="redirect-login">
             <span>Vous avez déjà un compte ? </span>

@@ -1,8 +1,7 @@
-from fastapi import APIRouter, HTTPException
-from models.user import User
 from fastapi import APIRouter, HTTPException, Form, UploadFile, File
+from models.user import User
 from pydantic import BaseModel
-from config import SECRET_KEY, MONGO_URI, MONGO_DB
+from config import SECRET_KEY, MONGO_URI, MONGO_DB, CLOUDINARY_URL, CLOUDINARY_UPLOAD_PRESET
 from passlib.context import CryptContext
 from motor.motor_asyncio import AsyncIOMotorClient
 import jwt
@@ -10,33 +9,42 @@ import datetime
 from fastapi.responses import JSONResponse
 from bson import ObjectId
 from typing import List, Optional
+import httpx
 
 user_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 client = AsyncIOMotorClient(MONGO_URI)
 db = client[MONGO_DB]
 
-
-# 🆔 Convertir ID en ObjectId
 def get_objectid(id: str):
     try:
         return ObjectId(id)
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid ID format")
 
-
-
 class UserLogin(BaseModel):
     matricule_vehicule: str
     motdepasse: str
-
 
 class ResetPasswordRequest(BaseModel):
     matricule_vehicule: str
     nouveau_motdepasse: str
 
+async def upload_to_cloudinary(file: UploadFile) -> str:
+    """Upload file to Cloudinary and return secure_url."""
+    url = "https://api.cloudinary.com/v1_1/dxc5curxy/image/upload"
+    data = {
+        "upload_preset": CLOUDINARY_UPLOAD_PRESET  # par exemple "ProjetRL"
+    }
+    files = {"file": (file.filename, await file.read(), file.content_type)}
 
-# ✅ REGISTER avec FormData
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, data=data, files=files)
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail="Erreur upload Cloudinary")
+        result = response.json()
+        return result.get("secure_url", "")
+
 @user_router.post("/register/")
 async def register(
     nom: str = Form(...),
@@ -54,6 +62,10 @@ async def register(
 
     hashed_password = pwd_context.hash(motdepasse)
 
+    photo_url = ""
+    if photo:
+        photo_url = await upload_to_cloudinary(photo)
+
     user_data = {
         "nom": nom,
         "matricule_vehicule": matricule_vehicule,
@@ -62,14 +74,12 @@ async def register(
         "numero_telephone": numero_telephone,
         "motdepasse": hashed_password,
         "role": role,
-        "photo": photo.filename if photo else ""
+        "photo": photo_url
     }
 
     result = await db.users.insert_one(user_data)
     return {"id": str(result.inserted_id), "message": "Utilisateur créé avec succès"}
 
-
-# 🔐 LOGIN
 @user_router.post("/login/")
 async def signin(user_data: UserLogin):
     existing_user = await db.users.find_one({"matricule_vehicule": user_data.matricule_vehicule})
@@ -94,8 +104,6 @@ async def signin(user_data: UserLogin):
 
     return {"token": token, "role": existing_user.get("role", "user"), "message": "Connexion réussie"}
 
-
-# 📋 GET all users
 @user_router.get("/", response_model=List[User])
 async def get_users():
     users = await db.users.find().to_list(100)
@@ -104,8 +112,6 @@ async def get_users():
         del user["_id"]
     return JSONResponse(status_code=200, content={"status_code": 200, "users": users})
 
-
-# ✏️ UPDATE user
 @user_router.put("/{user_id}", response_model=dict)
 async def update_user(user_id: str, user: User):
     result = await db.users.update_one({"_id": get_objectid(user_id)}, {"$set": user.dict()})
@@ -113,8 +119,6 @@ async def update_user(user_id: str, user: User):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User updated successfully"}
 
-
-# 🗑️ DELETE user
 @user_router.delete("/{user_id}", response_model=dict)
 async def delete_user(user_id: str):
     result = await db.users.delete_one({"_id": get_objectid(user_id)})
@@ -122,8 +126,6 @@ async def delete_user(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}
 
-
-# 🔍 GET user by ID
 @user_router.get("/{user_id}", response_model=User)
 async def get_user_by_id(user_id: str):
     user = await db.users.find_one({"_id": get_objectid(user_id)})
@@ -133,8 +135,6 @@ async def get_user_by_id(user_id: str):
     del user["_id"]
     return user
 
-
-# 🔁 Reset Password
 @user_router.post("/reset-password/")
 async def reset_password(data: ResetPasswordRequest):
     user = await db.users.find_one({"matricule_vehicule": data.matricule_vehicule})
@@ -149,5 +149,3 @@ async def reset_password(data: ResetPasswordRequest):
     )
 
     return {"message": "Mot de passe mis à jour avec succès"}
-
-
