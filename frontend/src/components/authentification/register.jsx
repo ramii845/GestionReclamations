@@ -186,7 +186,7 @@ const Register = () => {
           </div>
 
           <button className="buttonRegister" type="submit" disabled={uploading}>
-            {uploading ? 'Upload en cours...' : 'Créer un compte'}
+            {uploading ? 'Créer un compte' : 'Créer un compte'}
           </button>
 
           <div className="redirect-login">
