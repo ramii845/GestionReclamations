@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate,Link } from "react-router-dom";
-import { createReclamationWithFiles } from "../../services/reclamationService";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { createReclamation } from "../../services/reclamationService";
 import { getCategorieById } from "../../services/categorieService";
 import { toast } from "react-toastify";
 import "./AddReclamationUser.css";
@@ -18,87 +18,84 @@ function decodeJWT(token) {
         .join('')
     );
     return JSON.parse(jsonPayload);
-  } catch (e) {
-    console.error("Erreur décodage JWT :", e);
+  } catch {
     return null;
   }
 }
+
+const uploadToCloudinary = async (file, type = "image") => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", "iit2024G4");
+  data.append("cloud_name", "ditzf19gl");
+
+  const url =
+    type === "image"
+      ? "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
+      : "https://api.cloudinary.com/v1_1/ditzf19gl/raw/upload";
+
+  const res = await fetch(url, {
+    method: "POST",
+    body: data,
+  });
+
+  const result = await res.json();
+  if (!result.secure_url) throw new Error("Échec de l’upload Cloudinary");
+  return result.secure_url;
+};
 
 const AddReclamationUser = () => {
   const { categorie_id } = useParams();
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
-  // États formulaire
   const [descriptionProbleme, setDescriptionProbleme] = useState("");
   const [imageVehicule, setImageVehicule] = useState(null);
   const [facturation, setFacturation] = useState(null);
   const [autre, setAutre] = useState("");
   const [nomCategorie, setNomCategorie] = useState("");
   const [listeDescriptions, setListeDescriptions] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
-  // États menu utilisateur
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Récupération user_id depuis token JWT
   const token = localStorage.getItem("CC_Token");
-  let user_id = null;
-  if (token) {
-    const decoded = decodeJWT(token);
-    if (decoded) {
-      user_id = decoded.user_id;
-    }
-  }
-
-  useEffect(() => {
-    // Fermer menu si clic en dehors
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const decoded = token ? decodeJWT(token) : null;
+  const user_id = decoded?.user_id;
 
   useEffect(() => {
     const fetchCategorie = async () => {
       try {
         const res = await getCategorieById(categorie_id);
-        setNomCategorie(res.data.nomCategorie);
+        const nom = res.data.nomCategorie;
+        setNomCategorie(nom);
 
-        if (res.data.nomCategorie === "Service Véhicules Neufs") {
+        if (nom === "Service Véhicules Neufs") {
           setListeDescriptions([
             "Accueil client à l’arrivée au concessionnaire",
             "Crédibilité du service commercial",
             "Service de livraison du véhicule",
             "État du véhicule à la livraison",
             "Problèmes liés à la pose d’accessoires",
+            "Autre problème lié au service commerciale",
           ]);
-        } else if (res.data.nomCategorie === "Service Après-Vente") {
+        } else if (nom === "Service Après-Vente") {
           setListeDescriptions([
             "Accueil du conseiller service",
             "Qualité de l’intervention demandée",
             "Respect des délais donnés",
             "Facturation / Devis",
             "Traitement du dossier de garantie",
+            "Autre problème lié au service commerciale"
           ]);
         } else {
           setListeDescriptions([]);
         }
-      } catch (error) {
-        console.error("Erreur lors du chargement de la catégorie", error);
+      } catch {
         toast.error("Erreur de chargement de la catégorie.");
       }
     };
 
     fetchCategorie();
   }, [categorie_id]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("CC_Token");
-    navigate("/login");
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,29 +104,46 @@ const AddReclamationUser = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("user_id", user_id);
-    formData.append("categorie_id", categorie_id);
-    formData.append("description_probleme", descriptionProbleme);
-    formData.append("autre", autre);
-    if (imageVehicule) formData.append("image_vehicule", imageVehicule);
-    if (facturation) formData.append("facturation", facturation);
+    setUploading(true);
+    let imageVehiculeUrl = "";
+    let facturationUrl = "";
 
     try {
-      await createReclamationWithFiles(formData);
+      if (imageVehicule) {
+        imageVehiculeUrl = await uploadToCloudinary(imageVehicule, "image");
+      }
+      if (facturation) {
+        facturationUrl = await uploadToCloudinary(facturation, "image");
+      }
+    } catch {
+      toast.error("Échec d’upload vers Cloudinary.");
+      setUploading(false);
+      return;
+    }
+
+    const reclamationData = {
+      user_id,
+      categorie_id,
+      description_probleme: descriptionProbleme,
+      autre,
+      image_vehicule: imageVehiculeUrl,
+      facturation: facturationUrl,
+    };
+
+    try {
+      await createReclamation(reclamationData);
       toast.success("Réclamation créée avec succès !");
-      navigate("/categories");
-    } catch (error) {
-      console.error(error);
+      navigate("/confirmation");
+    } catch {
       toast.error("Erreur lors de la création de la réclamation.");
+    } finally {
+      setUploading(false);
     }
   };
 
   return (
     <div className="page-wrapper">
-  <Navbar/>
-
-      {/* Contenu formulaire */}
+      <Navbar />
       <div className="add-reclamation-container" style={{ paddingTop: "80px" }}>
         <h2>Nouvelle Réclamation</h2>
 
@@ -158,11 +172,20 @@ const AddReclamationUser = () => {
               />
             )}
           </div>
+            <div>
+            <label>Détails du problème</label>
+            <input
+              type="text"
+              value={autre}
+              placeholder="Informations complémentaires"
+              onChange={(e) => setAutre(e.target.value)}
+            />
+          </div>
 
           <div>
             <label>
               Image du véhicule <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
-                (si disponible)
+                (si possible)
               </span>
             </label>
             <input
@@ -174,30 +197,25 @@ const AddReclamationUser = () => {
 
           <div>
             <label>
-              Facturation (PDF) <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
-                (si disponible)
+              Image Document  <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
+                (si possible)
               </span>
             </label>
             <input
               type="file"
-              accept="application/pdf"
+              accept="image/*"
               onChange={(e) => setFacturation(e.target.files[0])}
             />
           </div>
 
-          <div>
-            <label>Autre information</label>
-            <input
-              type="text"
-              value={autre}
-              placeholder="Informations complémentaires (facultatif)"
-              onChange={(e) => setAutre(e.target.value)}
-            />
-          </div>
+        
 
-          <button type="submit">Envoyer</button>
+          <button type="submit" disabled={uploading}>
+            {uploading ? "Envoyer" : "Envoyer"}
+          </button>
         </form>
-            <div style={{ marginTop: "-30px", textAlign: "center" }}>
+
+        <div style={{ marginTop: "-30px", textAlign: "center" }}>
           <Link
             to="/categories"
             style={{ color: "#0c6b84", fontWeight: "500", textDecoration: "none" }}

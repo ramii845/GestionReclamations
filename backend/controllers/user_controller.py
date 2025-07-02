@@ -32,7 +32,7 @@ class ResetPasswordRequest(BaseModel):
 
 async def upload_to_cloudinary(file: UploadFile) -> str:
     """Upload file to Cloudinary and return secure_url."""
-    url = "https://api.cloudinary.com/v1_1/dxc5curxy/image/upload"
+    url = 'https://api.cloudinary.com/v1_1/ditzf19gl/image/upload'
     data = {
         "upload_preset": CLOUDINARY_UPLOAD_PRESET  # par exemple "ProjetRL"
     }

@@ -16,6 +16,8 @@ import PrivateRoute from "./components/utils/PrivateRoute"; // ✅ import
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Confirmation from "./components/reclamations/Confirmation";
+
 
 function App() {
   return (
@@ -32,9 +34,12 @@ function App() {
           <Route path="/categories" element={<PrivateRoute element={<CategorieList />} />} />
           <Route path="/categories/:categorie_id" element={<PrivateRoute element={<AddReclamationUser />} />} />
           <Route path="/profil" element={<PrivateRoute element={<EditUser />} />} />
+             <Route path="/confirmation" element={<PrivateRoute element={<Confirmation/>} />} />
 
           {/* Admin (à sécuriser plus tard) */}
           <Route path="/adminPage" element={<AdminPage />} />
+
+          
         </Routes>
       </Router>
 

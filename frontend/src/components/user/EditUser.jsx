@@ -84,11 +84,11 @@ const EditUser = () => {
   const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "ProjetRL");
-    data.append("cloud_name", "dxc5curxy");
+data.append('upload_preset', 'iit2024G4');
+    data.append('cloud_name', 'ditzf19gl');
 
     try {
-      const res = await fetch("https://api.cloudinary.com/v1_1/dxc5curxy/image/upload", {
+      const res = await fetch('https://api.cloudinary.com/v1_1/ditzf19gl/image/upload', {
         method: "POST",
         body: data,
       });

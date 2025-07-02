@@ -1,5 +1,5 @@
 MONGO_URI = "mongodb://127.0.0.1:27017"
 MONGO_DB = "reclamations_db"
 SECRET_KEY = "rami0000"
-CLOUDINARY_UPLOAD_PRESET = "ProjetRL"
-CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dxc5curxy/image/upload"
+CLOUDINARY_UPLOAD_PRESET = "iit2024G4"
+CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
