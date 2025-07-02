@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { signup } from '../../services/authService'; // <-- adapte le chemin si nécessaire
+import { signup } from '../../services/authService'; // adapte si besoin
 import './registerForm.css';
 
 const Register = () => {
@@ -19,6 +19,10 @@ const Register = () => {
   });
 
   const [uploading, setUploading] = useState(false);
+
+  // États pour afficher/masquer les mots de passe
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const modelesParMarque = {
     Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
@@ -93,7 +97,7 @@ const Register = () => {
     formData.append('marque', form.marque);
     formData.append('modele', form.modele);
     formData.append('role', 'user');
-    formData.append('photo', photoUrl); // URL Cloudinary
+    formData.append('photo', photoUrl);
 
     try {
       await signup(formData);
@@ -108,6 +112,7 @@ const Register = () => {
     <div className="register-container">
       <div className="register-form-container">
         <form onSubmit={handleSubmit} className="register-form" encType="multipart/form-data">
+
           <div className="photo-upload-container">
             <label htmlFor="photo-input" className="camera-icon-label">
               <img
@@ -135,7 +140,7 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Matricule véhicule</p>
-            <input type="text" name="matricule_vehicule" value={form.matricule_vehicule} onChange={handleChange} required />
+            <input type="text" name="matricule_vehicule" placeholder="0000TU000" value={form.matricule_vehicule} onChange={handleChange} required />
           </div>
 
           <div className="input-group">
@@ -162,21 +167,77 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Numéro de téléphone</p>
-            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} required />
+            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} placeholder="ex: 20600800" required />
           </div>
 
+          {/* Champ Mot de passe avec toggle */}
           <div className="input-group">
             <p className="text-sm font-semibold">Mot de passe</p>
-            <input type="password" name="motdepasse" value={form.motdepasse} onChange={handleChange} required />
+            <div className="input-wrapper" style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="motdepasse"
+                value={form.motdepasse}
+                onChange={handleChange}
+                required
+                style={{ paddingRight: '2.5rem' }}
+              />
+              <i
+                className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  color: '#888',
+                  fontSize: '1.1rem',
+                  userSelect: 'none',
+                }}
+                aria-label={showPassword ? "Masquer mot de passe" : "Afficher mot de passe"}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(!showPassword); }}
+              />
+            </div>
           </div>
 
+          {/* Champ Confirmer mot de passe avec toggle */}
           <div className="input-group">
             <p className="text-sm font-semibold">Confirmer le mot de passe</p>
-            <input type="password" name="motdepasse2" value={form.motdepasse2} onChange={handleChange} required />
+            <div className="input-wrapper" style={{ position: 'relative' }}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="motdepasse2"
+                value={form.motdepasse2}
+                onChange={handleChange}
+                required
+                style={{ paddingRight: '2.5rem' }}
+              />
+              <i
+                className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  color: '#888',
+                  fontSize: '1.1rem',
+                  userSelect: 'none',
+                }}
+                aria-label={showConfirmPassword ? "Masquer mot de passe" : "Afficher mot de passe"}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowConfirmPassword(!showConfirmPassword); }}
+              />
+            </div>
           </div>
 
           <button className="buttonRegister" type="submit" disabled={uploading}>
-            {uploading ? 'Téléchargement...' : 'Créer un compte'}
+            {uploading ? 'Créer un compte' : 'Créer un compte'}
           </button>
 
           <div className="redirect-login">

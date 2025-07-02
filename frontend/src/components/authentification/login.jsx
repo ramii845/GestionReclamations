@@ -8,14 +8,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [matricule_vehicule, setMatriculeVehicule] = useState('');
   const [motdepasse, setMotdepasse] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = {
-      matricule_vehicule,
-      motdepasse,
-    };
+    const userData = { matricule_vehicule, motdepasse };
 
     try {
       const res = await signin(userData);
@@ -24,7 +22,6 @@ const Login = () => {
       if (result.token) {
         localStorage.setItem('CC_Token', result.token);
         localStorage.setItem('user', JSON.stringify(result));
-
         toast.success('Connexion réussie !', { autoClose: 2000 });
 
         if (result.role === 'admin') navigate('/adminPage');
@@ -60,13 +57,34 @@ const Login = () => {
 
         <div className="input-group">
           <label className="text-sm font-semibold">Mot de passe</label>
-          <div className="input-wrapper">
+          <div className="input-wrapper" style={{ position: 'relative' }}>
             <i className="fas fa-lock"></i>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={motdepasse}
               onChange={(e) => setMotdepasse(e.target.value)}
               required
+              style={{ paddingRight: '2.5rem' }}
+            />
+            <i
+              onClick={() => setShowPassword(!showPassword)}
+              className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                color: '#888',
+                fontSize: '1.1rem',
+                userSelect: 'none',
+              }}
+              aria-label={showPassword ? 'Masquer mot de passe' : 'Afficher mot de passe'}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') setShowPassword(!showPassword);
+              }}
             />
           </div>
         </div>

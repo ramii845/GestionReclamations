@@ -1,15 +1,20 @@
 import { useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { resetPassword } from '../../services/authService';
-import { toast } from 'react-toastify';  // import toast
-import 'react-toastify/dist/ReactToastify.css'; // import style toast
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './AuthForm.css';
 
 const ResetPasswordPage = () => {
   const navigate = useNavigate();
+
   const [matricule_vehicule, setMatriculeVehicule] = useState('');
   const [nouveau_motdepasse, setNouveauMotDePasse] = useState('');
   const [confirmation, setConfirmation] = useState('');
+
+  // Etats pour afficher/masquer les mots de passe
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +32,7 @@ const ResetPasswordPage = () => {
 
       if (res.data.message.includes("succès")) {
         toast.success("Mot de passe réinitialisé avec succès.");
-        setTimeout(() => navigate("/login"), 1500); // délai avant redirection
+        setTimeout(() => navigate("/login"), 1500);
       }
     } catch (err) {
       toast.error(err.response?.data?.detail || "Erreur lors de la réinitialisation.");
@@ -55,26 +60,64 @@ const ResetPasswordPage = () => {
 
         <div className="input-group">
           <label className="text-sm font-semibold">Nouveau mot de passe</label>
-          <div className="input-wrapper">
+          <div className="input-wrapper" style={{ position: 'relative' }}>
             <i className="fas fa-lock"></i>
             <input
-              type="password"
+              type={showNewPassword ? 'text' : 'password'}
               value={nouveau_motdepasse}
               onChange={(e) => setNouveauMotDePasse(e.target.value)}
               required
+              style={{ paddingRight: '2.5rem' }}
+            />
+            <i
+              className={`fas ${showNewPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                color: '#888',
+                fontSize: '1.1rem',
+                userSelect: 'none',
+              }}
+              aria-label={showNewPassword ? "Masquer mot de passe" : "Afficher mot de passe"}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') setShowNewPassword(!showNewPassword); }}
             />
           </div>
         </div>
 
         <div className="input-group">
           <label className="text-sm font-semibold">Confirmer le mot de passe</label>
-          <div className="input-wrapper">
+          <div className="input-wrapper" style={{ position: 'relative' }}>
             <i className="fas fa-lock"></i>
             <input
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               value={confirmation}
               onChange={(e) => setConfirmation(e.target.value)}
               required
+              style={{ paddingRight: '2.5rem' }}
+            />
+            <i
+              className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                color: '#888',
+                fontSize: '1.1rem',
+                userSelect: 'none',
+              }}
+              aria-label={showConfirmPassword ? "Masquer mot de passe" : "Afficher mot de passe"}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') setShowConfirmPassword(!showConfirmPassword); }}
             />
           </div>
         </div>
@@ -82,12 +125,15 @@ const ResetPasswordPage = () => {
         <button className="button" type="submit">
           Réinitialiser
         </button>
-<div style={{ marginTop: '1rem', textAlign: 'center' }}>
-          <Link to="/login" style={{ color: '#0e7490', textDecoration: 'underline', fontSize: '0.9rem' }}>
+
+        <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+          <Link
+            to="/login"
+            style={{ color: '#0e7490', textDecoration: 'underline', fontSize: '0.9rem' }}
+          >
             Retour à la page de connexion
           </Link>
         </div>
-
       </form>
     </div>
   );
