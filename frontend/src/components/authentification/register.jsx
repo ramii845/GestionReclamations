@@ -33,6 +33,7 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'numero_telephone' && (!/^\d*$/.test(value) || value.length > 8)) return;
+    if (name === 'matricule_vehicule' && value.length > 9) return;
     setForm({ ...form, [name]: value, ...(name === 'marque' ? { modele: '' } : {}) });
   };
 
@@ -79,6 +80,11 @@ const Register = () => {
       toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
       return;
     }
+    if (form.matricule_vehicule.length !== 9) {
+  toast.error('Le matricule du véhicule doit contenir exactement 9 caractères');
+  return;
+}
+
 
     let photoUrl = '';
     if (form.photoFile) {
@@ -140,7 +146,8 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Matricule véhicule</p>
-            <input type="text" name="matricule_vehicule" placeholder="0000TU000" value={form.matricule_vehicule} onChange={handleChange} required />
+            <input type="text" name="matricule_vehicule" placeholder="0000TU000" value={form.matricule_vehicule} onChange={handleChange}minLength={9}
+  maxLength={9} required />
           </div>
 
           <div className="input-group">

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { updateUser, getUserbyId } from "../../services/authService";
 import Navbar from "../Navbar/Navbar";
 import './EditUser.css';
+
 function decodeJWT(token) {
   try {
     const base64Url = token.split('.')[1];
@@ -23,7 +24,6 @@ function decodeJWT(token) {
 
 const EditUser = () => {
   const navigate = useNavigate();
-
   const token = localStorage.getItem("CC_Token");
   const decodedUser = token ? decodeJWT(token) : null;
 
@@ -38,6 +38,9 @@ const EditUser = () => {
   const [motdepasse, setMotdepasse] = useState("");
   const [role, setRole] = useState("");
 
+  const [photo, setPhoto] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
+
   useEffect(() => {
     if (!decodedUser) {
       toast.error("Utilisateur non authentifié");
@@ -50,7 +53,6 @@ const EditUser = () => {
         const res = await getUserbyId(decodedUser.user_id);
         const data = res.data;
 
-        // Ne remplir l'état qu'une seule fois
         if (!initialized) {
           setNom(data.nom || "");
           setNumeroTelephone(data.numero_telephone || "");
@@ -59,6 +61,7 @@ const EditUser = () => {
           setModele(data.modele || "");
           setMotdepasse(data.motdepasse || "");
           setRole(data.role || "user");
+          setPhoto(data.photo || "");
           setInitialized(true);
         }
 
@@ -73,9 +76,30 @@ const EditUser = () => {
     fetchUserFromDB();
   }, [decodedUser, navigate, initialized]);
 
-  if (loading) {
-    return <div style={{ paddingTop: "80px", textAlign: "center" }}>Chargement...</div>;
-  }
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setPhotoFile(file);
+  };
+
+  const uploadToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ProjetRL");
+    data.append("cloud_name", "dxc5curxy");
+
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/dxc5curxy/image/upload", {
+        method: "POST",
+        body: data,
+      });
+      const json = await res.json();
+      if (json.secure_url) return json.secure_url;
+      else throw new Error("Échec de l’upload");
+    } catch (error) {
+      toast.error("Erreur d’upload de la photo");
+      throw error;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,6 +107,15 @@ const EditUser = () => {
     if (!decodedUser) {
       toast.error("Utilisateur non authentifié");
       return;
+    }
+
+    let photoUrl = photo;
+    if (photoFile) {
+      try {
+        photoUrl = await uploadToCloudinary(photoFile);
+      } catch {
+        return;
+      }
     }
 
     const updatedUser = {
@@ -93,6 +126,7 @@ const EditUser = () => {
       modele,
       motdepasse,
       role,
+      photo: photoUrl,
     };
 
     try {
@@ -105,31 +139,45 @@ const EditUser = () => {
     }
   };
 
+  if (loading) {
+    return <div style={{ paddingTop: "80px", textAlign: "center" }}>Chargement...</div>;
+  }
+
   return (
     <div className="page-wrapper">
       <Navbar />
 
       <div className="edit-user-container" style={{ paddingTop: "80px" }}>
+        {/* PHOTO */}
+        <div className="photo-upload-container" style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <label htmlFor="photo-input" className="camera-icon-label" style={{ cursor: 'pointer' }}>
+            <img
+              src={photoFile ? URL.createObjectURL(photoFile) : (photo || "/images/camera.jpg")}
+              alt="photo"
+              className="camera-icon"
+              style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }}
+            />
+          </label>
+          <input
+            type="file"
+            id="photo-input"
+            name="photo"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handlePhotoChange}
+          />
+        </div>
+
         <h2>Modifier mon profil</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Nom :</label>
-            <input
-              type="text"
-              value={nom}
-              onChange={(e) => setNom(e.target.value)}
-              required
-            />
+            <input type="text" value={nom} onChange={(e) => setNom(e.target.value)} required />
           </div>
 
           <div>
             <label>Numéro de téléphone :</label>
-            <input
-              type="tel"
-              value={numero_telephone}
-              onChange={(e) => setNumeroTelephone(e.target.value)}
-              required
-            />
+            <input type="tel" value={numero_telephone} onChange={(e) => setNumeroTelephone(e.target.value)} required />
           </div>
 
           <div>
@@ -151,10 +199,7 @@ const EditUser = () => {
         </form>
 
         <div style={{ marginTop: "15px", textAlign: "center" }}>
-          <Link
-            to="/categories"
-            style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}
-          >
+          <Link to="/categories" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
             Retour à la liste des catégories
           </Link>
         </div>

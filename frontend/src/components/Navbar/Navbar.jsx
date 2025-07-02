@@ -25,6 +25,8 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [nom, setNom] = useState("");
+  const [photo, setPhoto] = useState("");
+
 
   useEffect(() => {
     const token = localStorage.getItem("CC_Token");
@@ -32,8 +34,11 @@ const Navbar = () => {
       const decoded = decodeJWT(token);
       if (decoded?.user_id) {
         getUserbyId(decoded.user_id)
-          .then((res) => setNom(res.data.nom))
-          .catch((err) => console.error("Erreur récupération nom :", err));
+  .then((res) => {
+    setNom(res.data.nom);
+    setPhoto(res.data.photo);  // <-- ajoute ça
+  })
+  .catch((err) => console.error("Erreur récupération nom :", err));
       }
     }
   }, []);
@@ -84,13 +89,14 @@ const Navbar = () => {
           {nom}
         </span>
 
-        <img
-          src="/images/logo3.png"
-          alt="Profil utilisateur"
-          className="user-image"
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{ cursor: "pointer" }}
-        />
+      <img
+  src={photo ? photo : "/images/logo3.png"}
+  alt="Profil utilisateur"
+  className="user-image"
+  onClick={() => setMenuOpen(!menuOpen)}
+  style={{ cursor: "pointer" }}
+/>
+
 
         {menuOpen && (
           <div className="user-menu">

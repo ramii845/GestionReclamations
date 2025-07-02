@@ -91,7 +91,7 @@ async def signin(user_data: UserLogin):
             "marque": existing_user["marque"],
             "modele": existing_user["modele"],
             "numero_telephone": existing_user["numero_telephone"],
-            "photo": existing_user.get("photo", ""),
+            "photo": existing_user["photo"],
             "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=4)
         },
         SECRET_KEY,
