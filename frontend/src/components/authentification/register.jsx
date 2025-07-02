@@ -146,7 +146,7 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Matricule véhicule</p>
-            <input type="text" name="matricule_vehicule" placeholder="0000TU000" value={form.matricule_vehicule} onChange={handleChange}minLength={9}
+            <input type="text" name="matricule_vehicule" placeholder="Exemple: 0000TU000" value={form.matricule_vehicule} onChange={handleChange}minLength={9}
   maxLength={9} required />
           </div>
 
@@ -174,7 +174,7 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Numéro de téléphone</p>
-            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} placeholder="ex: 20600800" required />
+            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} placeholder="Exemple: 20600800" required />
           </div>
 
           {/* Champ Mot de passe avec toggle */}
