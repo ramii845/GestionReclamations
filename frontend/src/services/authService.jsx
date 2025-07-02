@@ -2,8 +2,8 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8000/users"; 
 
-export const signup = async (user) => {
-  return await axios.post(`${API_BASE_URL}/register/`, user); 
+export const signup = async (formData) => {
+  return await axios.post(`${API_BASE_URL}/register/`, formData);
 };
 
 export const signin = async (user) => {

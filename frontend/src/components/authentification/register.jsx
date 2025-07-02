@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { signup } from '../../services/authService'; // <-- adapte le chemin si nécessaire
 import './registerForm.css';
 
 const Register = () => {
@@ -39,7 +40,7 @@ const Register = () => {
   const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append('file', file);
-    data.append('upload_preset', 'ProjetRL');  // Ton upload preset Cloudinary
+    data.append('upload_preset', 'ProjetRL');
     data.append('cloud_name', 'dxc5curxy');
 
     setUploading(true);
@@ -53,11 +54,11 @@ const Register = () => {
       if (json.secure_url) {
         return json.secure_url;
       } else {
-        throw new Error('Upload Cloudinary a échoué');
+        throw new Error('Échec de l’upload');
       }
     } catch (error) {
       setUploading(false);
-      toast.error("Erreur lors de l'upload de l'image");
+      toast.error("Erreur lors de l’upload de la photo");
       throw error;
     }
   };
@@ -69,48 +70,37 @@ const Register = () => {
       toast.error('Les mots de passe ne correspondent pas');
       return;
     }
+
     if (form.numero_telephone.length !== 8) {
       toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
       return;
     }
 
-    let photoUrl = "";
-
+    let photoUrl = '';
     if (form.photoFile) {
       try {
         photoUrl = await uploadToCloudinary(form.photoFile);
       } catch {
-        return; // Stop si upload échoue
+        return;
       }
     }
 
-    // Préparer FormData pour envoyer au backend
-    const backendForm = new FormData();
-    backendForm.append('nom', form.nom);
-    backendForm.append('matricule_vehicule', form.matricule_vehicule);
-    backendForm.append('numero_telephone', form.numero_telephone);
-    backendForm.append('motdepasse', form.motdepasse);
-    backendForm.append('marque', form.marque);
-    backendForm.append('modele', form.modele);
-    backendForm.append('role', 'user');
-    backendForm.append('photo_url', photoUrl);
+    const formData = new FormData();
+    formData.append('nom', form.nom);
+    formData.append('matricule_vehicule', form.matricule_vehicule);
+    formData.append('numero_telephone', form.numero_telephone);
+    formData.append('motdepasse', form.motdepasse);
+    formData.append('marque', form.marque);
+    formData.append('modele', form.modele);
+    formData.append('role', 'user');
+    formData.append('photo', photoUrl); // URL Cloudinary
 
     try {
-      const res = await fetch('http://localhost:8000/users/register/', {
-        method: 'POST',
-        body: backendForm,
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData.detail || 'Erreur lors de l’inscription');
-        return;
-      }
-
-      toast.success('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+      await signup(formData);
+      toast.success('Inscription réussie ! Vous pouvez vous connecter.');
       navigate('/login');
     } catch (error) {
-      toast.error("Erreur lors de la communication avec le serveur");
+      toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription');
     }
   };
 
@@ -121,7 +111,7 @@ const Register = () => {
           <div className="photo-upload-container">
             <label htmlFor="photo-input" className="camera-icon-label">
               <img
-                src={form.photoFile ? URL.createObjectURL(form.photoFile) : 'images/camera.jpg'}
+                src={form.photoFile ? URL.createObjectURL(form.photoFile) : '/images/camera.jpg'}
                 alt="photo"
                 className="camera-icon"
               />
@@ -145,7 +135,7 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Matricule véhicule</p>
-            <input type="text" name="matricule_vehicule" value={form.matricule_vehicule} onChange={handleChange} placeholder="0000TU000" required />
+            <input type="text" name="matricule_vehicule" value={form.matricule_vehicule} onChange={handleChange} required />
           </div>
 
           <div className="input-group">
@@ -172,7 +162,7 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Numéro de téléphone</p>
-            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} placeholder="ex: 20600800" required />
+            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} required />
           </div>
 
           <div className="input-group">
@@ -186,7 +176,7 @@ const Register = () => {
           </div>
 
           <button className="buttonRegister" type="submit" disabled={uploading}>
-            {uploading ? 'Créer un compte' : 'Créer un compte'}
+            {uploading ? 'Téléchargement...' : 'Créer un compte'}
           </button>
 
           <div className="redirect-login">

@@ -54,17 +54,13 @@ async def register(
     numero_telephone: str = Form(...),
     motdepasse: str = Form(...),
     role: str = Form("user"),
-    photo: UploadFile = File(None)
+    photo: str = Form("")  # photo = URL déjà uploadée
 ):
     existing_user = await db.users.find_one({"matricule_vehicule": matricule_vehicule})
     if existing_user:
         raise HTTPException(status_code=400, detail="matricule_vehicule déjà utilisé")
 
     hashed_password = pwd_context.hash(motdepasse)
-
-    photo_url = ""
-    if photo:
-        photo_url = await upload_to_cloudinary(photo)
 
     user_data = {
         "nom": nom,
@@ -74,7 +70,7 @@ async def register(
         "numero_telephone": numero_telephone,
         "motdepasse": hashed_password,
         "role": role,
-        "photo": photo_url
+        "photo": photo  # déjà un lien
     }
 
     result = await db.users.insert_one(user_data)
