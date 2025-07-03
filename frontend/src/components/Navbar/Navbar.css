@@ -111,8 +111,12 @@
     min-width: 140px;
   }
 
-  /* Masquer le nom sur petits écrans */
-  .user-name {
-    display: none;
-  }
+ .user-name {
+  font-size: 0.85rem;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 }
