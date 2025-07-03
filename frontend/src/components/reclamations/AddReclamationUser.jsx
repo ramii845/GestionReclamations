@@ -68,7 +68,7 @@ const AddReclamationUser = () => {
         const nom = res.data.nomCategorie;
         setNomCategorie(nom);
 
-        if (nom === "Service Véhicules Neufs") {
+        if (nom === "Service commerciale") {
           setListeDescriptions([
             "Accueil client à l’arrivée au concessionnaire",
             "Crédibilité du service commercial",
@@ -84,7 +84,7 @@ const AddReclamationUser = () => {
             "Respect des délais donnés",
             "Facturation / Devis",
             "Traitement du dossier de garantie",
-            "Autre problème lié au service commerciale"
+            "Autre problème lié au service service Après-Vente"
           ]);
         } else {
           setListeDescriptions([]);
