@@ -1,17 +1,22 @@
 .admin-wrapper {
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* centre horizontalement */
-  align-items: center;     /* centre verticalement */
-  background: linear-gradient(135deg, #eaf0f6, #d4e4f0);
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   box-sizing: border-box;
+  background-size: cover;
+  backdrop-filter: brightness(0.95);
 }
 
 .admin-container {
   max-width: 800px;
   width: 100%;
   text-align: center;
+  background-color: rgba(255, 255, 255, 0.92);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .admin-title {
@@ -23,7 +28,7 @@
 
 .admin-subtitle {
   font-size: 1rem;
-  color: #555;
+  color: #333;
   margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
@@ -43,7 +48,7 @@
   border: none;
   border-radius: 14px;
   padding: 20px 30px;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(0, 87, 179, 0.25);
