@@ -26,20 +26,24 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [nom, setNom] = useState("");
   const [photo, setPhoto] = useState("");
+  const [role, setRole] = useState("");
+
 
 
   useEffect(() => {
     const token = localStorage.getItem("CC_Token");
     if (token) {
       const decoded = decodeJWT(token);
-      if (decoded?.user_id) {
-        getUserbyId(decoded.user_id)
-  .then((res) => {
-    setNom(res.data.nom);
-    setPhoto(res.data.photo);  // <-- ajoute ça
-  })
-  .catch((err) => console.error("Erreur récupération nom :", err));
-      }
+    if (decoded?.user_id) {
+  setRole(decoded.role); // <-- ici on récupère le rôle
+  getUserbyId(decoded.user_id)
+    .then((res) => {
+      setNom(res.data.nom);
+      setPhoto(res.data.photo);
+    })
+    .catch((err) => console.error("Erreur récupération nom :", err));
+}
+
     }
   }, []);
 
@@ -60,16 +64,21 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div
-        className="navbar-accueil"
-        onClick={() => {
-          localStorage.removeItem("CC_Token");
-          navigate("/");
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        Accueil
-      </div>
+    <div
+  className="navbar-accueil"
+  onClick={() => {
+    if (role === "admin") {
+      navigate("/adminPage"); // redirige sans supprimer le token
+    } else {
+      localStorage.removeItem("CC_Token");
+      navigate("/");
+    }
+  }}
+  style={{ cursor: "pointer" }}
+>
+  Accueil
+</div>
+
 
       <div
         className="navbar-user"
