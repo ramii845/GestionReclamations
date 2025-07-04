@@ -1,0 +1,65 @@
+.edit-cat-container {
+  max-width: 550px;
+  margin: 100px auto;
+  padding: 30px 25px;
+  background-color: #f9fbfd;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 132, 126, 0.15);
+  text-align: center;
+}
+
+.edit-cat-container h2 {
+  color: #0c847e;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+}
+
+.form-cat {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-cat input[type="text"],
+.form-cat input[type="file"] {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.form-cat img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-cat button {
+  background-color: #fd7e14;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.form-cat button:hover {
+  background-color: #fd7e14;
+}
+
+@media (max-width: 600px) {
+  .edit-cat-container {
+    margin: 70px 15px;
+    padding: 20px;
+  }
+
+  .edit-cat-container h2 {
+    font-size: 1.4rem;
+  }
+}

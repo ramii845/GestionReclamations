@@ -17,6 +17,9 @@ import PrivateRoute from "./components/utils/PrivateRoute"; // ✅ import
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Confirmation from "./components/reclamations/Confirmation";
+import ListCategories from "./components/admin/categories_admin/ListCategories";
+import AddCategories from "./components/admin/categories_admin/AddCategories";
+import EditCategories from "./components/admin/categories_admin/EditCategories";
 
 
 function App() {
@@ -38,8 +41,10 @@ function App() {
 
           {/* Admin (à sécuriser plus tard) */}
           <Route path="/adminPage" element={<AdminPage />} />
+         <Route path="/admin/services" element={<ListCategories/>} />
+          <Route path="/categories/add" element={<AddCategories/>} />
+          <Route path="/categories/edit/:id" element={<EditCategories/>} />
 
-          
         </Routes>
       </Router>
 

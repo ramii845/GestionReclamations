@@ -1,0 +1,133 @@
+.list-categories-container {
+  padding: 80px 40px 40px; /* espace en haut à cause de navbar */
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 12px;
+}
+
+h2 {
+  text-align: center;
+  color: #0c847e;
+  margin-bottom: 20px;
+}
+
+.add-button {
+  background-color: #28a745; /* Vert */
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.table-categories {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-categories th,
+.table-categories td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: center;
+}
+
+.table-categories th {
+  background-color: #0c847e;
+  color: white;
+}
+
+.btn-edit {
+  background-color: #fd7e14; /* Orange */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background-color: #dc3545; /* Rouge */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+img {
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pagination-btn {
+  background-color: #0c847e;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination-btn.active {
+  background-color: #084b49;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .list-categories-container {
+    padding: 70px 20px 30px;
+  }
+
+  .table-categories th,
+  .table-categories td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .add-button {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+.add-button:hover {
+  background-color: #28a745; /* même que .add-button */
+}
+
+.btn-edit:hover {
+  background-color: #fd7e14; /* même que .btn-edit */
+}
+
+.btn-delete:hover {
+  background-color: #dc3545; /* même que .btn-delete */
+}
+.list-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding-top: 70px;
+  box-sizing: border-box;
+}
+
+.list-categories-container {
+  padding: 40px;
+  width: 90%;
+  max-width: 1200px; /* élargi */
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+

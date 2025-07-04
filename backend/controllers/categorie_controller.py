@@ -5,6 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi.responses import JSONResponse
 from typing import List
 from bson import ObjectId
+from fastapi import Query
 
 cat_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -15,16 +16,25 @@ async def create_categorie(categorie: Categorie):
     result = await db.categories.insert_one(categorie.dict())
     return {"id": str(result.inserted_id)}
 
-@cat_router.get("/", response_model=List[Categorie])
-async def get_payes():
-    cats = await db.categories.find().to_list(100)
+@cat_router.get("/", response_model=dict)
+async def get_categories(page: int = Query(1, ge=1)):
+    page_size = 10
+    skip = (page - 1) * page_size
+    total = await db.categories.count_documents({})
+    cats = await db.categories.find().skip(skip).limit(page_size).to_list(page_size)
 
-    # Convertir _id en string et l'ajouter en tant que 'id'
+    # Convertir _id en string
     for cat in cats:
         cat["id"] = str(cat["_id"])
-        del cat["_id"]  # Supprimer _id original si nécessaire
+        del cat["_id"]
 
-    return JSONResponse(status_code=200, content={"status_code": 200, "categories": cats})
+    return {
+        "status_code": 200,
+        "categories": cats,
+        "total": total,
+        "page": page,
+        "pages": (total + page_size - 1) // page_size
+    }
 
 @cat_router.get("/{categorie_id}", response_model=Categorie)
 async def get_categorie(categorie_id: str):

@@ -22,3 +22,6 @@ export const updateCategorie = async (id, updatedData) => {
 export const deleteCategorie = async (id) => {
   return await axios.delete(`${API_BASE_URL}/${id}`);
 };
+export const getCategoriesByPage = async (page = 1) => {
+  return await axios.get(`${API_BASE_URL}?page=${page}`);
+};
