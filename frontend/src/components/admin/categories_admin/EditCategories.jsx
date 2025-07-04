@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Form, Card, Button } from "react-bootstrap";
@@ -41,7 +42,7 @@ const EditCategories = () => {
     e.preventDefault();
     try {
       await updateCategorie(id, categorie);
-      navigate("/categories");
+     navigate("/admin/services");
     } catch (error) {
       console.error("Erreur update :", error);
     }
@@ -78,57 +79,142 @@ const EditCategories = () => {
       <div
         style={{
           minHeight: "calc(100vh - 60px)",
-          paddingTop: "60px",
-          backgroundColor: "#f7f9fc",
+          paddingTop: "80px",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingLeft: "15px",
-          paddingRight: "15px",
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          position: "relative",
         }}
       >
+        {/* Effet de particules en arrière-plan */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `
+              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
+            `,
+            pointerEvents: "none",
+          }}
+        />
+        
         <Card
-          className="shadow-sm"
+          className="shadow-lg"
           style={{
             width: "100%",
-            maxWidth: "520px",
-            borderRadius: "14px",
-            padding: "30px",
+            maxWidth: "580px",
+            borderRadius: "24px",
+            padding: "40px",
             boxSizing: "border-box",
-            backgroundColor: "white",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          {/* Titre centré, avec un margin bottom pour bien espacer */}
+          {/* Effet de brillance en haut */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "1px",
+              background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent)",
+            }}
+          />
+          
           <h2
             style={{
-              color: "#0c847e",
-              fontWeight: "700",
-              fontSize: "2rem",
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              fontWeight: "800",
+              fontSize: "2.2rem",
               textAlign: "center",
-              marginBottom: "30px",
+              marginBottom: "35px",
               userSelect: "none",
+              letterSpacing: "-0.02em",
             }}
           >
-            Modifier la catégorie
+            ✨ Modifier la catégorie
           </h2>
 
           <Form onSubmit={handleSave}>
             <Form.Group className="mb-4" controlId="nomCategorie">
-              <Form.Label style={{ fontWeight: "600" }}>Nom de la catégorie</Form.Label>
+              <Form.Label 
+                style={{ 
+                  fontWeight: "700", 
+                  color: "#374151",
+                  fontSize: "1.1rem",
+                  marginBottom: "12px",
+                  display: "block"
+                }}
+              >
+                📝 Nom de la catégorie
+              </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Entrez le nom"
+                placeholder="Entrez le nom de la catégorie..."
                 value={categorie.nomCategorie || ""}
                 onChange={(e) => setCategorie({ ...categorie, nomCategorie: e.target.value })}
                 required
-                style={{ fontSize: "1rem", padding: "12px" }}
+                style={{ 
+                  fontSize: "1.1rem", 
+                  padding: "16px 20px",
+                  borderRadius: "16px",
+                  border: "2px solid #e5e7eb",
+                  backgroundColor: "#fafafa",
+                  transition: "all 0.3s ease",
+                  fontWeight: "500",
+                }}
+                onFocus={(e) => {
+                  e.target.style.border = "2px solid #667eea";
+                  e.target.style.backgroundColor = "#ffffff";
+                  e.target.style.boxShadow = "0 0 0 4px rgba(102, 126, 234, 0.1)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.border = "2px solid #e5e7eb";
+                  e.target.style.backgroundColor = "#fafafa";
+                  e.target.style.boxShadow = "none";
+                }}
               />
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="imageCategorie">
-              <Form.Label style={{ fontWeight: "600" }}>Image de la catégorie</Form.Label>
-
-              <div style={{ maxWidth: "320px", margin: "auto" }}>
+            <Form.Group className="mb-5" controlId="imageCategorie">
+              <Form.Label 
+                style={{ 
+                  fontWeight: "700", 
+                  color: "#374151",
+                  fontSize: "1.1rem",
+                  marginBottom: "16px",
+                  display: "block"
+                }}
+              >
+                🖼️ Image de la catégorie
+              </Form.Label>
+              <div 
+                style={{ 
+                  maxWidth: "360px", 
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#f8fafc",
+                  borderRadius: "20px",
+                  border: "2px dashed #cbd5e1",
+                  transition: "all 0.3s ease",
+                }}
+              >
                 <FilePond
                   files={files}
                   acceptedFileTypes={["image/*"]}
@@ -136,33 +222,101 @@ const EditCategories = () => {
                   allowMultiple={false}
                   server={serverOptions()}
                   name="file"
-                  labelIdle=' <span class="filepond--label-action"> choisir une image </span>'
+                  labelIdle='<span class="filepond--label-action" style="color: #667eea; font-weight: 600;">📸 Choisir une image</span>'
                   stylePanelLayout="compact circle"
                   stylePanelAspectRatio="1:1"
                 />
               </div>
             </Form.Group>
 
-            <div className="d-flex justify-content-between mt-4">
-              <Button
+            <div 
+              className="d-flex justify-content-between mt-5"
+              style={{ gap: "16px" }}
+            >
+              <Button onClick={(e)=>handleSave(e)}
                 variant="success"
                 type="submit"
-                style={{ fontWeight: "600", fontSize: "1rem", minWidth: "130px" }}
+                style={{ 
+                  fontWeight: "700", 
+                  fontSize: "1.1rem", 
+                  minWidth: "160px",
+                  padding: "14px 24px",
+                  borderRadius: "16px",
+                  background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                  border: "none",
+                  boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.4)",
+                  transition: "all 0.3s ease",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 15px 35px -5px rgba(16, 185, 129, 0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 10px 25px -5px rgba(16, 185, 129, 0.4)";
+                }}
               >
-                <i className="fa-solid fa-floppy-disk me-2"></i> Enregistrer
+                <i className="fa-solid fa-floppy-disk me-2"></i> 
+                Enregistrer
               </Button>
-
-              <Link
-                to="/categories"
-                className="btn btn-outline-danger"
-                style={{ fontWeight: "600", fontSize: "1rem", minWidth: "130px", textAlign: "center" }}
-              >
-                <i className="fa-solid fa-arrow-left me-2"></i> Annuler
-              </Link>
+             
             </div>
           </Form>
         </Card>
       </div>
+
+      {/* Styles CSS personnalisés pour FilePond */}
+      <style jsx>{`
+        .filepond--root {
+          font-family: inherit;
+        }
+        
+        .filepond--panel-root {
+          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+          border: 2px solid #e2e8f0;
+          border-radius: 16px;
+          transition: all 0.3s ease;
+        }
+        
+        .filepond--panel-root:hover {
+          border-color: #667eea;
+          box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filepond--drop-label {
+          color: #64748b;
+          font-weight: 600;
+        }
+        
+        .filepond--label-action {
+          text-decoration: none;
+          border-radius: 8px;
+          padding: 4px 8px;
+          background: rgba(102, 126, 234, 0.1);
+          transition: all 0.2s ease;
+        }
+        
+        .filepond--label-action:hover {
+          background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .filepond--item {
+          border-radius: 12px;
+          overflow: hidden;
+        }
+        
+        .filepond--item-panel {
+          background: white;
+          border: 2px solid #e2e8f0;
+          border-radius: 12px;
+        }
+        
+        .filepond--image-preview {
+          border-radius: 8px;
+        }
+      `}</style>
     </>
   );
 };
