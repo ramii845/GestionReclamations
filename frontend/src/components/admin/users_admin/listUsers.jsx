@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   getUsersPaginated,
-  deleteUser
+  deleteUser,
 } from '../../../services/authService';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './users.css';
+import { PlusCircle } from 'react-bootstrap-icons';
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -61,9 +62,16 @@ const ListUsers = () => {
     <>
       <Navbar />
       <div className="list-wrapper">
-        <div className="list-categories-container">
-          <h2>Liste des Utilisateurs</h2>
-          <table className="table-categories">
+        <div className="list-container">
+          <div className="header-actions">
+            <h2 className="title">Liste des Utilisateurs</h2>
+            <button className="btn-add" onClick={() => navigate('/users/add')}>
+              <PlusCircle className="me-2" size={18} />
+              Ajouter
+            </button>
+          </div>
+
+          <table className="user-table">
             <thead>
               <tr>
                 <th>Nom</th>
@@ -71,7 +79,6 @@ const ListUsers = () => {
                 <th>Marque</th>
                 <th>Modèle</th>
                 <th>Téléphone</th>
-                <th>Photo</th>
                 <th>Modifier</th>
                 <th>Supprimer</th>
               </tr>
@@ -84,9 +91,6 @@ const ListUsers = () => {
                   <td>{user.marque}</td>
                   <td>{user.modele}</td>
                   <td>{user.numero_telephone}</td>
-                  <td>
-                    <img src={user.photo} alt="img" width={80} height={80} />
-                  </td>
                   <td>
                     <button
                       className="btn-edit"
@@ -108,18 +112,20 @@ const ListUsers = () => {
             </tbody>
           </table>
 
-          {/* 🔁 Pagination simple */}
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
+          {/* Pagination */}
+          <div className="pagination">
             <button
               disabled={page <= 1}
               onClick={() => setPage((prev) => prev - 1)}
+              className="pagination-btn"
             >
               ⬅ Précédent
             </button>
-            <span style={{ margin: "0 15px" }}>Page {page} / {totalPages}</span>
+            <span className="page-info">Page {page} / {totalPages}</span>
             <button
               disabled={page >= totalPages}
               onClick={() => setPage((prev) => prev + 1)}
+              className="pagination-btn"
             >
               Suivant ➡
             </button>
@@ -127,22 +133,15 @@ const ListUsers = () => {
         </div>
       </div>
 
-      {/* Modal confirmation suppression */}
+      {/* Modal confirmation */}
       {showConfirm && (
-        <div style={{
-          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: "rgba(0,0,0,0.5)", display: "flex",
-          justifyContent: "center", alignItems: "center", zIndex: 1000,
-        }}>
-          <div style={{
-            background: "white", padding: 30, borderRadius: 12, width: "90%",
-            maxWidth: 400, textAlign: "center", boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-          }}>
+        <div className="modal-overlay">
+          <div className="modal-content">
             <h3>Confirmer la suppression</h3>
             <p>Voulez-vous vraiment supprimer <strong>{userToDelete.nom}</strong> ?</p>
-            <div style={{ marginTop: 20, display: "flex", justifyContent: "space-around" }}>
+            <div className="modal-actions">
               <button onClick={cancelDelete}>Annuler</button>
-              <button style={{ backgroundColor: "#dc2626", color: "white" }} onClick={handleDelete}>Supprimer</button>
+              <button onClick={handleDelete} className="confirm-delete">Supprimer</button>
             </div>
           </div>
         </div>

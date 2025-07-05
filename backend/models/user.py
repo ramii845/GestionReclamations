@@ -7,5 +7,5 @@ class User(BaseModel):
     modele: str
     numero_telephone: str
     motdepasse: str
-    photo: Optional[str] ="https://res.cloudinary.com/ditzf19gl/image/upload/v1751488048/n2lddktom038grirpldn.jpg"
+    photo: Optional[str] =""
     role: str = "user"

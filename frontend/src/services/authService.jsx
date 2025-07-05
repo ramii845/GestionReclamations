@@ -23,7 +23,7 @@ export const updateUser = async (userId, updatedUserData) => {
 export const getUserbyId = async (userId) => {
   return await axios.get(`${API_BASE_URL}/${userId}`);
 };
-export const getUsersPaginated = async (page = 1, limit = 10) => {
+export const getUsersPaginated = async (page = 1, limit = 7) => {
   return await axios.get(`${API_BASE_URL}/paginated?page=${page}&limit=${limit}`);
 };
 export const deleteUser = async (userId) => {

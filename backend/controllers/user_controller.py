@@ -107,7 +107,7 @@ async def delete_user(user_id: str):
 
 # 🔵 1. Route pagination en premier
 @user_router.get("/paginated", response_model=dict)
-async def get_users_paginated(page: int = Query(1, ge=1), limit: int = Query(10, ge=1)):
+async def get_users_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
     skip = (page - 1) * limit
     total = await db.users.count_documents({})
     users = await db.users.find().skip(skip).limit(limit).to_list(length=limit)
