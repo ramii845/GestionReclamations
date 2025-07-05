@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 from bson import ObjectId
 from typing import List, Optional
 import httpx
+from fastapi import Query
 
 user_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -46,32 +47,14 @@ async def upload_to_cloudinary(file: UploadFile) -> str:
         return result.get("secure_url", "")
 
 @user_router.post("/register/")
-async def register(
-    nom: str = Form(...),
-    matricule_vehicule: str = Form(...),
-    marque: str = Form(...),
-    modele: str = Form(...),
-    numero_telephone: str = Form(...),
-    motdepasse: str = Form(...),
-    role: str = Form("user"),
-    photo: str = Form("")  # photo = URL déjà uploadée
-):
-    existing_user = await db.users.find_one({"matricule_vehicule": matricule_vehicule})
+async def register(user: User):
+    existing_user = await db.users.find_one({"matricule_vehicule": user.matricule_vehicule})
     if existing_user:
         raise HTTPException(status_code=400, detail="matricule_vehicule déjà utilisé")
 
-    hashed_password = pwd_context.hash(motdepasse)
-
-    user_data = {
-        "nom": nom,
-        "matricule_vehicule": matricule_vehicule,
-        "marque": marque,
-        "modele": modele,
-        "numero_telephone": numero_telephone,
-        "motdepasse": hashed_password,
-        "role": role,
-        "photo": photo  # déjà un lien
-    }
+    hashed_password = pwd_context.hash(user.motdepasse)
+    user_data = user.dict()
+    user_data["motdepasse"] = hashed_password
 
     result = await db.users.insert_one(user_data)
     return {"id": str(result.inserted_id), "message": "Utilisateur créé avec succès"}
@@ -122,15 +105,26 @@ async def delete_user(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}
 
-@user_router.get("/{user_id}", response_model=User)
-async def get_user_by_id(user_id: str):
-    user = await db.users.find_one({"_id": get_objectid(user_id)})
-    if not user:
-        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
-    user["id"] = str(user["_id"])
-    del user["_id"]
-    return user
+# 🔵 1. Route pagination en premier
+@user_router.get("/paginated", response_model=dict)
+async def get_users_paginated(page: int = Query(1, ge=1), limit: int = Query(10, ge=1)):
+    skip = (page - 1) * limit
+    total = await db.users.count_documents({})
+    users = await db.users.find().skip(skip).limit(limit).to_list(length=limit)
 
+    for user in users:
+        user["id"] = str(user["_id"])
+        del user["_id"]
+
+    return {
+        "status_code": 200,
+        "page": page,
+        "total_pages": (total + limit - 1) // limit,
+        "total_users": total,
+        "users": users
+    }
+
+# 🔵 2. Route reset password
 @user_router.post("/reset-password/")
 async def reset_password(data: ResetPasswordRequest):
     user = await db.users.find_one({"matricule_vehicule": data.matricule_vehicule})
@@ -145,3 +139,13 @@ async def reset_password(data: ResetPasswordRequest):
     )
 
     return {"message": "Mot de passe mis à jour avec succès"}
+
+# 🔵 3. Route GET par ID (à la fin)
+@user_router.get("/{user_id}", response_model=User)
+async def get_user_by_id(user_id: str):
+    user = await db.users.find_one({"_id": get_objectid(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    user["id"] = str(user["_id"])
+    del user["_id"]
+    return user

@@ -20,6 +20,7 @@ import Confirmation from "./components/reclamations/Confirmation";
 import ListCategories from "./components/admin/categories_admin/ListCategories";
 import AddCategories from "./components/admin/categories_admin/AddCategories";
 import EditCategories from "./components/admin/categories_admin/EditCategories";
+import ListUsers from "./components/admin/users_admin/listUsers";
 
 
 function App() {
@@ -44,6 +45,8 @@ function App() {
          <Route path="/admin/services" element={<ListCategories/>} />
           <Route path="/categories/add" element={<AddCategories/>} />
           <Route path="/categories/edit/:id" element={<EditCategories/>} />
+          
+            <Route path="/admin/utilisateurs" element={<ListUsers/>} />
 
         </Routes>
       </Router>
