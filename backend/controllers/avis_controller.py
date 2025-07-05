@@ -4,6 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from config import MONGO_URI, MONGO_DB
 from typing import List
+from fastapi import Query
 
 
 avis_router = APIRouter()
@@ -37,6 +38,28 @@ async def get_all_avis():
         a["id"] = str(a["_id"])
         del a["_id"]
     return avis_list
+
+
+@avis_router.get("/paginated", response_model=dict)
+async def get_avis_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+    skip = (page - 1) * limit
+    total = await db.avis.count_documents({})
+    avis_cursor = await db.avis.find().skip(skip).limit(limit).to_list(length=limit)
+
+    avis_list = []
+    for avis in avis_cursor:
+        avis["id"] = str(avis["_id"])
+        del avis["_id"]
+        avis_list.append(avis)
+
+    return {
+        "status_code": 200,
+        "page": page,
+        "total_pages": (total + limit - 1) // limit,
+        "total_avis": total,
+        "avis": avis_list
+    }
+
 
 @avis_router.get("/reclamation/{reclamation_id}", response_model=List[Avis])
 async def get_avis_by_reclamation(reclamation_id: str):
