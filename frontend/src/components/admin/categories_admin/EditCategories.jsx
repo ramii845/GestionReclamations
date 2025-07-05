@@ -96,7 +96,7 @@ const EditCategories = () => {
           minHeight: "calc(100vh - 60px)",
           paddingTop: "80px",
           background:
-            "linear-gradient(135deg,rgb(174, 245, 240) 0%,rgb(170, 245, 245) 100%)",
+           "#F0FFF4",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -113,11 +113,7 @@ const EditCategories = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: `
-              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
-            `,
+      
             pointerEvents: "none",
           }}
         />

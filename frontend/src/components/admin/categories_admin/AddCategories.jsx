@@ -55,15 +55,14 @@ setTimeout(() => {
       <ToastContainer /> {/* Conteneur toast */}
       <div
         style={{
-          minHeight: "calc(100vh - 20px)",
-          paddingTop: "80px",
-          background:
-            "linear-gradient(135deg,rgb(174, 245, 244) 0%,rgb(170, 245, 245) 100%)",
+          minHeight: "calc(100vh - 60px)",
+          paddingTop: "60px",
+          background:"#F0FFF4",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingLeft: "20px",
-          paddingRight: "20px",
+          paddingLeft: "100px",
+          paddingRight: "100px",
           position: "relative",
         }}
       >
@@ -74,11 +73,7 @@ setTimeout(() => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: `
-              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
-            `,
+       
             pointerEvents: "none",
           }}
         />
@@ -124,7 +119,7 @@ setTimeout(() => {
               letterSpacing: "-0.02em",
             }}
           >
-            ➕ Ajouter une catégorie
+             Ajouter une catégorie
           </h2>
 
           <form onSubmit={handleSubmit}>
