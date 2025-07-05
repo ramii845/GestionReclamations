@@ -1,65 +1,609 @@
-.edit-cat-container {
-  max-width: 550px;
-  margin: 100px auto;
-  padding: 30px 25px;
-  background-color: #f9fbfd;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0, 132, 126, 0.15);
-  text-align: center;
+body {
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
-.edit-cat-container h2 {
-  color: #0c847e;
-  margin-bottom: 25px;
-  font-size: 1.8rem;
+html {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 100%;
 }
 
-.form-cat {
+/* Conteneur principal - ESPACEMENT CORRIGÉ */
+.edit-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 20px 40px;
+  min-height: calc(100vh - 80px);
+  background: transparent;
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-.form-cat input[type="text"],
-.form-cat input[type="file"] {
-  padding: 12px 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
-}
-
-.form-cat img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin: 10px auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.form-cat button {
-  background-color: #fd7e14;
-  color: white;
+/* Carte principale */
+.edit-card {
   border: none;
-  padding: 14px;
-  border-radius: 10px;
-  font-weight: bold;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 50px 40px;
+  overflow: hidden;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
+  width: 100%;
+  min-height: auto;
+}
+
+/* Titre principal */
+.edit-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 35px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  position: relative;
+}
+
+.edit-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+/* Labels des formulaires */
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+/* Champs de saisie */
+.form-input {
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  padding: 16px 18px;
   font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  color: #1f2937;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  min-height: 52px;
+}
+
+.form-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.form-input:hover:not(:focus) {
+  border-color: #d1d5db;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Conteneur d'upload - CENTRÉ POUR CERCLE COMPLET */
+.upload-box {
+  margin: 0 auto 16px auto !important;
+  padding: 20px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  max-width: 340px !important;
+  text-align: center !important;
+  overflow: visible !important;
+}
+
+/* Groupe de boutons - COLLÉ À L'IMAGE */
+.form-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 0px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid #f1f5f9;
+  justify-content: center;
+}
+
+/* Boutons */
+.save-btn,
+.cancel-btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
   cursor: pointer;
-  transition: 0.3s ease;
+  min-height: 52px;
 }
 
-.form-cat button:hover {
-  background-color: #fd7e14;
+.save-btn::before,
+.cancel-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
-@media (max-width: 600px) {
-  .edit-cat-container {
-    margin: 70px 15px;
-    padding: 20px;
+.save-btn:hover::before,
+.cancel-btn:hover::before {
+  left: 100%;
+}
+
+/* Bouton de sauvegarde */
+.save-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Bouton d'annulation */
+.cancel-btn {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1d5db;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  color: #1f2937;
+}
+
+.cancel-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles FilePond - IMAGE CIRCULAIRE COMPLÈTE */
+.filepond--root {
+  font-family: inherit;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.filepond--panel-root {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.filepond--item {
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+.filepond--item-panel {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.filepond--image-preview {
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 300px !important;
+  height: 300px !important;
+  object-fit: cover !important;
+  overflow: hidden !important;
+  position: relative !important;
+  display: block !important;
+}
+
+.filepond--image-preview-wrapper {
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 300px !important;
+  height: 300px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.filepond--image-preview img {
+  border-radius: 50% !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Bouton de suppression repositionné */
+.filepond--file-action-button {
+background: rgba(0, 0, 0, 0.6) !important;
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+  width: 32px !important;
+  height: 32px !important;
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 10 !important;
+  border: 2px solid white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.filepond--file-action-button:hover {
+ background: rgba(0, 0, 0, 0.6) !important;
+  transform: scale(1.1) !important;
+}
+
+.filepond--file-action-button svg {
+  color: white !important;
+}
+
+/* Style pour le conteneur quand il n'y a pas d'image */
+.filepond--panel-root:not(.filepond--panel-root--has-file) {
+  background: rgba(248, 250, 252, 0.3) !important;
+  border: 2px dashed #e5e7eb !important;
+  border-radius: 50% !important;
+  padding: 40px !important;
+  margin: 0 auto !important;
+  width: 300px !important;
+  height: 300px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.filepond--drop-label {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+/* Amélioration de la qualité d'image */
+.filepond--image-preview canvas,
+.filepond--image-preview img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  filter: contrast(1.1) brightness(1.05) saturate(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .edit-container {
+    max-width: 700px;
+    padding: 100px 20px 40px;
   }
 
-  .edit-cat-container h2 {
-    font-size: 1.4rem;
+  .edit-card {
+    padding: 40px 35px;
   }
+
+  .edit-title {
+    font-size: 2rem;
+  }
+
+  .upload-box {
+    max-width: 450px;
+    margin-bottom: 14px;
+  }
+
+  .form-buttons {
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-container {
+    max-width: 100%;
+    padding: 90px 15px 30px;
+    align-items: flex-start;
+  }
+
+  .edit-card {
+    padding: 35px 28px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .edit-title {
+    font-size: 1.9rem;
+    margin-bottom: 30px;
+  }
+
+  .form-input {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    width: 100%;
+    padding: 14px 28px;
+    font-size: 0.9rem;
+    min-height: 48px;
+  }
+
+  .upload-box {
+    padding: 14px;
+    max-width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .filepond--panel-root {
+    min-height: 80px;
+    max-height: 180px;
+  }
+
+  .filepond--image-preview,
+  .filepond--image-preview-wrapper {
+    max-height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-container {
+    padding: 80px 10px 20px;
+  }
+
+  .edit-card {
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .edit-title {
+    font-size: 1.7rem;
+  }
+
+  .form-input {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+
+  .upload-box {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .form-buttons {
+    margin-top: 14px;
+  }
+
+  .filepond--panel-root {
+    min-height: 70px;
+    max-height: 150px;
+  }
+
+  .filepond--image-preview,
+  .filepond--image-preview-wrapper {
+    max-height: 100px;
+  }
+}
+
+/* Effets spéciaux */
+.edit-card::after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Focus ring personnalisé */
+.form-input:focus,
+.save-btn:focus,
+.cancel-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Amélioration de l'accessibilité */
+.form-label {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Effet de focus pour les labels */
+.form-input:focus + .form-label {
+  color: #667eea;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Styles pour les placeholders */
+.form-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  .edit-card,
+  .save-btn,
+  .cancel-btn,
+  .form-input,
+  .upload-box,
+  .filepond--panel-root {
+    animation: none;
+    transition: none;
+  }
+
+  .save-btn:hover,
+  .cancel-btn:hover {
+    transform: none;
+  }
+}
+
+/* Amélioration du contraste pour l'accessibilité */
+@media (prefers-contrast: high) {
+  .edit-card {
+    border: 2px solid #667eea;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Styles pour les navigateurs webkit */
+@supports (-webkit-backdrop-filter: blur(10px)) {
+  .edit-card {
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* États de chargement pour le bouton */
+.save-btn:disabled::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Styles pour les messages d'erreur et de succès */
+.error-message {
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: #10b981;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
