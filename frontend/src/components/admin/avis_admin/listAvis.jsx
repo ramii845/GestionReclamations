@@ -6,6 +6,7 @@ import {
 import { getUserbyId } from "../../../services/authService";
 import { getReclamationById } from "../../../services/reclamationService";
 import "./Avis.css";
+import Navbar from "../../Navbar/Navbar";
 
 export default function ListAvis() {
   const [avisList, setAvisList] = useState([]);
@@ -14,7 +15,6 @@ export default function ListAvis() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchNom, setSearchNom] = useState("");
   const [searchEtoiles, setSearchEtoiles] = useState("");
 
   useEffect(() => {
@@ -23,13 +23,10 @@ export default function ListAvis() {
 
   useEffect(() => {
     const filtered = avisList.filter((avis) => {
-      const matchNom = avis.userName.toLowerCase().includes(searchNom.toLowerCase());
-      const matchEtoiles =
-        searchEtoiles === "" || avis.nbetoiles === parseInt(searchEtoiles);
-      return matchNom && matchEtoiles;
+      return searchEtoiles === "" || avis.nbetoiles === parseInt(searchEtoiles);
     });
     setFilteredAvis(filtered);
-  }, [avisList, searchNom, searchEtoiles]);
+  }, [avisList, searchEtoiles]);
 
   const fetchAvis = async () => {
     setLoading(true);
@@ -84,16 +81,10 @@ export default function ListAvis() {
 
   return (
     <div className="avis-container">
+      <Navbar />
       <h2 className="avis-title">Liste des avis</h2>
 
       <div className="avis-filters">
-        <input
-          type="text"
-          placeholder="🔍 Rechercher par nom d'utilisateur"
-          value={searchNom}
-          onChange={(e) => setSearchNom(e.target.value)}
-          className="avis-input"
-        />
         <select
           value={searchEtoiles}
           onChange={(e) => setSearchEtoiles(e.target.value)}
