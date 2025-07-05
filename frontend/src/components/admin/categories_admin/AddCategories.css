@@ -1,56 +1,79 @@
-.add-cat-container {
-  max-width: 550px;
-  margin: 100px auto;
-  padding: 30px 25px;
-  background-color: #f9fbfd;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0, 132, 126, 0.15);
-  text-align: center;
-}
-
-.add-cat-container h2 {
-  color: #0c847e;
-  margin-bottom: 25px;
-  font-size: 1.8rem;
-}
-
-.form-cat {
+.add-cat-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to right, #e0f7fa, #e8eaf6);
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
 }
 
-.form-cat input[type="text"],
-.form-cat input[type="file"] {
-  padding: 12px 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
+.add-cat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
 }
 
-.form-cat button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 10px;
+.add-cat-title {
+  text-align: center;
+  font-size: 1.8rem;
   font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 20px;
+}
+
+.add-cat-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.add-cat-form input[type="text"],
+.add-cat-form input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.add-cat-form input[type="text"]:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+
+.image-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.preview-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.add-cat-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #1976d2, #1e88e5);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: background 0.3s;
 }
 
-.form-cat button:hover {
-  background-color: #28a745;
-}
-
-@media (max-width: 600px) {
-  .add-cat-container {
-    margin: 70px 15px;
-    padding: 20px;
-  }
-
-  .add-cat-container h2 {
-    font-size: 1.4rem;
-  }
+.add-cat-btn:hover {
+  background: linear-gradient(to right, #1565c0, #1976d2);
 }
