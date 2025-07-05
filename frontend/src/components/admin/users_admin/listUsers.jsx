@@ -65,7 +65,7 @@ const ListUsers = () => {
         <div className="list-container">
           <div className="header-actions">
             <h2 className="title">Liste des Utilisateurs</h2>
-            <button className="btn-add" onClick={() => navigate('/users/add')}>
+            <button className="btn-add" onClick={() => navigate('/admin/addUser' )}>
               <PlusCircle className="me-2" size={18} />
               Ajouter
             </button>
