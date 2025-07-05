@@ -70,9 +70,9 @@ const CategorieList = () => {
   return (
     <div>
   <Navbar/>
-
+     <h2 className="title">Liste des catégories</h2>
       <div className="categorie-container">
-        <h2 className="title">Liste des catégories</h2>
+   
         <div className="categorie-grid">
           {categories.map((cat) => (
             <div
