@@ -142,6 +142,7 @@ const AddReclamationUser = () => {
   };
 
   return (
+    
     <div className="page-wrapper">
       <Navbar />
       <div className="add-reclamation-container" style={{ paddingTop: "80px" }}>

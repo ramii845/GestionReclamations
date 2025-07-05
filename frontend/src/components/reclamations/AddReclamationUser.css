@@ -1,13 +1,31 @@
-/* Style global pour body et html */
+/* Reset et variables CSS */
+:root {
+  --primary-color: #0c847e;
+  --primary-hover: #086b68;
+  --primary-light: #0c6b84;
+  --background-light: #e6f9f9;
+  --background-card: #f0fdfd;
+  --text-primary: #0c847e;
+  --text-secondary: #666;
+  --shadow-light: rgba(12, 132, 126, 0.15);
+  --shadow-medium: rgba(12, 132, 126, 0.25);
+  --shadow-strong: rgba(12, 132, 126, 0.4);
+  --border-radius: 16px;
+  --border-radius-small: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Style global */
 html, body {
   height: 100%;
   margin: 0;
-  background-color: #e6f9f9;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #0c847e;
+  background: linear-gradient(135deg, #e6f9f9 0%, #d1f2f2 100%);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
-/* Centrage par un conteneur extérieur */
+/* Wrapper principal */
 .page-wrapper {
   min-height: 100vh;
   display: flex;
@@ -15,176 +33,409 @@ html, body {
   align-items: center;
   padding: 2rem;
   box-sizing: border-box;
-  
+  position: relative;
 }
 
-/* Container principal */
+/* Container principal avec effet glassmorphism */
 .add-reclamation-container {
   width: 100%;
-  max-width: 600px;
-  background: #fff;
-  border-radius: 16px;
-  padding: 2.5rem 3rem;
-  box-shadow: 0 12px 30px rgba(12, 132, 126, 0.25);
+  max-width: 650px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(12, 132, 126, 0.1);
+  border-radius: var(--border-radius);
+  padding: 3rem;
+  box-shadow: 
+    0 20px 40px var(--shadow-light),
+    0 8px 16px var(--shadow-medium),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  animation: fadeInScale 0.4s ease forwards;
-   margin-top: 35px;
+  gap: 2rem;
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  margin-top: 35px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Animation douce à l'affichage */
-@keyframes fadeInScale {
+/* Effet de brillance subtile */
+.add-reclamation-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(12, 132, 126, 0.05),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Animation d'entrée améliorée */
+@keyframes slideInUp {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Titre */
+/* Titre avec gradient */
 .add-reclamation-container h2 {
   text-align: center;
-  font-weight: 700;
-  font-size: 2rem;
-  margin: 0 0 1rem 0;
-  color: #0c847e;
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin: 0 0 1.5rem 0;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+/* Ligne décorative sous le titre */
+.add-reclamation-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 2px;
 }
 
 /* Formulaire */
 .add-reclamation-container form {
   display: flex;
   flex-direction: column;
-  gap: 1.3rem;
+  gap: 1.8rem;
 }
 
-/* Labels */
+/* Groupes de champs */
+.add-reclamation-container form > div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Labels améliorés */
 .add-reclamation-container label {
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #0c847e;
+  font-size: 0.95rem;
+  color: var(--text-primary);
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
-/* Inputs, textarea, select */
+/* Icône pour les champs requis */
+.add-reclamation-container label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Inputs, textarea, select avec design moderne */
 .add-reclamation-container input[type="text"],
 .add-reclamation-container textarea,
-.add-reclamation-container select,
-.add-reclamation-container input[type="file"] {
+.add-reclamation-container select {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
-  border: 2px solid #0c847e;
-  border-radius: 10px;
-  background-color: #f0fdfd;
-  color: #000;
+  border: 2px solid rgba(12, 132, 126, 0.2);
+  border-radius: var(--border-radius-small);
+  background: rgba(240, 253, 253, 0.8);
+  color: #333;
   font-family: inherit;
   resize: vertical;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: var(--transition);
+  box-sizing: border-box;
+  position: relative;
 }
 
-/* Focus des champs */
+/* Input file avec style personnalisé */
+.add-reclamation-container input[type="file"] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 0.95rem;
+  border: 2px dashed rgba(12, 132, 126, 0.3);
+  border-radius: var(--border-radius-small);
+  background: rgba(240, 253, 253, 0.5);
+  color: var(--text-secondary);
+  font-family: inherit;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-reclamation-container input[type="file"]:hover {
+  border-color: var(--primary-color);
+  background: rgba(240, 253, 253, 0.8);
+}
+
+/* États focus améliorés */
 .add-reclamation-container input[type="text"]:focus,
 .add-reclamation-container textarea:focus,
 .add-reclamation-container select:focus,
 .add-reclamation-container input[type="file"]:focus {
-  border-color: #089a8f;
-  box-shadow: 0 0 8px #089a8f88;
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 0 4px rgba(12, 132, 126, 0.1),
+    0 4px 12px rgba(12, 132, 126, 0.15);
   outline: none;
+  transform: translateY(-1px);
 }
 
-/* Textarea hauteur minimum */
+/* Textarea avec hauteur minimum */
 .add-reclamation-container textarea {
   min-height: 120px;
+  line-height: 1.6;
 }
 
-/* Bouton submit */
+/* Select avec flèche personnalisée */
+.add-reclamation-container select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%230c847e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 3rem;
+}
+
+/* Bouton submit avec design moderne */
 .add-reclamation-container button[type="submit"] {
-  background-color: #0c847e;
-  color: #e6f9f9;
-  font-weight: 700;
-  font-size: 1.15rem;
-  border: none;
-  padding: 0.9rem 0;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 15px rgba(12, 132, 126, 0.5);
-}
-
-.add-reclamation-container button[type="submit"]:hover {
-  background-color: #086b68;
-  box-shadow: 0 8px 20px rgba(8, 107, 104, 0.75);
-}
-
-/* Bouton Accueil fixe en haut à gauche */
-.btn-accueil {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #0c847e;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
   color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  font-weight: 600;
+  padding: 1.2rem 2rem;
+  border-radius: var(--border-radius-small);
   cursor: pointer;
-  font-size: 1rem;
+  transition: var(--transition);
+  box-shadow: 
+    0 8px 20px var(--shadow-medium),
+    0 4px 8px var(--shadow-light);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+}
+
+/* Effet de survol du bouton */
+.add-reclamation-container button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 28px var(--shadow-strong),
+    0 6px 12px var(--shadow-medium);
+}
+
+.add-reclamation-container button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* État désactivé du bouton */
+.add-reclamation-container button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+/* Effet de chargement */
+.add-reclamation-container button[type="submit"]:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Lien de retour stylisé */
+.add-reclamation-container + div {
+  margin-top: 1.5rem !important;
+  text-align: center;
+}
+
+.add-reclamation-container + div a {
+  color: var(--primary-light) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-reclamation-container + div a:hover {
+  background: rgba(12, 107, 132, 0.1);
+  transform: translateX(-2px);
+}
+
+/* Boutons de navigation fixes */
+.btn-accueil,
+.btn-deconnexion {
+  position: fixed;
+  top: 20px;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
   z-index: 1000;
-  transition: background-color 0.3s ease;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.btn-accueil {
+  left: 20px;
+  background: rgba(12, 132, 126, 0.9);
+  color: white;
 }
 
 .btn-accueil:hover {
-  background-color: #086b68;
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(12, 132, 126, 0.3);
 }
 
-/* Bouton Déconnexion fixe en haut à droite */
 .btn-deconnexion {
-  position: absolute;
-  top: 20px;
   right: 20px;
-  background-color: #d93434;
+  background: rgba(217, 52, 52, 0.9);
   color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
 }
 
 .btn-deconnexion:hover {
-  background-color: #b82020;
+  background: #b82020;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(217, 52, 52, 0.3);
 }
 
-/* Responsive : rien ne change, juste padding réduit */
-@media (max-width: 600px) {
+/* Responsive design amélioré */
+@media (max-width: 768px) {
   .page-wrapper {
     padding: 1rem;
   }
-
+  
   .add-reclamation-container {
-    padding: 1.8rem;
+    padding: 2rem 1.5rem;
+    margin-top: 20px;
   }
-
+  
   .add-reclamation-container h2 {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
-
-  .add-reclamation-container button[type="submit"] {
-    font-size: 1rem;
-    padding: 0.75rem 0;
+  
+  .add-reclamation-container form {
+    gap: 1.5rem;
   }
-
+  
   .btn-accueil,
   .btn-deconnexion {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    top: 10px;
+  }
+  
+  .btn-accueil {
+    left: 10px;
+  }
+  
+  .btn-deconnexion {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-reclamation-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .add-reclamation-container h2 {
+    font-size: 1.8rem;
+  }
+  
+  .add-reclamation-container input[type="text"],
+  .add-reclamation-container textarea,
+  .add-reclamation-container select,
+  .add-reclamation-container input[type="file"] {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .add-reclamation-container button[type="submit"] {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Animations supplémentaires pour l'interactivité */
+.add-reclamation-container form > div {
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de focus sur les groupes de champs */
+.add-reclamation-container form > div:focus-within {
+  transform: scale(1.02);
+}
+
+/* Amélioration de l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
