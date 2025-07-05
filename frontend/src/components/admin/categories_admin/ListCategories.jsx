@@ -53,21 +53,21 @@ const ListCategories = () => {
     setCatToDelete(null);
   };
 
-  if (loading) return <div className="loading">Chargement des catégories...</div>;
+  if (loading) return <div className="loading">Chargement des services...</div>;
 
   return (
     <>
       <Navbar />
       <div className="list-wrapper">
         <div className="list-categories-container">
-          <h2>Liste des Catégories</h2>
+          <h2>Liste des Services</h2>
           <Link to="/categories/add">
             <button className="add-button"><i className="fa-solid fa-plus"></i> Ajouter</button>
           </Link>
           <table className="table-categories">
             <thead>
               <tr>
-                <th>Nom Catégorie</th>
+                <th>Nom Service</th>
                 <th>Image</th>
                 <th>Modifier</th>
                 <th>Supprimer</th>
@@ -122,7 +122,7 @@ const ListCategories = () => {
             }}
           >
             <h3>Confirmer la suppression</h3>
-            <p>Voulez-vous vraiment supprimer la catégorie <strong>{catToDelete.nomCategorie}</strong> ?</p>
+            <p>Voulez-vous vraiment supprimer ce service <strong>{catToDelete.nomCategorie}</strong> ?</p>
             <div style={{ marginTop: 20, display: "flex", justifyContent: "space-around" }}>
               <button
                 style={{

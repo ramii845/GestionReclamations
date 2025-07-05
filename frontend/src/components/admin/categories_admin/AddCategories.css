@@ -1,79 +1,479 @@
-.add-cat-wrapper {
+body {
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
-  background: linear-gradient(to right, #e0f7fa, #e8eaf6);
+}
+
+html {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 100%;
+}
+
+/* Conteneur principal - AGRANDI */
+.add-container {
+  max-width: 800px; /* Augmenté de 600px à 800px */
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
-.add-cat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 40px 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* Carte principale - AGRANDIE */
+.add-card {
+  border: none;
+  border-radius: 24px; /* Augmenté de 20px à 24px */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 60px 50px; /* Augmenté de 40px 32px à 60px 50px */
+  overflow: hidden;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
   width: 100%;
-  max-width: 500px;
+  min-height: 600px; /* Hauteur minimale ajoutée */
 }
 
-.add-cat-title {
+/* Titre principal - AGRANDI */
+.add-title {
+  font-size: 2.5rem; /* Augmenté de 2rem à 2.5rem */
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #1976d2;
-  margin-bottom: 20px;
+  margin-bottom: 40px; /* Augmenté de 32px à 40px */
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  position: relative;
 }
 
-.add-cat-form label {
-  display: block;
-  margin-bottom: 6px;
+.add-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px; /* Augmenté de -8px à -10px */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px; /* Augmenté de 60px à 80px */
+  height: 4px; /* Augmenté de 3px à 4px */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+/* Labels des formulaires - AGRANDIS */
+.form-label {
   font-weight: 600;
-  color: #333;
+  color: #374151;
+  font-size: 1rem; /* Augmenté de 0.9rem à 1rem */
+  margin-bottom: 12px; /* Augmenté de 8px à 12px */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
 }
 
-.add-cat-form input[type="text"],
-.add-cat-form input[type="file"] {
+/* Champs de saisie - AGRANDIS */
+.form-input {
+  border-radius: 12px; /* Augmenté de 10px à 12px */
+  border: 2px solid #e5e7eb;
+  padding: 18px 20px; /* Augmenté de 14px 16px à 18px 20px */
+  font-size: 1.1rem; /* Augmenté de 0.95rem à 1.1rem */
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  color: #1f2937;
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  transition: border 0.3s;
+  box-sizing: border-box;
+  margin-bottom: 28px; /* Augmenté de 22px à 28px */
+  position: relative;
+  min-height: 56px; /* Hauteur minimale ajoutée */
 }
 
-.add-cat-form input[type="text"]:focus {
-  border-color: #1976d2;
+.form-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); /* Augmenté de 3px à 4px */
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px); /* Augmenté de -1px à -2px */
   outline: none;
 }
 
-.image-preview {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-top: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.form-input:hover:not(:focus) {
+  border-color: #d1d5db;
+  background: rgba(255, 255, 255, 0.9);
 }
 
+/* Champ de fichier - AGRANDI */
+.form-file {
+  border-radius: 12px; /* Augmenté de 10px à 12px */
+  border: 2px dashed #e5e7eb;
+  padding: 24px; /* Augmenté de 16px à 24px */
+  font-size: 1.1rem; /* Augmenté de 0.95rem à 1.1rem */
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  color: #1f2937;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 28px; /* Augmenté de 22px à 28px */
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  min-height: 80px; /* Hauteur minimale ajoutée */
+}
+
+.form-file:hover {
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px); /* Augmenté de -1px à -2px */
+}
+
+.form-file:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); /* Augmenté de 3px à 4px */
+  outline: none;
+}
+
+/* Conteneur de prévisualisation - AGRANDI */
 .preview-container {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 32px; /* Augmenté de 24px à 32px */
+  padding: 24px; /* Augmenté de 16px à 24px */
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px; /* Augmenté de 12px à 16px */
+  border: 1px solid rgba(226, 232, 240, 0.5);
 }
 
-.add-cat-btn {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(to right, #1976d2, #1e88e5);
-  color: white;
-  font-weight: bold;
+.preview-image {
+  width: 200px; /* Augmenté de 160px à 200px */
+  height: 200px; /* Augmenté de 160px à 200px */
+  border-radius: 16px; /* Augmenté de 12px à 16px */
+  object-fit: cover;
+  border: 3px solid rgba(102, 126, 234, 0.2); /* Augmenté de 2px à 3px */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Augmenté l'ombre */
+  transition: all 0.3s ease;
+}
+
+.preview-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); /* Augmenté l'ombre */
+}
+
+/* Groupe de boutons - AGRANDI */
+.btn-group {
+  display: flex;
+  gap: 16px; /* Augmenté de 12px à 16px */
+  margin-top: 40px; /* Augmenté de 32px à 40px */
+  padding-top: 28px; /* Augmenté de 20px à 28px */
+  border-top: 2px solid #f1f5f9;
+  justify-content: center;
+}
+
+/* Boutons - AGRANDIS */
+.submit-btn,
+.cancel-btn {
+  padding: 18px 36px; /* Augmenté de 14px 28px à 18px 36px */
+  border-radius: 12px; /* Augmenté de 10px à 12px */
+  font-weight: 600;
+  font-size: 1rem; /* Augmenté de 0.9rem à 1rem */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  min-width: 150px; /* Augmenté de 120px à 150px */
   cursor: pointer;
-  transition: background 0.3s;
+  min-height: 56px; /* Hauteur minimale ajoutée */
 }
 
-.add-cat-btn:hover {
-  background: linear-gradient(to right, #1565c0, #1976d2);
+.submit-btn::before,
+.cancel-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submit-btn:hover::before,
+.cancel-btn:hover::before {
+  left: 100%;
+}
+
+/* Bouton de soumission */
+.submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3); /* Augmenté l'ombre */
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-3px); /* Augmenté de -2px à -3px */
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4); /* Augmenté l'ombre */
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Bouton d'annulation */
+.cancel-btn {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Augmenté l'ombre */
+  border: 1px solid #d1d5db;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  transform: translateY(-3px); /* Augmenté de -2px à -3px */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Augmenté l'ombre */
+  color: #1f2937;
+}
+
+.cancel-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* Augmenté de 20px à 30px */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de focus pour les groupes de champs */
+.form-input:focus + .form-label,
+.form-file:focus + .form-label {
+  color: #667eea;
+  transform: translateY(-2px); /* Augmenté de -1px à -2px */
+  transition: all 0.2s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .add-container {
+    max-width: 700px;
+    padding: 20px;
+  }
+
+  .add-card {
+    padding: 50px 40px;
+    min-height: 550px;
+  }
+
+  .add-title {
+    font-size: 2.3rem;
+  }
+
+  .preview-image {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-container {
+    max-width: 100%;
+    padding: 15px;
+    min-height: 100vh;
+  }
+
+  .add-card {
+    padding: 40px 32px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    min-height: 500px;
+  }
+
+  .add-title {
+    font-size: 2.1rem;
+    margin-bottom: 32px;
+  }
+
+  .form-input,
+  .form-file {
+    padding: 16px 18px;
+    font-size: 1rem;
+    min-height: 52px;
+  }
+
+  .preview-image {
+    width: 160px;
+    height: 160px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+    padding: 16px 32px;
+    font-size: 0.95rem;
+    min-height: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-container {
+    padding: 10px;
+    min-height: 100vh;
+  }
+
+  .add-card {
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 450px;
+    min-height: 450px;
+  }
+
+  .add-title {
+    font-size: 1.9rem;
+  }
+
+  .form-input,
+  .form-file {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+
+  .preview-image {
+    width: 140px;
+    height: 140px;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    padding: 14px 28px;
+    font-size: 0.9rem;
+    min-height: 48px;
+  }
+}
+
+/* Effets spéciaux - AGRANDIS */
+.add-card::after {
+  content: "";
+  position: absolute;
+  bottom: -40px; /* Augmenté de -30px à -40px */
+  right: -40px; /* Augmenté de -30px à -40px */
+  width: 80px; /* Augmenté de 60px à 80px */
+  height: 80px; /* Augmenté de 60px à 80px */
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Focus ring personnalisé */
+.form-input:focus,
+.form-file:focus,
+.submit-btn:focus,
+.cancel-btn:focus {
+  outline: 3px solid transparent; /* Augmenté de 2px à 3px */
+  outline-offset: 3px; /* Augmenté de 2px à 3px */
+}
+
+/* Amélioration de l'accessibilité */
+.form-label {
+  cursor: pointer;
+}
+
+.submit-btn:disabled,
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Styles pour les placeholders */
+.form-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Animation pour les labels */
+.form-label {
+  transition: all 0.2s ease;
+}
+
+/* Styles pour les messages d'erreur (si nécessaire) */
+.error-message {
+  color: #ef4444;
+  font-size: 0.9rem; /* Augmenté de 0.85rem à 0.9rem */
+  font-weight: 500;
+  margin-top: -22px; /* Ajusté pour le nouvel espacement */
+  margin-bottom: 22px;
+}
+
+/* Styles pour les messages de succès (si nécessaire) */
+.success-message {
+  color: #10b981;
+  font-size: 0.9rem; /* Augmenté de 0.85rem à 0.9rem */
+  font-weight: 500;
+  margin-top: -22px; /* Ajusté pour le nouvel espacement */
+  margin-bottom: 22px;
+}
+
+/* Respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  .add-card,
+  .submit-btn,
+  .cancel-btn,
+  .form-input,
+  .form-file,
+  .preview-image {
+    animation: none;
+    transition: none;
+  }
+
+  .submit-btn:hover,
+  .cancel-btn:hover {
+    transform: none;
+  }
+}
+
+/* Amélioration du contraste pour l'accessibilité */
+@media (prefers-contrast: high) {
+  .add-card {
+    border: 2px solid #667eea;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Styles pour les navigateurs webkit */
+@supports (-webkit-backdrop-filter: blur(10px)) {
+  .add-card {
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
