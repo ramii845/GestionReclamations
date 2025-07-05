@@ -206,36 +206,33 @@ setTimeout(() => {
               </div>
             )}
 
-            <button
-              type="submit"
-              style={{
-                fontWeight: "700",
-                fontSize: "1.1rem",
-                minWidth: "160px",
-                padding: "14px 24px",
-                borderRadius: "16px",
-                background:
-                  "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-                border: "none",
-                color: "white",
-                display: "block",
-                width: "100%",
-                boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.4)",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-2px)";
-                e.target.style.boxShadow =
-                  "0 15px 35px -5px rgba(59, 130, 246, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow =
-                  "0 10px 25px -5px rgba(59, 130, 246, 0.4)";
-              }}
-            >
-              <i className="fa-solid fa-plus me-2"></i> Ajouter la catégorie
-            </button>
+        <button
+  type="submit"
+  style={{
+    fontWeight: "700",
+    fontSize: "1.1rem",
+    minWidth: "160px",
+    padding: "14px 24px",
+    borderRadius: "16px",
+    background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+    border: "none",
+    boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.4)",
+    transition: "all 0.3s ease",
+    position: "relative",
+    overflow: "hidden",
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.transform = "translateY(-2px)";
+    e.target.style.boxShadow = "0 15px 35px -5px rgba(16, 185, 129, 0.5)";
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.transform = "translateY(0)";
+    e.target.style.boxShadow = "0 10px 25px -5px rgba(16, 185, 129, 0.4)";
+  }}
+>
+  Ajouter 
+</button>
+
           </form>
         </div>
       </div>
