@@ -21,6 +21,7 @@ import ListCategories from "./components/admin/categories_admin/ListCategories";
 import AddCategories from "./components/admin/categories_admin/AddCategories";
 import EditCategories from "./components/admin/categories_admin/EditCategories";
 import ListUsers from "./components/admin/users_admin/listUsers";
+import EditUserAdmin from "./components/admin/users_admin/EditUserAdmin";
 
 
 function App() {
@@ -47,6 +48,10 @@ function App() {
           <Route path="/categories/edit/:id" element={<EditCategories/>} />
           
             <Route path="/admin/utilisateurs" element={<ListUsers/>} />
+   <Route path="/admin/edit/:user_id" element={<EditUserAdmin />} />
+
+
+
 
         </Routes>
       </Router>

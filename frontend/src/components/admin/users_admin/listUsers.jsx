@@ -94,7 +94,8 @@ const ListUsers = () => {
                   <td>
                     <button
                       className="btn-edit"
-                      onClick={() => navigate(`/users/edit/${user.id}`)}
+                   onClick={() => navigate(`/admin/edit/${user.id}`)}
+
                     >
                       <i className="fa-solid fa-pen-to-square"></i> Modifier
                     </button>
