@@ -27,6 +27,7 @@ import ListAvis from "./components/admin/avis_admin/listAvis";
 import PrivateRouteAdmin from "./components/utils/PrivateRouteAdmin";
 import NotFoundPage from "./components/utils/NotFoundPage";
 import EditCompte from "./components/admin/users_admin/EditCompte";
+import ReclamationsAdmin from "./components/admin/reclamations_admin/ReclamationsAdmin";
 
 
 function App() {
@@ -56,7 +57,7 @@ function App() {
 <Route path="/admin/avis" element={<PrivateRouteAdmin element={<ListAvis />} />} />
 
 <Route path="/admin/profil" element={<PrivateRouteAdmin element={<EditCompte />} />} />
-
+   <Route path="rec" element={<ReclamationsAdmin />} />
 
 <Route path="*" element={<NotFoundPage />} />
 

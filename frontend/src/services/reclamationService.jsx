@@ -39,3 +39,10 @@ export const deleteReclamation = async (id) => {
 export const getAllReclamations = async () => {
   return await axios.get(`${API_BASE_URL}/`);
 };
+
+// Obtenir les réclamations paginées
+export const getPaginatedReclamations = async (page = 1, limit = 7) => {
+  return await axios.get(`${API_BASE_URL}/paginated`, {
+    params: { page, limit }
+  });
+};

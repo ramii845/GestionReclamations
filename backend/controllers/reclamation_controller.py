@@ -6,6 +6,7 @@ from config import MONGO_URI, MONGO_DB
 from typing import List
 from fastapi.responses import JSONResponse
 from datetime import datetime
+from fastapi import Query
 
 reclamation_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -42,6 +43,29 @@ async def get_all_reclamations():
     reclamations = await db.reclamations.find().to_list(100)
     reclamations = [convert_mongo_doc(rec) for rec in reclamations]
     return reclamations
+
+
+@reclamation_router.get("/paginated", response_model=dict)
+async def get_reclamations_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+    skip = (page - 1) * limit
+    total = await db.reclamations.count_documents({})
+    reclamations = await db.reclamations.find().skip(skip).limit(limit).to_list(length=limit)
+
+    for rec in reclamations:
+        rec["id"] = str(rec["_id"])
+        del rec["_id"]
+        for key, value in rec.items():
+            if isinstance(value, datetime):
+                rec[key] = value.isoformat()
+
+    return {
+        "status_code": 200,
+        "page": page,
+        "total_pages": (total + limit - 1) // limit,
+        "total_reclamations": total,
+        "reclamations": reclamations
+    }
+
 
 @reclamation_router.get("/{reclamation_id}", response_model=Reclamation)
 async def get_reclamation_by_id(reclamation_id: str):
