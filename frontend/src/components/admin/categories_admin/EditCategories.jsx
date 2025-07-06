@@ -1,15 +1,14 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Form, Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import { getCategorieById, updateCategorie } from "../../../services/categorieService";
 import Navbar from "../../Navbar/Navbar";
-import { toast, ToastContainer } from "react-toastify";
 import "./EditCategories.css";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -21,35 +20,33 @@ const EditCategories = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const loadCategorie = async () => {
-    try {
-      const res = await getCategorieById(id);
-      setCategorie(res.data);
-      setFiles([
-        {
-          source: res.data.imageCategorie,
-          options: { type: "local" },
-        },
-      ]);
-    } catch (error) {
-      console.error("Erreur chargement catégorie :", error);
-    }
-  };
-
   useEffect(() => {
+    const loadCategorie = async () => {
+      try {
+        const res = await getCategorieById(id);
+        setCategorie(res.data);
+        setFiles([
+          {
+            source: res.data.imageCategorie,
+            options: { type: "local" },
+          },
+        ]);
+      } catch (error) {
+        console.error("Erreur chargement catégorie :", error);
+      }
+    };
     loadCategorie();
-  }, []);
+  }, [id]);
 
-  const handleSave = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isUploading) return;
     try {
       await updateCategorie(id, categorie);
-      toast.success("Catégorie modifiée avec succès !");
+      toast.success("Catégorie modifiée !");
       navigate("/admin/services");
     } catch (error) {
-      toast.error("Erreur lors de la modification.");
-      console.error("Erreur update :", error);
+      toast.error("Erreur lors de la modification");
     }
   };
 
@@ -65,6 +62,7 @@ const EditCategories = () => {
       data.append("file", file);
       data.append("upload_preset", "iit2024G4");
       data.append("cloud_name", "ditzf19gl");
+
       axios
         .post("https://api.cloudinary.com/v1_1/ditzf19gl/image/upload", data)
         .then((res) => {
@@ -75,8 +73,7 @@ const EditCategories = () => {
           load(res.data.secure_url);
         })
         .catch((err) => {
-          console.error("Erreur Cloudinary :", err);
-          error("Upload failed");
+          error("Erreur upload image");
           abort();
         })
         .finally(() => {
@@ -89,61 +86,40 @@ const EditCategories = () => {
     <>
       <Navbar />
       <ToastContainer />
-      <div className="edit-container">
-        <Card className="edit-card">
-          <h2 className="edit-title">✨ Modifier la catégorie</h2>
-          <Form onSubmit={handleSave}>
-            <Form.Group className="mb-4" controlId="nomCategorie">
-              <Form.Label className="form-label">📝 Nom de la catégorie</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Entrez le nom de la catégorie..."
-                value={categorie.nomCategorie || ""}
-                onChange={(e) =>
-                  setCategorie({ ...categorie, nomCategorie: e.target.value })
-                }
-                required
-                className="form-input"
-              />
-            </Form.Group>
+      <div className="simple-edit-container">
+        <h2>Modifier la catégorie</h2>
+        <form onSubmit={handleSubmit} className="simple-form">
+          <label>Nom de la catégorie :</label>
+          <input
+            type="text"
+            name="a1"
+            value={categorie.nomCategorie || ""}
+            onChange={(e) =>
+              setCategorie({ ...categorie, nomCategorie: e.target.value })
+            }
+            required
+          />
 
-            <Form.Group className="mb-5" controlId="imageCategorie">
-              <Form.Label className="form-label">🖼️ Image de la catégorie</Form.Label>
-              <div className="upload-box">
-                <FilePond
-                  files={files}
-                  acceptedFileTypes={["image/*"]}
-                  onupdatefiles={setFiles}
-                  allowMultiple={false}
-                  server={serverOptions()}
-                  name="file"
-                  labelIdle='<span class="filepond--label-action">📸 Choisir une image</span>'
-                  stylePanelLayout="compact circle"
-                  stylePanelAspectRatio="1:1"
-                />
-              </div>
-            </Form.Group>
+          <label name="a5">Image de la catégorie :</label>
+          <FilePond
+            files={files}
+            onupdatefiles={setFiles}
+            allowMultiple={false}
+            server={serverOptions()}
+            name="file"
+            labelIdle="📸 Choisir une image"
+            acceptedFileTypes={["image/*"]}
+          />
 
-            <div className="form-buttons">
-              <Button
-                variant="success"
-                type="submit"
-                className="save-btn"
-                disabled={isUploading}
-              >
-                Enregistrer
-              </Button>
-
-              <Button
-                variant="outline-secondary"
-                onClick={() => navigate("/admin/services")}
-                className="cancel-btn"
-              >
-                Annuler
-              </Button>
-            </div>
-          </Form>
-        </Card>
+          <div className="simple-buttons">
+            <button type="submit" name="a2" disabled={isUploading}>
+              Enregistrer
+            </button>
+            <button type="button" onClick={() => navigate("/admin/services")}>
+              Annuler
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );

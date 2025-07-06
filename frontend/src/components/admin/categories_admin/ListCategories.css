@@ -17,13 +17,13 @@ html {
   min-height: 100%;
 }
 
-.list-wrapper {
+.list-wrapper4 {
   padding: 100px 20px 40px;
   min-height: calc(100vh - 80px);
   background: transparent;
 }
 
-.list-categories-container {
+.list-categories-container4 {
   max-width: 1400px;
   margin: auto;
   padding: 40px;

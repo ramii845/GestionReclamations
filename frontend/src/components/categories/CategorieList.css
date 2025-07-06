@@ -17,7 +17,7 @@ html {
   min-height: 100%;
 }
 
-/* Titre principal - EN DEHORS DU CONTAINER */
+/* Titre principal */
 .title {
   font-size: 2.2rem;
   font-weight: 700;
@@ -25,7 +25,7 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 150px 0 30px 0; /* Espacement depuis la navbar */
+  margin: 150px 0 30px 0;
   letter-spacing: -0.5px;
   text-align: center;
   position: relative;
@@ -45,19 +45,19 @@ html {
   animation: expandWidth 0.8s ease-out 0.3s both;
 }
 
-/* Conteneur principal - SANS LE TITRE */
+/* Conteneur principal */
 .categorie-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 5px;
-  min-height: calc(100vh - 200px); /* Ajustement pour le titre externe */
+  min-height: calc(100vh - 200px);
   background: transparent;
   position: relative;
 }
 
-/* Grille des catégories - BIEN CENTRÉE */
+/* Grille des catégories */
 .categorie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -67,7 +67,7 @@ html {
   animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-/* Carte de catégorie - DESIGN PARFAIT */
+/* Carte de catégorie */
 .categorie-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -110,7 +110,7 @@ html {
   transform: translateY(-3px) scale(1.01);
 }
 
-/* Image de la catégorie - TAILLE PARFAITE */
+/* Image */
 .categorie-card img {
   width: 100%;
   height: 240px;
@@ -125,7 +125,7 @@ html {
   filter: brightness(1.05) saturate(1.05);
 }
 
-/* Bouton de catégorie - PARFAITEMENT POSITIONNÉ */
+/* Bouton catégorie */
 .categorie-btn {
   margin: 20px 24px 24px;
   padding: 16px 28px;
@@ -229,56 +229,7 @@ html {
   animation-delay: 0.4s;
 }
 
-/* État de chargement */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 200px);
-  font-size: 1.1rem;
-  color: #6b7280;
-  gap: 16px;
-}
-
-.loading-container::before {
-  content: "";
-  width: 40px;
-  height: 40px;
-  border: 3px solid #f3f4f6;
-  border-top: 3px solid #667eea;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* État vide */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 200px);
-  color: #6b7280;
-  font-size: 1rem;
-  gap: 12px;
-}
-
-.empty-state::before {
-  content: "📂";
-  font-size: 3rem;
-  opacity: 0.5;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1024px) {
   .title {
     margin: 90px 0 25px 0;
@@ -367,7 +318,7 @@ html {
   }
 }
 
-/* Amélioration de l'accessibilité */
+/* Focus accessibility */
 .categorie-card:focus {
   outline: 2px solid #667eea;
   outline-offset: 2px;
@@ -378,13 +329,13 @@ html {
   outline-offset: 2px;
 }
 
-/* Optimisation des performances */
+/* Performance optim */
 .categorie-card,
 .categorie-btn {
   will-change: transform;
 }
 
-/* Respect des préférences de mouvement réduit */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .categorie-card,
   .categorie-btn,
@@ -402,31 +353,7 @@ html {
   }
 }
 
-/* Styles pour les états de chargement et vide dans le nouveau contexte */
-.loading-container,
-.empty-state {
-  margin-top: 50px;
-}
-
-/* Amélioration du contraste pour l'accessibilité */
-@media (prefers-contrast: high) {
-  .categorie-card {
-    border: 2px solid #667eea;
-  }
-
-  .categorie-btn {
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
-}
-
-/* Styles pour les navigateurs webkit */
-@supports (-webkit-backdrop-filter: blur(10px)) {
-  .categorie-card {
-    -webkit-backdrop-filter: blur(10px);
-  }
-}
-
-/* Mode sombre (si nécessaire) */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   .categorie-card {
     background: rgba(30, 30, 30, 0.95);

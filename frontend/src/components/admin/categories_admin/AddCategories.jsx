@@ -85,8 +85,8 @@ const AddCategories = () => {
             )}
 
             <div className="btn-group">
-              <button type="submit" className="submit-btn">Ajouter</button>
-              <button type="button" onClick={handleCancel} className="cancel-btn">Annuler</button>
+              <button type="submit"  name="c1" className="submit-btn2">Ajouter</button>
+              <button type="button" name="c2" onClick={handleCancel} className="cancel-btn2">Annuler</button>
             </div>
           </form>
         </div>

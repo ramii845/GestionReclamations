@@ -1,19 +1,5 @@
 /* Reset et variables CSS */
-:root {
-  --primary-color: #0c847e;
-  --primary-hover: #086b68;
-  --primary-light: #0c6b84;
-  --background-light: #e6f9f9;
-  --background-card: #f0fdfd;
-  --text-primary: #0c847e;
-  --text-secondary: #666;
-  --shadow-light: rgba(12, 132, 126, 0.15);
-  --shadow-medium: rgba(12, 132, 126, 0.25);
-  --shadow-strong: rgba(12, 132, 126, 0.4);
-  --border-radius: 16px;
-  --border-radius-small: 12px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+
 
 /* Style global */
 html, body {

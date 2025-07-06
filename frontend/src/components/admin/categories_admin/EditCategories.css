@@ -1,219 +1,59 @@
-body {
-  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
+/* Variables CSS pour une maintenance facile */
+:root {
+  --primary-color: #0c847e;
+  --primary-hover: #08675f;
+  --primary-light: #0c6b84;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --background-light: #e6f9f9;
+  --background-card: #f9f9f9;
+  --text-primary: #0c847e;
+  --text-secondary: #34495e;
+  --text-disabled: #7f8c8d;
+  --border-color: #dfecec;
+  --border-focus: #0c847e;
+  --shadow-light: rgba(12, 132, 126, 0.1);
+  --shadow-medium: rgba(12, 132, 126, 0.2);
+  --border-radius: 15px;
+  --border-radius-small: 10px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  min-height: 100%;
-}
-
-/* Conteneur principal - ESPACEMENT CORRIGÉ */
-.edit-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 120px 20px 40px;
-  min-height: calc(100vh - 80px);
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  box-sizing: border-box;
-}
-
-/* Carte principale */
-.edit-card {
-  border: none;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.2);
+/* Container principal */
+.simple-edit-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 120px auto 20px auto;
+  padding: 2.5rem 3rem;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 50px 40px;
-  overflow: hidden;
-  position: relative;
-  animation: fadeInUp 0.6s ease-out;
-  width: 100%;
-  min-height: auto;
-}
-
-/* Titre principal */
-.edit-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: center;
-  margin-bottom: 35px;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  position: relative;
-}
-
-.edit-title::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70px;
-  height: 3px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 2px;
-}
-
-/* Labels des formulaires */
-.form-label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.95rem;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: block;
-}
-
-/* Champs de saisie */
-.form-input {
-  border-radius: 12px;
-  border: 2px solid #e5e7eb;
-  padding: 16px 18px;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(5px);
-  color: #1f2937;
-  width: 100%;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(223, 236, 236, 0.5);
+  border-radius: var(--border-radius);
+  box-shadow: 
+    0 20px 40px var(--shadow-light),
+    0 8px 16px var(--shadow-medium),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: var(--transition);
   box-sizing: border-box;
-  margin-bottom: 24px;
   position: relative;
-  min-height: 52px;
-}
-
-.form-input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-.form-input:hover:not(:focus) {
-  border-color: #d1d5db;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-/* Conteneur d'upload - CENTRÉ POUR CERCLE COMPLET */
-.upload-box {
-  margin: 0 auto 16px auto !important;
-  padding: 20px 0 !important;
-  background: transparent !important;
-  border: none !important;
-  max-width: 340px !important;
-  text-align: center !important;
-  overflow: visible !important;
-}
-
-/* Groupe de boutons - COLLÉ À L'IMAGE */
-.form-buttons {
-  display: flex;
-  gap: 14px;
-  margin-top: 0px !important;
-  padding-top: 8px !important;
-  border-top: 1px solid #f1f5f9;
-  justify-content: center;
-}
-
-/* Boutons */
-.save-btn,
-.cancel-btn {
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
-  position: relative;
-  overflow: hidden;
-  min-width: 140px;
-  cursor: pointer;
-  min-height: 52px;
-}
-
-.save-btn::before,
-.cancel-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.save-btn:hover::before,
-.cancel-btn:hover::before {
-  left: 100%;
-}
-
-/* Bouton de sauvegarde */
-.save-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.save-btn:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
-
-.save-btn:active {
-  transform: translateY(0);
-}
-
-.save-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-/* Bouton d'annulation */
-.cancel-btn {
-  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-  color: #374151;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #d1d5db;
-}
-
-.cancel-btn:hover {
-  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  color: #1f2937;
-}
-
-.cancel-btn:active {
-  transform: translateY(0);
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -225,385 +65,367 @@ html {
   }
 }
 
-/* Styles FilePond - IMAGE CIRCULAIRE COMPLÈTE */
-.filepond--root {
+/* Titre */
+.simple-edit-container h2 {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.simple-edit-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 2px;
+}
+
+/* Formulaire */
+.simple-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: 0.2s;
+}
+
+/* Labels */
+.simple-form label,
+.simple-form label[name="a5"] {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+/* Input nom catégorie */
+.simple-form input[name="a1"] {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 2px solid rgba(223, 236, 236, 0.8);
+  border-radius: var(--border-radius-small);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-secondary);
   font-family: inherit;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  overflow: visible !important;
+  font-weight: 500;
+  transition: var(--transition);
+  box-sizing: border-box;
 }
 
-.filepond--panel-root {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: none !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  min-height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
+.simple-form input[name="a1"]:focus {
+  border-color: var(--border-focus);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 0 3px rgba(12, 132, 126, 0.1),
+    0 4px 12px rgba(12, 132, 126, 0.15);
+  outline: none;
+  transform: translateY(-1px);
 }
 
-.filepond--item {
-  border-radius: 0 !important;
-  overflow: visible !important;
-  background: transparent !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  position: relative !important;
+.simple-form input[name="a1"]:hover {
+  border-color: rgba(12, 132, 126, 0.6);
 }
 
-.filepond--item-panel {
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-.filepond--image-preview {
-  border-radius: 50% !important;
-  background: transparent !important;
-  border: none !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  width: 300px !important;
-  height: 300px !important;
-  object-fit: cover !important;
-  overflow: hidden !important;
-  position: relative !important;
-  display: block !important;
-}
-
-.filepond--image-preview-wrapper {
-  border-radius: 50% !important;
-  background: transparent !important;
-  border: none !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  width: 300px !important;
-  height: 300px !important;
-  overflow: hidden !important;
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.filepond--image-preview img {
-  border-radius: 50% !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display: block !important;
-}
-
-/* Bouton de suppression repositionné */
-.filepond--file-action-button {
-background: rgba(0, 0, 0, 0.6) !important;
-  border-radius: 50% !important;
-  transition: all 0.2s ease !important;
-  width: 32px !important;
-  height: 32px !important;
-  position: absolute !important;
-  top: 10px !important;
-  right: 10px !important;
-  z-index: 10 !important;
-  border: 2px solid white !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-}
-
-.filepond--file-action-button:hover {
- background: rgba(0, 0, 0, 0.6) !important;
-  transform: scale(1.1) !important;
-}
-
-.filepond--file-action-button svg {
-  color: white !important;
-}
-
-/* Style pour le conteneur quand il n'y a pas d'image */
-.filepond--panel-root:not(.filepond--panel-root--has-file) {
-  background: rgba(248, 250, 252, 0.3) !important;
-  border: 2px dashed #e5e7eb !important;
-  border-radius: 50% !important;
-  padding: 40px !important;
-  margin: 0 auto !important;
-  width: 300px !important;
-  height: 300px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+/* FilePond Styles */
+.filepond--root {
+  margin-bottom: 1rem;
 }
 
 .filepond--drop-label {
-  color: #1f2937;
-  font-weight: 500;
-  font-size: 0.9rem;
-  background: transparent !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: center !important;
+  background: rgba(12, 132, 126, 0.05);
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius-small);
+  color: var(--primary-color);
+  font-weight: 600;
+  transition: var(--transition);
 }
 
-/* Amélioration de la qualité d'image */
-.filepond--image-preview canvas,
-.filepond--image-preview img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
-  filter: contrast(1.1) brightness(1.05) saturate(1.05);
+.filepond--drop-label:hover {
+  background: rgba(12, 132, 126, 0.1);
+  border-color: var(--primary-hover);
+}
+
+.filepond--panel-root {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--border-color);
+}
+
+.filepond--item-panel {
+  background: rgba(12, 132, 126, 0.05);
+  border-radius: var(--border-radius-small);
+}
+
+.filepond--file-action-button {
+  background: var(--primary-color);
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.filepond--file-action-button:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+}
+
+.filepond--image-preview-wrapper {
+  border-radius: var(--border-radius-small);
+  overflow: hidden;
+}
+
+/* SUPPRIMER "Powered by PQINA" */
+.filepond--credits {
+  display: none !important;
+}
+
+/* Container des boutons - CENTRAGE PARFAIT */
+.simple-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* STYLES COMMUNS POUR LES DEUX BOUTONS */
+.simple-buttons button {
+  width: 50%;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius-small);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Bouton Enregistrer */
+.simple-buttons button[name="a2"] {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: white;
+  border: none;
+  box-shadow: 
+    0 6px 15px var(--shadow-medium),
+    0 3px 6px var(--shadow-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.simple-buttons button[name="a2"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 25px rgba(12, 132, 126, 0.3),
+    0 5px 10px var(--shadow-medium);
+  background: linear-gradient(135deg, var(--primary-hover), var(--primary-color));
+}
+
+.simple-buttons button[name="a2"]:active {
+  transform: translateY(0);
+}
+
+.simple-buttons button[name="a2"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: var(--secondary-color);
+}
+
+/* Effet ripple sur bouton Enregistrer */
+.simple-buttons button[name="a2"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.simple-buttons button[name="a2"]:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Bouton Annuler - MÊME CENTRAGE */
+.simple-buttons button[type="button"]:not([name="a2"]) {
+  background: rgba(108, 117, 125, 0.1);
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+.simple-buttons button[type="button"]:not([name="a2"]):hover {
+  background: var(--secondary-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.simple-buttons button[type="button"]:not([name="a2"]):active {
+  transform: translateY(0);
+}
+
+/* États de chargement */
+.simple-buttons button[name="a2"]:disabled::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  margin-left: 8px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .edit-container {
-    max-width: 700px;
-    padding: 100px 20px 40px;
-  }
-
-  .edit-card {
-    padding: 40px 35px;
-  }
-
-  .edit-title {
-    font-size: 2rem;
-  }
-
-  .upload-box {
-    max-width: 450px;
-    margin-bottom: 14px;
-  }
-
-  .form-buttons {
-    margin-top: 18px;
-  }
-}
-
 @media (max-width: 768px) {
-  .edit-container {
-    max-width: 100%;
-    padding: 90px 15px 30px;
-    align-items: flex-start;
+  .simple-edit-container {
+    max-width: 95vw;
+    margin: 100px auto 15px auto;
+    padding: 2rem 1.5rem;
   }
-
-  .edit-card {
-    padding: 35px 28px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 600px;
+  
+  .simple-edit-container h2 {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
   }
-
-  .edit-title {
-    font-size: 1.9rem;
-    margin-bottom: 30px;
+  
+  .simple-form {
+    gap: 1.2rem;
   }
-
-  .form-input {
-    padding: 14px 16px;
+  
+  .simple-form input[name="a1"] {
+    padding: 0.9rem 1rem;
     font-size: 0.95rem;
-    min-height: 48px;
   }
-
-  .form-buttons {
+  
+  .simple-buttons {
     flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
+    gap: 0.8rem;
   }
-
-  .save-btn,
-  .cancel-btn {
+  
+  .simple-buttons button {
     width: 100%;
-    padding: 14px 28px;
-    font-size: 0.9rem;
-    min-height: 48px;
-  }
-
-  .upload-box {
-    padding: 14px;
-    max-width: 100%;
-    margin-bottom: 12px;
-  }
-
-  .filepond--panel-root {
-    min-height: 80px;
-    max-height: 180px;
-  }
-
-  .filepond--image-preview,
-  .filepond--image-preview-wrapper {
-    max-height: 120px;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
-  .edit-container {
-    padding: 80px 10px 20px;
+  .simple-edit-container {
+    padding: 1.5rem 1.2rem;
+    margin: 80px auto 10px auto;
   }
-
-  .edit-card {
-    padding: 30px 20px;
-    width: 100%;
-    max-width: 450px;
+  
+  .simple-edit-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
   }
-
-  .edit-title {
-    font-size: 1.7rem;
+  
+  .simple-form {
+    gap: 1rem;
   }
-
-  .form-input {
-    padding: 12px 14px;
+  
+  .simple-form input[name="a1"] {
+    padding: 0.8rem 0.9rem;
     font-size: 0.9rem;
-    min-height: 44px;
   }
-
-  .save-btn,
-  .cancel-btn {
-    padding: 12px 24px;
+  
+  .simple-form label,
+  .simple-form label[name="a5"] {
     font-size: 0.85rem;
-    min-height: 44px;
   }
-
-  .upload-box {
-    padding: 12px;
-    margin-bottom: 10px;
+  
+  .simple-buttons button {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
   }
-
-  .form-buttons {
-    margin-top: 14px;
-  }
-
-  .filepond--panel-root {
-    min-height: 70px;
-    max-height: 150px;
-  }
-
-  .filepond--image-preview,
-  .filepond--image-preview-wrapper {
-    max-height: 100px;
-  }
-}
-
-/* Effets spéciaux */
-.edit-card::after {
-  content: "";
-  position: absolute;
-  bottom: -30px;
-  right: -30px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  border-radius: 50%;
-  z-index: -1;
-}
-
-/* Focus ring personnalisé */
-.form-input:focus,
-.save-btn:focus,
-.cancel-btn:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
 }
 
 /* Amélioration de l'accessibilité */
-.form-label {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* Effet de focus pour les labels */
-.form-input:focus + .form-label {
-  color: #667eea;
-  transform: translateY(-1px);
-  transition: all 0.2s ease;
-}
-
-/* Styles pour les placeholders */
-.form-input::placeholder {
-  color: #9ca3af;
-  font-style: italic;
-}
-
-/* Respect des préférences de mouvement réduit */
 @media (prefers-reduced-motion: reduce) {
-  .edit-card,
-  .save-btn,
-  .cancel-btn,
-  .form-input,
-  .upload-box,
-  .filepond--panel-root {
-    animation: none;
-    transition: none;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
+}
 
-  .save-btn:hover,
-  .cancel-btn:hover {
-    transform: none;
-  }
+/* Focus visible pour l'accessibilité */
+.simple-form input[name="a1"]:focus-visible,
+.simple-buttons button:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 /* Amélioration du contraste pour l'accessibilité */
 @media (prefers-contrast: high) {
-  .edit-card {
-    border: 2px solid #667eea;
-  }
-
-  .save-btn,
-  .cancel-btn {
-    border: 2px solid rgba(255, 255, 255, 0.3);
+  :root {
+    --primary-color: #0a6b61;
+    --border-color: #333;
+    --text-secondary: #000;
   }
 }
 
-/* Styles pour les navigateurs webkit */
-@supports (-webkit-backdrop-filter: blur(10px)) {
-  .edit-card {
-    -webkit-backdrop-filter: blur(10px);
-  }
-}
-
-/* États de chargement pour le bouton */
-.save-btn:disabled::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 18px;
-  height: 18px;
-  border: 2px solid transparent;
-  border-top: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* Styles pour les messages d'erreur et de succès */
-.error-message {
-  color: #ef4444;
-  font-size: 0.85rem;
+/* Styles pour les messages de statut */
+.upload-status {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin-top: -20px;
-  margin-bottom: 20px;
 }
 
-.success-message {
-  color: #10b981;
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-top: -20px;
-  margin-bottom: 20px;
+.upload-status.uploading {
+  color: var(--warning-color);
 }
+
+.upload-status.success {
+  color: var(--success-color);
+}
+
+.upload-status.error {
+  color: var(--danger-color);
+}
+
+/* Animation pour les éléments du formulaire */
+.simple-form > * {
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+.simple-form > *:nth-child(1) { --delay: 1; }
+.simple-form > *:nth-child(2) { --delay: 2; }
+.simple-form > *:nth-child(3) { --delay: 3; }
+.simple-form > *:nth-child(4) { --delay: 4; }
+.simple-form > *:nth-child(5) { --delay: 5; }

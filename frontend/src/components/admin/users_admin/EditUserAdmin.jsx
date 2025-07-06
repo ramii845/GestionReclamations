@@ -57,8 +57,10 @@ const EditUserAdmin = () => {
   }
 
   return (
-    <Container className="edit-user-container">
-      <Navbar/>
+    <div>
+     <Navbar/>
+    <Container className="edit-user-containerr">
+     
       <Card className="edit-user-card">
         <Card.Body>
           <Card.Title className="mb-4">Modifier Profil</Card.Title>
@@ -128,11 +130,12 @@ const EditUserAdmin = () => {
             </Form.Group>
 
             <div className="d-flex justify-content-end mt-4">
-              <Button variant="secondary" className="me-2" onClick={() => navigate("/admin/utilisateurs")}>
-                Annuler
-              </Button>
+           
               <Button variant="primary" type="submit">
                 Enregistrer
+              </Button>
+                 <Button variant="secondary" className="me-2" onClick={() => navigate("/admin/utilisateurs")}>
+                Annuler
               </Button>
             </div>
           </Form>
@@ -140,6 +143,7 @@ const EditUserAdmin = () => {
       </Card>
       <ToastContainer position="top-right" autoClose={3000} />
     </Container>
+    </div>
   );
 };
 

@@ -250,15 +250,16 @@ const AddUserAdmin = () => {
 </Form.Group>
 
             <div className="d-flex justify-content-end mt-4">
-              <Button
+             
+              <Button variant="primary" name="aj" type="submit">
+                Ajouter
+              </Button>
+               <Button
                 variant="secondary"
-                className="me-2"
+                className="me-2" name="an"
                 onClick={() => navigate('/admin/utilisateurs')}
               >
                 Annuler
-              </Button>
-              <Button variant="primary" type="submit">
-                Ajouter
               </Button>
             </div>
           </Form>

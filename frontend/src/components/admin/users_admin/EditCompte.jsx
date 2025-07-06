@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updateUser, getUserbyId } from "../../services/authService";
-import Navbar from "../Navbar/Navbar";
+import { updateUser, getUserbyId } from "../../../services/authService";
+import Navbar from "../../Navbar/Navbar";
 import './EditUser.css';
 
 function decodeJWT(token) {
@@ -22,7 +22,7 @@ function decodeJWT(token) {
   }
 }
 
-const EditUser = () => {
+const EditCompte = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("CC_Token");
   const decodedUser = token ? decodeJWT(token) : null;
@@ -208,4 +208,4 @@ data.append('upload_preset', 'iit2024G4');
   );
 };
 
-export default EditUser;
+export default EditCompte;

@@ -58,8 +58,8 @@ const ListCategories = () => {
   return (
     <>
       <Navbar />
-      <div className="list-wrapper">
-        <div className="list-categories-container">
+      <div className="list-wrapper4">
+        <div className="list-categories-container4">
           <h2>Liste des Services</h2>
           <Link to="/categories/add">
             <button className="add-button"><i className="fa-solid fa-plus"></i> Ajouter</button>
