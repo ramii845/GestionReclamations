@@ -1,3 +1,4 @@
+// src/components/Avis/ListAvis.jsx
 import React, { useEffect, useState } from "react";
 import {
   getPaginatedAvis,
@@ -7,6 +8,7 @@ import { getUserbyId } from "../../../services/authService";
 import { getReclamationById } from "../../../services/reclamationService";
 import "./Avis.css";
 import Navbar from "../../Navbar/Navbar";
+import StarRating from "./StarRating";
 
 export default function ListAvis() {
   const [avisList, setAvisList] = useState([]);
@@ -15,18 +17,19 @@ export default function ListAvis() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchEtoiles, setSearchEtoiles] = useState("");
+  const [selectedStars, setSelectedStars] = useState(0);
 
   useEffect(() => {
     fetchAvis();
   }, [page]);
 
   useEffect(() => {
-    const filtered = avisList.filter((avis) => {
-      return searchEtoiles === "" || avis.nbetoiles === parseInt(searchEtoiles);
-    });
+    let filtered = [...avisList];
+    if (selectedStars > 0) {
+      filtered = filtered.filter((a) => a.nbetoiles === selectedStars);
+    }
     setFilteredAvis(filtered);
-  }, [avisList, searchEtoiles]);
+  }, [avisList, selectedStars]);
 
   const fetchAvis = async () => {
     setLoading(true);
@@ -85,24 +88,21 @@ export default function ListAvis() {
       <h2 className="avis-title">Liste des avis</h2>
 
       <div className="avis-filters">
-        <select
-          value={searchEtoiles}
-          onChange={(e) => setSearchEtoiles(e.target.value)}
-          className="avis-select"
-        >
-          <option value="">⭐ Toutes les étoiles</option>
-          <option value="1">⭐ 1 étoile</option>
-          <option value="2">⭐ 2 étoiles</option>
-          <option value="3">⭐ 3 étoiles</option>
-          <option value="4">⭐ 4 étoiles</option>
-          <option value="5">⭐ 5 étoiles</option>
-        </select>
+        <div className="avis-filter-stars">
+          <label className="avis-label">Filtrer par nombre d'étoiles :</label>
+          <StarRating rate={selectedStars} handleRating={setSelectedStars} />
+          {selectedStars > 0 && (
+            <button className="clear-filter-btn" onClick={() => setSelectedStars(0)}>
+              ❌ Réinitialiser
+            </button>
+          )}
+        </div>
       </div>
 
       {loading && <p className="avis-loading">Chargement des avis...</p>}
       {error && <p className="avis-error">{error}</p>}
       {!loading && filteredAvis.length === 0 && (
-        <p className="avis-empty">Aucun avis trouvé.</p>
+        <p className="avis-empty">Aucun avis trouvé pour cette note.</p>
       )}
 
       <ul className="avis-list">

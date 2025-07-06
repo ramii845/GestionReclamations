@@ -70,8 +70,7 @@ const Navbar = () => {
     if (role === "admin") {
       navigate("/adminPage"); // redirige sans supprimer le token
     } else {
-      localStorage.removeItem("CC_Token");
-      navigate("/");
+      navigate("/categories");
     }
   }}
   style={{ cursor: "pointer" }}

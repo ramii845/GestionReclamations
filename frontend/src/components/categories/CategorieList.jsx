@@ -70,7 +70,7 @@ const CategorieList = () => {
   return (
     <div>
   <Navbar/>
-     <h2 className="title">Liste des catégories</h2>
+     <h2 className="title">Liste des Services</h2>
       <div className="categorie-container">
    
         <div className="categorie-grid">

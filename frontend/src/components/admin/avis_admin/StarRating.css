@@ -1,0 +1,23 @@
+/* src/components/Avis/StarRating.css */
+.star-rating {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+  font-size: 28px;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star:hover {
+  transform: scale(1.25);
+  color: #ffc107;
+}
