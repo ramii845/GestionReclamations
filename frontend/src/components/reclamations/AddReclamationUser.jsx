@@ -215,15 +215,19 @@ const AddReclamationUser = () => {
             {uploading ? "Envoyer" : "Envoyer"}
           </button>
         </form>
+<div style={{ marginTop: "15px", marginLeft: "-30px" }}>
+  <Link
+    to="/categories"
+    style={{
+      color: '#0c6b84',
+      fontWeight: '500',
+      textDecoration: 'none'
+    }}
+  >
+    Retour à la liste des catégories
+  </Link>
+</div>
 
-        <div style={{ marginTop: "-30px", textAlign: "center" }}>
-          <Link
-            to="/categories"
-            style={{ color: "#0c6b84", fontWeight: "500", textDecoration: "none" }}
-          >
-            Retour à la liste des catégories
-          </Link>
-        </div>
       </div>
     </div>
   );
