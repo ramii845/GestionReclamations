@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { signup } from '../../services/authService'; // adapte si besoin
+import { signup } from '../../services/authService'; // adapter si besoin
 import './registerForm.css';
 
 const Register = () => {
@@ -19,8 +19,6 @@ const Register = () => {
   });
 
   const [uploading, setUploading] = useState(false);
-
-  // États pour afficher/masquer les mots de passe
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -32,8 +30,15 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     if (name === 'numero_telephone' && (!/^\d*$/.test(value) || value.length > 8)) return;
-    if (name === 'matricule_vehicule' && value.length > 9) return;
+
+    if (name === 'matricule_vehicule') {
+      if (value.length > 9) return;
+      const partialRegex = /^[0-9TUtu]*$/;
+      if (value && !partialRegex.test(value)) return;
+    }
+
     setForm({ ...form, [name]: value, ...(name === 'marque' ? { modele: '' } : {}) });
   };
 
@@ -42,6 +47,7 @@ const Register = () => {
     if (file) setForm({ ...form, photoFile: file });
   };
 
+  // Upload image to Cloudinary, returns URL string
   const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append('file', file);
@@ -71,6 +77,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation simple avant soumission
     if (form.motdepasse !== form.motdepasse2) {
       toast.error('Les mots de passe ne correspondent pas');
       return;
@@ -80,37 +87,46 @@ const Register = () => {
       toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
       return;
     }
-    if (form.matricule_vehicule.length !== 9) {
-  toast.error('Le matricule du véhicule doit contenir exactement 9 caractères');
-  return;
-}
 
+    if (
+      form.matricule_vehicule.length !== 9 ||
+      !/^\d.*(TU|tu).*\d$/.test(form.matricule_vehicule)
+    ) {
+      toast.error(
+        'Le matricule doit faire 9 caractères, commencer et terminer par un chiffre, et contenir "TU" au milieu.',
+        { autoClose: 3000 }
+      );
+      return;
+    }
 
-    let photoUrl = '';
+    // Upload photo si existante
+    let photoUrl = "";
     if (form.photoFile) {
       try {
         photoUrl = await uploadToCloudinary(form.photoFile);
       } catch {
-        return;
+        return; // arrêt si erreur upload
       }
     }
 
-    const formData = new FormData();
-    formData.append('nom', form.nom);
-    formData.append('matricule_vehicule', form.matricule_vehicule);
-    formData.append('numero_telephone', form.numero_telephone);
-    formData.append('motdepasse', form.motdepasse);
-    formData.append('marque', form.marque);
-    formData.append('modele', form.modele);
-    formData.append('role', 'user');
-    formData.append('photo', photoUrl);
+    // Préparation données à envoyer au backend (JSON)
+    const userData = {
+      nom: form.nom,
+      matricule_vehicule: form.matricule_vehicule,
+      numero_telephone: form.numero_telephone,
+      motdepasse: form.motdepasse,
+      marque: form.marque,
+      modele: form.modele,
+      photo: photoUrl,
+      role: "user",
+    };
 
     try {
-      await signup(formData);
-      toast.success('Inscription réussie ! Vous pouvez vous connecter.',{ autoClose: 2000 });
+      await signup(userData); // signup attend un JSON
+      toast.success('Inscription réussie ! Vous pouvez vous connecter.', { autoClose: 2000 });
       navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription',{ autoClose: 2000 });
+      toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription', { autoClose: 3000 });
     }
   };
 
@@ -146,8 +162,16 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Matricule véhicule</p>
-            <input type="text" name="matricule_vehicule" placeholder="Exemple: 0000TU000" value={form.matricule_vehicule} onChange={handleChange}minLength={9}
-  maxLength={9} required />
+            <input
+              type="text"
+              name="matricule_vehicule"
+              placeholder="Exemple: 0000TU000"
+              value={form.matricule_vehicule}
+              onChange={handleChange}
+              minLength={9}
+              maxLength={9}
+              required
+            />
           </div>
 
           <div className="input-group">
@@ -174,10 +198,16 @@ const Register = () => {
 
           <div className="input-group">
             <p className="text-sm font-semibold">Numéro de téléphone</p>
-            <input type="text" name="numero_telephone" value={form.numero_telephone} onChange={handleChange} placeholder="Exemple: 20600800" required />
+            <input
+              type="text"
+              name="numero_telephone"
+              value={form.numero_telephone}
+              onChange={handleChange}
+              placeholder="Exemple: 20600800"
+              required
+            />
           </div>
 
-          {/* Champ Mot de passe avec toggle */}
           <div className="input-group">
             <p className="text-sm font-semibold">Mot de passe</p>
             <div className="input-wrapper" style={{ position: 'relative' }}>
@@ -210,7 +240,6 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Champ Confirmer mot de passe avec toggle */}
           <div className="input-group">
             <p className="text-sm font-semibold">Confirmer le mot de passe</p>
             <div className="input-wrapper" style={{ position: 'relative' }}>
@@ -244,7 +273,7 @@ const Register = () => {
           </div>
 
           <button className="buttonRegister" type="submit" disabled={uploading}>
-            {uploading ? 'Créer un compte' : 'Créer un compte'}
+            {uploading ? 'Chargement...' : 'Créer un compte'}
           </button>
 
           <div className="redirect-login">
