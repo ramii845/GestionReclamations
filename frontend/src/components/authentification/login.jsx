@@ -15,26 +15,33 @@ const Login = () => {
 
     const userData = { matricule_vehicule, motdepasse };
 
-    try {
-      const res = await signin(userData);
-      const result = res.data;
+  try {
+  const res = await signin(userData);
+  const result = res.data;
 
-      if (result.token) {
-        localStorage.setItem('CC_Token', result.token);
-        localStorage.setItem('user', JSON.stringify(result));
-        toast.success('Connexion réussie !', { autoClose: 2000 });
+  localStorage.setItem('CC_Token', result.token);
+  localStorage.setItem('user', JSON.stringify(result));
+  toast.success('Connexion réussie !', { autoClose: 2000 });
 
-        if (result.role === 'admin') navigate('/adminPage');
-        else navigate('/categories');
-      } else {
-        toast.error('Identifiants invalides.');
-      }
-    } catch (err) {
-      toast.error(
-        'Erreur de connexion : ' + (err.response?.data?.detail || 'Veuillez réessayer.')
-      );
-      console.error(err);
-    }
+  if (result.role === 'admin') navigate('/adminPage');
+  else navigate('/categories');
+
+} catch (err) {
+  console.error("Erreur dans catch :", err);
+
+  // Assure-toi que toast est appelé avec un message valide
+  const errorMessage =
+    err.response && err.response.data && err.response.data.detail
+      ? err.response.data.detail
+      : "Erreur de connexion. Veuillez réessayer.";
+
+toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { autoClose: 2000 });
+
+
+}
+
+
+
   };
 
   return (

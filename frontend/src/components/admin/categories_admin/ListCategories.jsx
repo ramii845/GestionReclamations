@@ -47,7 +47,7 @@ const ListCategories = () => {
       toast.success(`Catégorie "${catToDelete.nomCategorie}" supprimée avec succès !`);
     } catch (error) {
       console.error("Erreur suppression :", error);
-      toast.error("Erreur lors de la suppression !");
+      toast.error("Erreur lors de la suppression !",{ autoClose: 2000 });
     }
     setShowConfirm(false);
     setCatToDelete(null);

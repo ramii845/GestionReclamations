@@ -47,10 +47,10 @@ const ListUsers = () => {
   const handleDelete = async () => {
     try {
       await deleteUser(userToDelete.id);
-      toast.success(`Utilisateur supprimé : ${userToDelete.nom}`);
+      toast.success(`Utilisateur supprimé : ${userToDelete.nom}`,{ autoClose: 2000 });
       fetchUsers(); // refresh
     } catch (error) {
-      toast.error("Erreur suppression !");
+      toast.error("Erreur suppression !",{ autoClose: 2000 });
     }
     setShowConfirm(false);
     setUserToDelete(null);

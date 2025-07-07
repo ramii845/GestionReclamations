@@ -56,7 +56,6 @@ const AddReclamationUser = () => {
   const [nomCategorie, setNomCategorie] = useState("");
   const [listeDescriptions, setListeDescriptions] = useState([]);
   const [uploading, setUploading] = useState(false);
-
   const token = localStorage.getItem("CC_Token");
   const decoded = token ? decodeJWT(token) : null;
   const user_id = decoded?.user_id;
@@ -127,16 +126,16 @@ const AddReclamationUser = () => {
       categorie_id,
       description_probleme: descriptionProbleme,
       autre,
-      image_vehicule: imageVehiculeUrl,
-      facturation: facturationUrl,
+       image_vehicule: imageVehiculeUrl ? [imageVehiculeUrl] : [],
+  facturation: facturationUrl ? [facturationUrl] : [],
     };
 
     try {
       await createReclamation(reclamationData);
-      toast.success("Réclamation créée avec succès !");
+      toast.success("Réclamation créée avec succès !",{ autoClose: 2000 });
       navigate("/confirmation");
     } catch {
-      toast.error("Erreur lors de la création de la réclamation.");
+      toast.error("Erreur lors de la création de la réclamation.",{ autoClose: 2000 });
     } finally {
       setUploading(false);
     }
@@ -152,7 +151,6 @@ const AddReclamationUser = () => {
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
             <label>Description du problème *</label>
-            {listeDescriptions.length > 0 ? (
               <select
                 value={descriptionProbleme}
                 onChange={(e) => setDescriptionProbleme(e.target.value)}
@@ -164,15 +162,7 @@ const AddReclamationUser = () => {
                     {item}
                   </option>
                 ))}
-              </select>
-            ) : (
-              <textarea
-                value={descriptionProbleme}
-                onChange={(e) => setDescriptionProbleme(e.target.value)}
-                placeholder="Décrivez le problème"
-                required
-              />
-            )}
+              </select>  
           </div>
             <div>
             <label>Détails du problème</label>

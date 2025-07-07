@@ -104,10 +104,10 @@ const AddReclamationAdmin = () => {
 
     try {
       await createReclamation(reclamationData);
-      toast.success("Réclamation créée avec succès !");
+      toast.success("Réclamation créée avec succès !",{ autoClose: 2000 });
       navigate("/admin/reclamations");
     } catch {
-      toast.error("Erreur lors de la création.");
+      toast.error("Erreur lors de la création.",{ autoClose: 2000 });
     } finally {
       setUploading(false);
     }

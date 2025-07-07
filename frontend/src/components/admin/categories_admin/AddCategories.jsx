@@ -36,7 +36,7 @@ const AddCategories = () => {
       toast.success("Catégorie ajoutée avec succès !");
       setTimeout(() => navigate("/admin/services"), 2000);
     } catch (err) {
-      console.error("Erreur ajout catégorie:", err);
+      console.error("Erreur ajout catégorie:", err,{ autoClose: 2000 });
       toast.error("Erreur lors de l'ajout de la catégorie.");
     }
   };

@@ -62,7 +62,7 @@ const ReclamationsAdmin = () => {
 
     } catch (error) {
       console.error('Erreur chargement réclamations', error);
-      toast.error("Erreur chargement réclamations");
+      toast.error("Erreur chargement réclamations",{ autoClose: 2000 });
     }
     setLoading(false);
   };
@@ -147,37 +147,42 @@ const ReclamationsAdmin = () => {
 
         {/* Colonne image_vehicule */}
         <td>
-          {rec.image_vehicule ? (
-            <a
-              href={rec.image_vehicule}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={getFileName(rec.image_vehicule)}
-              style={{ color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
-            >
-              Voir_image
-            </a>
-          ) : (
-            "-"
-          )}
-        </td>
+  {rec.image_vehicule && rec.image_vehicule.length > 0 ? (
+    rec.image_vehicule.map((url, idx) => (
+      <a
+        key={idx}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={getFileName(url)}
+        style={{ display: 'block', color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
+      >
+         Voir_image_{idx + 1}
+      </a>
+    ))
+  ) : (
+    "-"
+  )}
+</td>
 
-        {/* Colonne facturation */}
-        <td>
-          {rec.facturation ? (
-            <a
-              href={rec.facturation}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={getFileName(rec.facturation)}
-              style={{ color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
-            >
-              Voir_image
-            </a>
-          ) : (
-            "-"
-          )}
-        </td>
+<td>
+  {rec.facturation && rec.facturation.length > 0 ? (
+    rec.facturation.map((url, idx) => (
+      <a
+        key={idx}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={getFileName(url)}
+        style={{ display: 'block', color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
+      >
+         Voir_image_{idx + 1}
+      </a>
+    ))
+  ) : (
+    "-"
+  )}
+</td>
 
         <td>{rec.retour_client || "-"}</td>
         <td>{rec.action || "-"}</td>

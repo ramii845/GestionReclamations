@@ -60,7 +60,7 @@ const EditReclamation = () => {
       setTimeout(() => navigate('/admin/reclamations'), 2000);
     } catch (error) {
       console.error("Erreur mise à jour:", error.response?.data || error.message || error);
-      toast.error("Erreur lors de la mise à jour");
+      toast.error("Erreur lors de la mise à jour",{ autoClose: 2000 });
     }
   };
 

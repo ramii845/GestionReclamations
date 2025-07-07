@@ -131,11 +131,11 @@ data.append('upload_preset', 'iit2024G4');
 
     try {
       await updateUser(decodedUser.user_id, updatedUser);
-      toast.success("Profil mis à jour avec succès !");
+      toast.success("Profil mis à jour avec succès !",{ autoClose: 2000 });
       navigate("/categories");
     } catch (error) {
       console.error(error);
-      toast.error("Erreur lors de la mise à jour du profil.");
+      toast.error("Erreur lors de la mise à jour du profil.",{ autoClose: 2000 });
     }
   };
 

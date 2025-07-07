@@ -43,10 +43,10 @@ const EditCategories = () => {
     if (isUploading) return;
     try {
       await updateCategorie(id, categorie);
-      toast.success("Catégorie modifiée !");
+      toast.success("Catégorie modifiée !",{ autoClose: 2000 });
       navigate("/admin/services");
     } catch (error) {
-      toast.error("Erreur lors de la modification");
+      toast.error("Erreur lors de la modification",{ autoClose: 2000 });
     }
   };
 

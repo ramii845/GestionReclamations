@@ -107,10 +107,10 @@ const Register = () => {
 
     try {
       await signup(formData);
-      toast.success('Inscription réussie ! Vous pouvez vous connecter.');
+      toast.success('Inscription réussie ! Vous pouvez vous connecter.',{ autoClose: 2000 });
       navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription');
+      toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription',{ autoClose: 2000 });
     }
   };
 

@@ -99,3 +99,40 @@ async def delete_reclamation(reclamation_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Réclamation non trouvée")
     return {"message": "Réclamation supprimée avec succès"}
+
+
+@reclamation_router.put("/user/{reclamation_id}")
+async def update_reclamation(reclamation_id: str, updated_data: Reclamation):
+    # Récupérer la réclamation existante
+    existing_rec = await db.reclamations.find_one({"_id": ObjectId(reclamation_id)})
+    if not existing_rec:
+        raise HTTPException(status_code=404, detail="Réclamation non trouvée")
+
+    # Anciennes listes (vide si absentes)
+    old_images = existing_rec.get("image_vehicule", [])
+    old_facturation = existing_rec.get("facturation", [])
+
+    # Nouvelles listes envoyées (peuvent être None)
+    new_images = updated_data.image_vehicule or []
+    new_facturation = updated_data.facturation or []
+
+    # Concaténation sans doublons
+    updated_images = old_images + [img for img in new_images if img not in old_images]
+    updated_facturation = old_facturation + [f for f in new_facturation if f not in old_facturation]
+
+    # Préparer dict à mettre à jour
+    update_dict = updated_data.model_dump()
+    update_dict["image_vehicule"] = updated_images
+    update_dict["facturation"] = updated_facturation
+
+    # Mise à jour en base
+    result = await db.reclamations.update_one(
+        {"_id": ObjectId(reclamation_id)},
+        {"$set": update_dict}
+    )
+
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Réclamation non trouvée ou aucune modification")
+
+    return {"message": "Réclamation mise à jour avec succès"}
+

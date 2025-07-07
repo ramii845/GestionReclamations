@@ -82,10 +82,10 @@ const AddUserAdmin = () => {
 
     try {
       await signup(userToSend);
-      toast.success("Utilisateur ajouté avec succès !");
+      toast.success("Utilisateur ajouté avec succès !",{ autoClose: 2000 });
       setTimeout(() => navigate('/admin/utilisateurs'), 2000);
     } catch (error) {
-      toast.error("Erreur lors de l'ajout de l'utilisateur");
+      toast.error("Erreur lors de l'ajout de l'utilisateur",{ autoClose: 2000 });
     }
   };
 

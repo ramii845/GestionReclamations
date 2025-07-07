@@ -41,10 +41,10 @@ const EditUserAdmin = () => {
     e.preventDefault();
     try {
       await updateUser(user_id, user);
-      toast.success("Profil mis à jour !");
+      toast.success("Profil mis à jour !",{ autoClose: 2000 });
       setTimeout(() => navigate("/admin/utilisateurs"), 2000);
     } catch (error) {
-      toast.error("Erreur lors de la mise à jour");
+      toast.error("Erreur lors de la mise à jour",{ autoClose: 2000 });
     }
   };
 
