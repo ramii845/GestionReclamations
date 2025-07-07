@@ -1,0 +1,21 @@
+.reclamation-table {
+  width: 100%;
+  border-collapse: collapse; /* Important pour que les bordures soient bien nettes */
+}
+
+.reclamation-table th,
+.reclamation-table td {
+  border: 1px solid #dddddd; /* Bordure claire et fine */
+  padding: 10px 12px;
+  text-align: left;
+}
+
+
+
+.reclamation-table tr:nth-child(even) {
+  background-color: #fafafa; /* Ligne paire en fond plus clair */
+}
+
+.reclamation-table tr:hover {
+  background-color: #e6f0ff; /* Highlight au survol pour meilleure lisibilité */
+}

@@ -106,17 +106,31 @@ const EditReclamation = () => {
                   placeholder="Action effectuée"
                 />
               </Form.Group>
+<Form.Group className="mb-3" controlId="formStatut">
+  <Form.Label>Statut</Form.Label>
+  <Form.Control
+    as="select"
+    name="statut"
+    value={formData.statut || ""}
+    onChange={handleChange}
+  >
+    {/* Option actuelle sélectionnée */}
+    {formData.statut && (
+      <option value={formData.statut}>{formData.statut}</option>
+    )}
 
-              <Form.Group className="mb-3" controlId="formStatut">
-                <Form.Label>Statut</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="statut"
-                  value={formData.statut}
-                  onChange={handleChange}
-                  placeholder="Statut (ex: ouverte, en cours, fermée)"
-                />
-              </Form.Group>
+    {/* Options fixes sans la valeur actuelle */}
+    {["En attente", "Prise en charge", "Terminée"]
+      .filter(option => option !== formData.statut)
+      .map(option => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+  </Form.Control>
+</Form.Group>
+
+
 
               <div className="d-flex justify-content-end">
                 <Button variant="primary" type="submit" className="me-2">

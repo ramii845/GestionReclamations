@@ -84,6 +84,7 @@ const AddReclamationUser = () => {
             "Respect des délais donnés",
             "Facturation / Devis",
             "Traitement du dossier de garantie",
+            "Service SAV succrsale sfax",
             "Autre problème lié au service service Après-Vente"
           ]);
         } else {

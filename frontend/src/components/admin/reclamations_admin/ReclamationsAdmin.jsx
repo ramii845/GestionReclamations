@@ -7,6 +7,7 @@ import Navbar from '../../Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PlusCircle } from 'react-bootstrap-icons';
+import"./Reclamation.css";
 
 const ReclamationsAdmin = () => {
   const [reclamations, setReclamations] = useState([]);
@@ -125,48 +126,84 @@ const ReclamationsAdmin = () => {
                 <th>Supprimer</th>
               </tr>
             </thead>
-            <tbody>
-              {reclamations.map((rec, index) => (
-                <tr key={index}>
-                  <td>{rec.date_creation ? new Date(rec.date_creation).toLocaleDateString('fr-FR') : "-"}</td>
-                  <td>{rec.userName}</td>
-                  <td>{rec.categorieName}</td>
-                  <td>{rec.description_probleme || "-"}</td>
-                  <td>{rec.autre || "-"}</td>
-                  <td>
-                    {rec.image_vehicule
-                      ? <img src={rec.image_vehicule} alt="Véhicule" style={{ width: '80px', height: 'auto' }} />
-                      : "-"
-                    }
-                  </td>
-                  <td>
-                    {rec.facturation
-                      ? <img src={rec.facturation} alt="Facturation" style={{ width: '80px', height: 'auto' }} />
-                      : "-"
-                    }
-                  </td>
-                  <td>{rec.retour_client || "-"}</td>
-                  <td>{rec.action || "-"}</td>
-                  <td>{rec.statut || "-"}</td>
-                  <td>
-                    <button
-                      className="btn-edit"
-                      onClick={() => navigate(`/admin/editReclamation/${rec.id}`)}
-                    >
-                      <i className="fa-solid fa-pen-to-square"></i> Modifier
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn-delete"
-                      onClick={() => openConfirm(rec)}
-                    >
-                      <i className="fa-solid fa-trash"></i> Supprimer
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+<tbody>
+  {reclamations.map((rec, index) => {
+    const getFileName = (url) => {
+      if (!url) return null;
+      try {
+        return decodeURIComponent(url.substring(url.lastIndexOf('/') + 1));
+      } catch {
+        return "fichier";
+      }
+    };
+
+    return (
+      <tr key={index}>
+        <td>{rec.date_creation ? new Date(rec.date_creation).toLocaleDateString('fr-FR') : "-"}</td>
+        <td>{rec.userName}</td>
+        <td>{rec.categorieName}</td>
+        <td>{rec.description_probleme || "-"}</td>
+        <td>{rec.autre || "-"}</td>
+
+        {/* Colonne image_vehicule */}
+        <td>
+          {rec.image_vehicule ? (
+            <a
+              href={rec.image_vehicule}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={getFileName(rec.image_vehicule)}
+              style={{ color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
+            >
+              Voir_image
+            </a>
+          ) : (
+            "-"
+          )}
+        </td>
+
+        {/* Colonne facturation */}
+        <td>
+          {rec.facturation ? (
+            <a
+              href={rec.facturation}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={getFileName(rec.facturation)}
+              style={{ color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
+            >
+              Voir_image
+            </a>
+          ) : (
+            "-"
+          )}
+        </td>
+
+        <td>{rec.retour_client || "-"}</td>
+        <td>{rec.action || "-"}</td>
+        <td>{rec.statut || "-"}</td>
+
+        <td>
+          <button
+            className="btn-edit"
+            onClick={() => navigate(`/admin/editReclamation/${rec.id}`)}
+          >
+            <i className="fa-solid fa-pen-to-square"></i> Modifier
+          </button>
+        </td>
+        <td>
+          <button
+            className="btn-delete"
+            onClick={() => openConfirm(rec)}
+          >
+            <i className="fa-solid fa-trash"></i> Supprimer
+          </button>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
           </table>
 
           {/* Pagination */}
