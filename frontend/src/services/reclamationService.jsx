@@ -17,9 +17,6 @@ export const getReclamationById = async (id) => {
 };
 
 // Obtenir toutes les réclamations d’un utilisateur
-export const getReclamationsByUser = async (user_id) => {
-  return await axios.get(`${API_BASE_URL}/user/${user_id}`);
-};
 
 // Mettre à jour une réclamation
 export const updateReclamation = async (id, reclamation) => {
@@ -44,5 +41,15 @@ export const getAllReclamations = async () => {
 export const getPaginatedReclamations = async (page = 1, limit = 7) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {
     params: { page, limit }
+  });
+};
+
+export const getReclamationsByUser = async (user_id) => {
+  return await axios.get(`${API_BASE_URL}/user/${user_id}`);
+};
+
+export const addImagesToReclamation = async (reclamation_id, data) => {
+  return await axios.put(`${API_BASE_URL}/user/${reclamation_id}`, data, {
+    headers: { "Content-Type": "application/json" }
   });
 };

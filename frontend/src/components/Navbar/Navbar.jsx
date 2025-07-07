@@ -108,21 +108,24 @@ const Navbar = () => {
 
 {menuOpen && (
   <div className="user-menu">
-    <button
-      onClick={() => {
-        setMenuOpen(false);
-        if (role === "admin") {
-          navigate("/admin/profil");   // admin vers /profile
-        } else {
-          navigate("/profil");    // user vers /profil
-        }
-      }}
-    >
-      Gérer mon compte
-    </button>
+    {role === "admin" ? (
+      <button onClick={() => { setMenuOpen(false); navigate("/admin/profil"); }}>
+        Gérer mon compte
+      </button>
+    ) : (
+      <>
+        <button onClick={() => { setMenuOpen(false); navigate("/profil"); }}>
+          Gérer mon compte
+        </button>
+        <button onClick={() => { setMenuOpen(false); navigate("/consulterEtat"); }}>
+          Consulter état
+        </button>
+      </>
+    )}
     <button onClick={handleLogout}>Déconnexion</button>
   </div>
 )}
+
       </div>
     </nav>
   );

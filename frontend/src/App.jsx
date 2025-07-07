@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "use-shopping-cart";
+import 'react-toastify/dist/ReactToastify.css';
 
 import HomePage from "./components/home/HomePage";
 import Register from "./components/authentification/register";
@@ -30,6 +31,7 @@ import EditCompte from "./components/admin/users_admin/EditCompte";
 import ReclamationsAdmin from "./components/admin/reclamations_admin/ReclamationsAdmin";
 import EditReclamation from "./components/admin/reclamations_admin/EditReclamation";
 import AddReclamationAdmin from "./components/admin/reclamations_admin/AddReaclamationAdmin.jsx";
+import ConsultRec from "./components/reclamations/ConsultRec.jsx";
 
 
 function App() {
@@ -42,13 +44,18 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-          {/* Routes sécurisées pour utilisateur */}
+          {/* user */}
           <Route path="/userPage" element={<PrivateRoute element={<UserPage />} />} />
           <Route path="/categories" element={<PrivateRoute element={<CategorieList />} />} />
           <Route path="/categories/:categorie_id" element={<PrivateRoute element={<AddReclamationUser />} />} />
           <Route path="/profil" element={<PrivateRoute element={<EditUser />} />} />
              <Route path="/confirmation" element={<PrivateRoute element={<Confirmation/>} />} />
-{/* Admin (à sécuriser) */}
+             
+               <Route path="/consulterEtat" element={<PrivateRoute element={<ConsultRec/>} />} />
+
+
+
+{/* Admin */}
 <Route path="/adminPage" element={<PrivateRouteAdmin element={<AdminPage />} />} />
 <Route path="/admin/services" element={<PrivateRouteAdmin element={<ListCategories />} />} />
 <Route path="/categories/add" element={<PrivateRouteAdmin element={<AddCategories />} />} />

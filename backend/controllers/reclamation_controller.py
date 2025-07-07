@@ -7,6 +7,8 @@ from typing import List
 from fastapi.responses import JSONResponse
 from datetime import datetime
 from fastapi import Query
+from typing import Optional
+from pydantic import BaseModel
 
 reclamation_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -77,11 +79,25 @@ async def get_reclamation_by_id(reclamation_id: str):
 
 @reclamation_router.get("/user/{user_id}", response_model=List[Reclamation])
 async def get_reclamations_by_user(user_id: str):
-    recs = await db.reclamations.find({"user_id": user_id}).to_list(100)
-    if not recs:
+    reclamations = await db.reclamations.find({"user_id": user_id}).to_list(100)
+    if not reclamations:
         raise HTTPException(status_code=404, detail="Aucune réclamation trouvée pour cet utilisateur")
-    recs = [convert_mongo_doc(rec) for rec in recs]
-    return recs
+
+    # Conversion de chaque document pour ajouter 'id' au lieu de '_id'
+    converted = []
+    for rec in reclamations:
+        rec["id"] = str(rec["_id"])
+        del rec["_id"]
+        # Convertir les champs datetime en ISO si besoin
+        for key, value in rec.items():
+            if isinstance(value, datetime):
+                rec[key] = value.isoformat()
+        converted.append(rec)
+
+    return converted
+
+
+
 
 @reclamation_router.put("/{reclamation_id}")
 async def update_reclamation(reclamation_id: str, updated_data: Reclamation):
@@ -100,39 +116,36 @@ async def delete_reclamation(reclamation_id: str):
         raise HTTPException(status_code=404, detail="Réclamation non trouvée")
     return {"message": "Réclamation supprimée avec succès"}
 
+class ReclamationUpdateImages(BaseModel):
+    image_vehicule: Optional[List[str]] = []
+    facturation: Optional[List[str]] = []
 
 @reclamation_router.put("/user/{reclamation_id}")
-async def update_reclamation(reclamation_id: str, updated_data: Reclamation):
-    # Récupérer la réclamation existante
+async def add_images_to_reclamation(reclamation_id: str, updated_data: ReclamationUpdateImages):
     existing_rec = await db.reclamations.find_one({"_id": ObjectId(reclamation_id)})
     if not existing_rec:
         raise HTTPException(status_code=404, detail="Réclamation non trouvée")
 
-    # Anciennes listes (vide si absentes)
     old_images = existing_rec.get("image_vehicule", [])
     old_facturation = existing_rec.get("facturation", [])
 
-    # Nouvelles listes envoyées (peuvent être None)
     new_images = updated_data.image_vehicule or []
     new_facturation = updated_data.facturation or []
 
-    # Concaténation sans doublons
     updated_images = old_images + [img for img in new_images if img not in old_images]
     updated_facturation = old_facturation + [f for f in new_facturation if f not in old_facturation]
 
-    # Préparer dict à mettre à jour
-    update_dict = updated_data.model_dump()
-    update_dict["image_vehicule"] = updated_images
-    update_dict["facturation"] = updated_facturation
+    update_dict = {
+        "image_vehicule": updated_images,
+        "facturation": updated_facturation
+    }
 
-    # Mise à jour en base
     result = await db.reclamations.update_one(
         {"_id": ObjectId(reclamation_id)},
         {"$set": update_dict}
     )
 
-    if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="Réclamation non trouvée ou aucune modification")
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Réclamation non trouvée")
 
     return {"message": "Réclamation mise à jour avec succès"}
-
