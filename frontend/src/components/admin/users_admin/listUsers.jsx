@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './users.css';
 import { PlusCircle } from 'react-bootstrap-icons';
+
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -16,6 +17,8 @@ const ListUsers = () => {
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [searchNom, setSearchNom] = useState('');
+  const [searchMatricule, setSearchMatricule] = useState('');
   const navigate = useNavigate();
 
   const fetchUsers = async () => {
@@ -47,14 +50,21 @@ const ListUsers = () => {
   const handleDelete = async () => {
     try {
       await deleteUser(userToDelete.id);
-      toast.success(`Utilisateur supprimé : ${userToDelete.nom}`,{ autoClose: 2000 });
-      fetchUsers(); // refresh
+      toast.success(`Utilisateur supprimé : ${userToDelete.nom}`, { autoClose: 2000 });
+      fetchUsers();
     } catch (error) {
-      toast.error("Erreur suppression !",{ autoClose: 2000 });
+      toast.error("Erreur suppression !", { autoClose: 2000 });
     }
     setShowConfirm(false);
     setUserToDelete(null);
   };
+
+  const filteredUsers = users.filter((user) => {
+    return (
+      user.nom.toLowerCase().includes(searchNom.toLowerCase()) &&
+      user.matricule_vehicule.toLowerCase().includes(searchMatricule.toLowerCase())
+    );
+  });
 
   if (loading) return <div className="loading">Chargement des utilisateurs...</div>;
 
@@ -65,10 +75,25 @@ const ListUsers = () => {
         <div className="list-container">
           <div className="header-actions">
             <h2 className="title">Liste des Utilisateurs</h2>
-            <button className="btn-add" onClick={() => navigate('/admin/addUser' )}>
+            <button className="btn-add" onClick={() => navigate('/admin/addUser')}>
               <PlusCircle className="me-2" size={18} />
               Ajouter
             </button>
+          </div>
+
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Rechercher par nom..."
+              value={searchNom}
+              onChange={(e) => setSearchNom(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Rechercher par matricule..."
+              value={searchMatricule}
+              onChange={(e) => setSearchMatricule(e.target.value)}
+            />
           </div>
 
           <table className="user-table">
@@ -84,7 +109,7 @@ const ListUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+              {filteredUsers.map((user, index) => (
                 <tr key={index}>
                   <td>{user.nom}</td>
                   <td>{user.matricule_vehicule}</td>
@@ -94,8 +119,7 @@ const ListUsers = () => {
                   <td>
                     <button
                       className="btn-edit"
-                   onClick={() => navigate(`/admin/edit/${user.id}`)}
-
+                      onClick={() => navigate(`/admin/edit/${user.id}`)}
                     >
                       <i className="fa-solid fa-pen-to-square"></i> Modifier
                     </button>
@@ -113,7 +137,6 @@ const ListUsers = () => {
             </tbody>
           </table>
 
-          {/* Pagination */}
           <div className="pagination">
             <button
               disabled={page <= 1}
@@ -134,7 +157,6 @@ const ListUsers = () => {
         </div>
       </div>
 
-      {/* Modal confirmation */}
       {showConfirm && (
         <div className="modal-overlay">
           <div className="modal-content">

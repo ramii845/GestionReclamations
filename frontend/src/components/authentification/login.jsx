@@ -20,7 +20,6 @@ const Login = () => {
   const result = res.data;
 
   localStorage.setItem('CC_Token', result.token);
-  localStorage.setItem('user', JSON.stringify(result));
   toast.success('Connexion réussie !', { autoClose: 2000 });
 
   if (result.role === 'admin') navigate('/adminPage');
@@ -28,12 +27,6 @@ const Login = () => {
 
 } catch (err) {
   console.error("Erreur dans catch :", err);
-
-  // Assure-toi que toast est appelé avec un message valide
-  const errorMessage =
-    err.response && err.response.data && err.response.data.detail
-      ? err.response.data.detail
-      : "Erreur de connexion. Veuillez réessayer.";
 
 toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { autoClose: 2000 });
 

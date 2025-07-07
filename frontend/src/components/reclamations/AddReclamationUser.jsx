@@ -86,7 +86,18 @@ const AddReclamationUser = () => {
             "Service SAV succrsale sfax",
             "Autre problème lié au service service Après-Vente"
           ]);
-        } else {
+        } else if (nom === "service Administratif") {
+          setListeDescriptions([
+            "Erreur documents administratifs",
+            "Rejet injustifié de dossier",
+            "Erreur Client de coordoneeés",
+            "Recouvrement / Relevé compte",
+            "Autre problème lié au service Administratif"
+          ]);
+        } 
+        
+        
+        else {
           setListeDescriptions([]);
         }
       } catch {

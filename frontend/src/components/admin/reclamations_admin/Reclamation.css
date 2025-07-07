@@ -19,3 +19,33 @@
 .reclamation-table tr:hover {
   background-color: #e6f0ff; /* Highlight au survol pour meilleure lisibilité */
 }
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-input,
+.filter-select {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.doc-link {
+  display: block;
+  color: #0c6b84;
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+

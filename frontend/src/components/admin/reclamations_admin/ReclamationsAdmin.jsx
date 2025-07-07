@@ -7,7 +7,7 @@ import Navbar from '../../Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PlusCircle } from 'react-bootstrap-icons';
-import"./Reclamation.css";
+import './Reclamation.css';
 
 const ReclamationsAdmin = () => {
   const [reclamations, setReclamations] = useState([]);
@@ -16,8 +16,13 @@ const ReclamationsAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [reclamationToDelete, setReclamationToDelete] = useState(null);
-  const navigate = useNavigate();
+  const [dateFilter, setDateFilter] = useState('');
+  const [categorieFilter, setCategorieFilter] = useState('');
+  const [descriptionFilter, setDescriptionFilter] = useState('');
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [availableDescriptions, setAvailableDescriptions] = useState([]);
 
+  const navigate = useNavigate();
   const [usersCache, setUsersCache] = useState({});
   const [categoriesCache, setCategoriesCache] = useState({});
 
@@ -57,19 +62,23 @@ const ReclamationsAdmin = () => {
         categorieName: categoriesCache[r.categorie_id] || catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie || "Catégorie inconnue"
       }));
 
+      const categories = [...new Set(recsWithNames.map(r => r.categorieName))];
+      const descriptions = [...new Set(recsWithNames.map(r => r.description_probleme).filter(Boolean))];
+
+      setAvailableCategories(categories);
+      setAvailableDescriptions(descriptions);
+
       setReclamations(recsWithNames);
       setTotalPages(res.data.total_pages);
-
     } catch (error) {
       console.error('Erreur chargement réclamations', error);
-      toast.error("Erreur chargement réclamations",{ autoClose: 2000 });
+      toast.error("Erreur chargement réclamations", { autoClose: 2000 });
     }
     setLoading(false);
   };
 
   useEffect(() => {
     fetchReclamations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const openConfirm = (rec) => {
@@ -94,6 +103,13 @@ const ReclamationsAdmin = () => {
     setReclamationToDelete(null);
   };
 
+  const filteredReclamations = reclamations.filter(rec => {
+    const matchDate = dateFilter ? rec.date_creation && new Date(rec.date_creation).toISOString().split('T')[0] === dateFilter : true;
+    const matchCategorie = categorieFilter ? rec.categorieName === categorieFilter : true;
+    const matchDescription = descriptionFilter ? rec.description_probleme === descriptionFilter : true;
+    return matchDate && matchCategorie && matchDescription;
+  });
+
   if (loading) return <div className="loading">Chargement des réclamations...</div>;
 
   return (
@@ -107,6 +123,35 @@ const ReclamationsAdmin = () => {
               <PlusCircle className="me-2" size={18} />
               Ajouter
             </button>
+          </div>
+
+          <div className="filters">
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="filter-input"
+            />
+            <select
+              value={categorieFilter}
+              onChange={(e) => setCategorieFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">Toutes les catégories</option>
+              {availableCategories.map((cat, idx) => (
+                <option key={idx} value={cat}>{cat}</option>
+              ))}
+            </select>
+            <select
+              value={descriptionFilter}
+              onChange={(e) => setDescriptionFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">Toutes les désignations</option>
+              {availableDescriptions.map((desc, idx) => (
+                <option key={idx} value={desc}>{desc}</option>
+              ))}
+            </select>
           </div>
 
           <table className="reclamation-table">
@@ -126,113 +171,69 @@ const ReclamationsAdmin = () => {
                 <th>Supprimer</th>
               </tr>
             </thead>
-<tbody>
-  {reclamations.map((rec, index) => {
-    const getFileName = (url) => {
-      if (!url) return null;
-      try {
-        return decodeURIComponent(url.substring(url.lastIndexOf('/') + 1));
-      } catch {
-        return "fichier";
-      }
-    };
+            <tbody>
+              {filteredReclamations.map((rec, index) => {
+                const getFileName = (url) => {
+                  if (!url) return null;
+                  try {
+                    return decodeURIComponent(url.substring(url.lastIndexOf('/') + 1));
+                  } catch {
+                    return "fichier";
+                  }
+                };
 
-    return (
-      <tr key={index}>
-        <td>{rec.date_creation ? new Date(rec.date_creation).toLocaleDateString('fr-FR') : "-"}</td>
-        <td>{rec.userName}</td>
-        <td>{rec.categorieName}</td>
-        <td>{rec.description_probleme || "-"}</td>
-        <td>{rec.autre || "-"}</td>
-
-        {/* Colonne image_vehicule */}
-        <td>
-  {rec.image_vehicule && rec.image_vehicule.length > 0 ? (
-    rec.image_vehicule.map((url, idx) => (
-      <a
-        key={idx}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        title={getFileName(url)}
-        style={{ display: 'block', color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
-      >
-         Voir_image_{idx + 1}
-      </a>
-    ))
-  ) : (
-    "-"
-  )}
-</td>
-
-<td>
-  {rec.facturation && rec.facturation.length > 0 ? (
-    rec.facturation.map((url, idx) => (
-      <a
-        key={idx}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        title={getFileName(url)}
-        style={{ display: 'block', color: '#667eea', textDecoration: 'underline', cursor: 'pointer' }}
-      >
-         Voir_image_{idx + 1}
-      </a>
-    ))
-  ) : (
-    "-"
-  )}
-</td>
-
-        <td>{rec.retour_client || "-"}</td>
-        <td>{rec.action || "-"}</td>
-        <td>{rec.statut || "-"}</td>
-
-        <td>
-          <button
-            className="btn-edit"
-            onClick={() => navigate(`/admin/editReclamation/${rec.id}`)}
-          >
-            <i className="fa-solid fa-pen-to-square"></i> Modifier
-          </button>
-        </td>
-        <td>
-          <button
-            className="btn-delete"
-            onClick={() => openConfirm(rec)}
-          >
-            <i className="fa-solid fa-trash"></i> Supprimer
-          </button>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
-
+                return (
+                  <tr key={index}>
+                    <td>{rec.date_creation ? new Date(rec.date_creation).toLocaleDateString('fr-FR') : "-"}</td>
+                    <td>{rec.userName}</td>
+                    <td>{rec.categorieName}</td>
+                    <td>{rec.description_probleme || "-"}</td>
+                    <td>{rec.autre || "-"}</td>
+                    <td>
+                      {rec.image_vehicule?.map((url, idx) => (
+                        <a key={idx} href={url} target="_blank" rel="noopener noreferrer" title={getFileName(url)} className="doc-link">
+                          Voir_image_{idx + 1}
+                        </a>
+                      )) || "-"}
+                    </td>
+                    <td>
+                      {rec.facturation?.map((url, idx) => (
+                        <a key={idx} href={url} target="_blank" rel="noopener noreferrer" title={getFileName(url)} className="doc-link">
+                          Voir_image_{idx + 1}
+                        </a>
+                      )) || "-"}
+                    </td>
+                    <td>{rec.retour_client || "-"}</td>
+                    <td>{rec.action || "-"}</td>
+                    <td>{rec.statut || "-"}</td>
+                    <td>
+                      <button className="btn-edit" onClick={() => navigate(`/admin/editReclamation/${rec.id}`)}>
+                        <i className="fa-solid fa-pen-to-square"></i> Modifier
+                      </button>
+                    </td>
+                    <td>
+                      <button className="btn-delete" onClick={() => openConfirm(rec)}>
+                        <i className="fa-solid fa-trash"></i> Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
 
-          {/* Pagination */}
           <div className="pagination">
-            <button
-              disabled={page <= 1}
-              onClick={() => setPage(p => p - 1)}
-              className="pagination-btn"
-            >
+            <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="pagination-btn">
               ⬅ Précédent
             </button>
             <span className="page-info">Page {page} / {totalPages}</span>
-            <button
-              disabled={page >= totalPages}
-              onClick={() => setPage(p => p + 1)}
-              className="pagination-btn"
-            >
+            <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="pagination-btn">
               Suivant ➡
             </button>
           </div>
         </div>
       </div>
 
-      {/* Modal confirmation */}
       {showConfirm && (
         <div className="modal-overlay">
           <div className="modal-content">
