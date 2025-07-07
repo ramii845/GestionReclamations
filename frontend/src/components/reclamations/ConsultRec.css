@@ -1,37 +1,18 @@
+/* ====================
+   Conteneur principal
+==================== */
 .consult-rec-container {
   padding: 40px;
   max-width: 700px;
   margin: auto;
   background: #f9f9f9;
   border-radius: 12px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.rec-details > div {
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.add-images-form {
-  margin-top: 30px;
-  padding: 15px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-}
-
-.add-images-form input[type="file"] {
-  margin-bottom: 15px;
-}
-
-.add-images-form button {
-  padding: 10px 20px;
-  background-color: #0c6b84;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+/* ====================
+   Détails de réclamation
+==================== */
 .rec-details {
   background-color: #f7f9fb;
   padding: 20px;
@@ -42,6 +23,14 @@
   gap: 15px;
 }
 
+.rec-details > div {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* ====================
+   Section ajout d'images
+==================== */
 .add-image-section {
   display: flex;
   flex-direction: column;
@@ -58,6 +47,9 @@
   cursor: pointer;
 }
 
+/* ====================
+   Bouton upload image
+==================== */
 .image-upload-button {
   background-color: #007b8f;
   color: white;
@@ -77,4 +69,112 @@
 .image-upload-button:disabled {
   background-color: #a0a0a0;
   cursor: not-allowed;
+}
+
+/* ====================
+   Bouton Avis
+==================== */
+.btn-avis {
+  position: fixed;
+  bottom: 60px;
+  right: 70px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* ====================
+   Responsive Tablet
+==================== */
+@media (max-width: 991px) {
+  .consult-rec-container {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  .rec-details > div {
+    font-size: 15px;
+  }
+
+  .btn-avis {
+    bottom: 40px;
+    right: 30px;
+    padding: 9px 18px;
+    font-size: 0.95rem;
+  }
+
+  .image-upload-button {
+    font-size: 0.95rem;
+  }
+}
+
+/* ====================
+   Responsive Mobile
+==================== */
+@media (max-width: 576px) {
+  .consult-rec-container {
+    padding: 20px;
+  }
+
+  .rec-details > div {
+    font-size: 14px;
+  }
+
+  .btn-avis {
+    bottom: 30px;
+    right: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .image-upload-button {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+
+  .add-image-section input[type="file"] {
+    font-size: 0.9rem;
+  }
+}
+
+/* ====================
+   Responsive Très Petit écran (≤ 300px)
+==================== */
+@media (max-width: 300px) {
+  .consult-rec-container {
+    padding: 15px;
+  }
+
+  .rec-details > div {
+    font-size: 12px;
+  }
+
+  .btn-avis {
+    bottom: 20px;
+    right: 10px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .image-upload-button {
+    font-size: 0.8rem;
+    padding: 7px 12px;
+  }
+
+  .add-image-section input[type="file"] {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  .rec-details {
+    padding: 15px;
+  }
 }

@@ -99,45 +99,69 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="page-wrapper">
-      <Navbar />
-      <div className="consult-rec-container">
-        <h2>Ma Réclamation</h2>
+  <div className="page-wrapper">
+    <Navbar />
+    <div className="consult-rec-container">
+      <h2>Ma Réclamation</h2>
 
-        {loading ? (
-          <p>Chargement...</p>
-        ) : !lastReclamation ? (
-          <p>Aucune réclamation trouvée.</p>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div className="rec-details">
-              <div><strong>Date :</strong> {new Date(lastReclamation.date_creation).toLocaleDateString("fr-FR")}</div>
-              <div><strong>Description :</strong> {lastReclamation.description_probleme || "-"}</div>
-              <div><strong>Détails :</strong> {lastReclamation.autre || "-"}</div>
-              <div><strong>Avancement :</strong> {lastReclamation.retour_client || "-"}</div>
-              <div><strong>Statut :</strong> {lastReclamation.statut || "-"}</div>
-
-              <div className="add-image-section" style={{ marginTop: "15px" }}>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-                <button
-                  type="submit"
-                  disabled={uploading}
-                  className="image-upload-button"
-                  style={{ marginLeft: "10px" }}
-                >
-                  {uploading ? "Ajout..." : "Ajouter l’image"}
-                </button>
-              </div>
+      {loading ? (
+        <p>Chargement...</p>
+      ) : !lastReclamation ? (
+        <p>Aucune réclamation trouvée.</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="rec-details">
+            <div>
+              <strong>Date :</strong> {new Date(lastReclamation.date_creation).toLocaleDateString("fr-FR")}
             </div>
-          </form>
-        )}
-      </div>
+            <div>
+              <strong>Description :</strong> {lastReclamation.description_probleme || "-"}
+            </div>
+            <div>
+              <strong>Détails :</strong> {lastReclamation.autre || "-"}
+            </div>
+            <div>
+              <strong>Avancement :</strong> {lastReclamation.retour_client || "-"}
+            </div>
+            <div>
+              <strong>Statut :</strong> {lastReclamation.statut || "-"}
+            </div>
+
+            <div className="add-image-section" style={{ marginTop: "15px" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+              <button
+                type="submit"
+                disabled={uploading}
+                className="image-upload-button"
+                style={{ marginLeft: "10px" }}
+              >
+                {uploading ? "Envoyer..." : "Envoyer"}
+              </button>
+            </div>
+          </div>
+        </form>
+      )}
+
+      {/* Bouton "Donner votre Avis" visible seulement si statut = "Terminer" */}
+      {!loading && lastReclamation && lastReclamation.statut === "Terminée" && (
+        <button
+          className="btn-avis"
+
+          onClick={() => {
+            navigate("/donner-avis"); // adapte la route ici si besoin
+          }}
+        >
+          Donner votre Avis
+        </button>
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default ConsultRec;
