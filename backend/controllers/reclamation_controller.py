@@ -120,7 +120,7 @@ class ReclamationUpdateImages(BaseModel):
     image_vehicule: Optional[List[str]] = []
     facturation: Optional[List[str]] = []
 
-@reclamation_router.put("/user/{reclamation_id}")
+@reclamation_router.put("/add-images/{reclamation_id}")
 async def add_images_to_reclamation(reclamation_id: str, updated_data: ReclamationUpdateImages):
     existing_rec = await db.reclamations.find_one({"_id": ObjectId(reclamation_id)})
     if not existing_rec:

@@ -49,7 +49,7 @@ export const getReclamationsByUser = async (user_id) => {
 };
 
 export const addImagesToReclamation = async (reclamation_id, data) => {
-  return await axios.put(`${API_BASE_URL}/user/${reclamation_id}`, data, {
+  return await axios.put(`${API_BASE_URL}/add-images/${reclamation_id}`, data, {
     headers: { "Content-Type": "application/json" }
   });
 };
