@@ -115,10 +115,10 @@ const ReclamationsAdmin = () => {
                 <th>Nom utilisateur</th>
                 <th>Nom catégorie</th>
                 <th>Description</th>
-                <th>Autre</th>
-                <th>Image véhicule</th>
-                <th>Facturation</th>
-                <th>Retour client</th>
+                <th>Détails</th>
+                <th>Incident</th>
+                <th>Document</th>
+                <th>Avancement</th>
                 <th>Action</th>
                 <th>Statut</th>
                 <th>Modifier</th>

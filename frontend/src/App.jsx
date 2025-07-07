@@ -29,6 +29,7 @@ import NotFoundPage from "./components/utils/NotFoundPage";
 import EditCompte from "./components/admin/users_admin/EditCompte";
 import ReclamationsAdmin from "./components/admin/reclamations_admin/ReclamationsAdmin";
 import EditReclamation from "./components/admin/reclamations_admin/EditReclamation";
+import AddReclamationAdmin from "./components/admin/reclamations_admin/AddReaclamationAdmin.jsx";
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
 <Route path="/admin/profil" element={<PrivateRouteAdmin element={<EditCompte />} />} />
    <Route path="admin/reclamations" element={<ReclamationsAdmin />} />
 <Route path="/admin/editReclamation/:id" element={<EditReclamation/>} />
+  <Route path="/admin/addReclamation" element={<AddReclamationAdmin/>} />
   
 
 <Route path="*" element={<NotFoundPage />} />
