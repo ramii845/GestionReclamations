@@ -1,0 +1,372 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Conteneur principal */
+div[name="t1"] {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+background: #d9f7e0;
+
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animation de fond */
+div[name="t1"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+/* Titre principal */
+h2[name="titre11"] {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  animation: slideDown 0.8s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Formulaire principal */
+form[name="s1"] {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 2;
+  animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fieldset */
+fieldset[name="t10"] {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Labels */
+label[name="t4"] {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+  position: relative;
+}
+
+label[name="t4"]::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+/* Conteneur des étoiles */
+div[name="nbetoiles"] {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 20px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  margin: 10px 0;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+div[name="nbetoiles"]:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+/* Étoiles individuelles */
+.star {
+  font-size: 2.5rem;
+  color: #cbd5e0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  position: relative;
+  display: inline-block;
+}
+
+.star:hover {
+  transform: scale(1.2) rotate(5deg);
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.star.selected {
+  color: #ffd700;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  animation: starPulse 0.6s ease-out;
+}
+
+@keyframes starPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3) rotate(10deg); }
+  100% { transform: scale(1); }
+}
+
+/* Effet de survol pour les étoiles non sélectionnées */
+.star:not(.selected):hover ~ .star {
+  color: #e2e8f0;
+}
+
+/* Textarea */
+textarea[name="t11"] {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  resize: vertical;
+  min-height: 120px;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+textarea[name="t11"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 
+    0 0 0 3px rgba(102, 126, 234, 0.1),
+    0 8px 25px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
+}
+
+textarea[name="t11"]::placeholder {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+/* Bouton submit */
+button[name="t18"] {
+  width: 100%;
+  padding: 16px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button[name="t18"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button[name="t18"]:hover::before {
+  left: 100%;
+}
+
+button[name="t18"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+}
+
+button[name="t18"]:active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+button[name="t18"]:disabled {
+  background: linear-gradient(135deg, #a0aec0 0%, #cbd5e0 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+button[name="t18"]:disabled::before {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  div[name="t1"] {
+    padding: 15px;
+  }
+  
+  h2[name="titre11"] {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  form[name="s1"] {
+    padding: 30px 25px;
+    border-radius: 20px;
+  }
+  
+  .star {
+    font-size: 2rem;
+  }
+  
+  div[name="nbetoiles"] {
+    gap: 6px;
+    padding: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  h2[name="titre11"] {
+    font-size: 1.8rem;
+  }
+  
+  form[name="s1"] {
+    padding: 25px 20px;
+  }
+  
+  .star {
+    font-size: 1.8rem;
+  }
+  
+  fieldset[name="t10"] {
+    gap: 20px;
+  }
+  
+  label[name="t4"] {
+    font-size: 1rem;
+  }
+  
+  textarea[name="t11"] {
+    padding: 14px 16px;
+    min-height: 100px;
+  }
+  
+  button[name="t18"] {
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+}
+
+/* Animation d'entrée pour les éléments */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Appliquer l'animation aux éléments */
+label[name="t4"]:nth-of-type(1) {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+div[name="nbetoiles"] {
+  animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+label[name="t4"]:nth-of-type(2) {
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+textarea[name="t11"] {
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+button[name="t18"] {
+  animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+/* Effet de brillance sur le formulaire */
+form[name="s1"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}

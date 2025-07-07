@@ -85,7 +85,7 @@ export default function ListAvis() {
   return (
     <div className="avis-container">
       <Navbar />
-      <h2 className="avis-title">Liste des avis</h2>
+      <h3 className="avis-title">Liste des avis</h3>
 
       <div className="avis-filters">
         <div className="avis-filter-stars">

@@ -32,6 +32,7 @@ import ReclamationsAdmin from "./components/admin/reclamations_admin/Reclamation
 import EditReclamation from "./components/admin/reclamations_admin/EditReclamation";
 import AddReclamationAdmin from "./components/admin/reclamations_admin/AddReaclamationAdmin.jsx";
 import ConsultRec from "./components/reclamations/ConsultRec.jsx";
+import AddAvis from "./components/avis/AddAvis.jsx";
 
 
 function App() {
@@ -52,6 +53,8 @@ function App() {
              <Route path="/confirmation" element={<PrivateRoute element={<Confirmation/>} />} />
              
                <Route path="/consulterEtat" element={<PrivateRoute element={<ConsultRec/>} />} />
+               <Route path="/donner-avis/:reclamation_id" element={<AddAvis />} />
+
 
 
 

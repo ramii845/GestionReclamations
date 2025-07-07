@@ -152,7 +152,7 @@ const handleSubmit = async (e) => {
           className="btn-avis"
 
           onClick={() => {
-            navigate("/donner-avis"); // adapte la route ici si besoin
+            navigate(`/donner-avis/${lastReclamation.id}`);
           }}
         >
           Donner votre Avis
