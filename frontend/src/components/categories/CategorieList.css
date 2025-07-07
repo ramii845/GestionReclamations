@@ -364,3 +364,26 @@ html {
     background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
   }
 }
+
+.categorie-grid:has(.categorie-card:nth-child(3):last-child),
+.categorie-grid:has(.categorie-card:nth-child(5):last-child),
+.categorie-grid:has(.categorie-card:nth-child(7):last-child),
+.categorie-grid:has(.categorie-card:nth-child(9):last-child),
+.categorie-grid:has(.categorie-card:nth-child(11):last-child)
+{
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+}
+
+.categorie-grid:has(.categorie-card:nth-child(3):last-child) .categorie-card:nth-child(3),
+.categorie-grid:has(.categorie-card:nth-child(5):last-child) .categorie-card:nth-child(5),
+.categorie-grid:has(.categorie-card:nth-child(7):last-child) .categorie-card:nth-child(7) ,
+.categorie-grid:has(.categorie-card:nth-child(3):last-child) .categorie-card:nth-child(9),
+.categorie-grid:has(.categorie-card:nth-child(5):last-child) .categorie-card:nth-child(11)
+
+{
+  grid-column: span 2;
+  justify-self: center;
+  width: 50%;
+  max-width: none;
+}
