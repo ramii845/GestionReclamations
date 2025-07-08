@@ -19,8 +19,10 @@ const ReclamationsAdmin = () => {
   const [dateFilter, setDateFilter] = useState('');
   const [categorieFilter, setCategorieFilter] = useState('');
   const [descriptionFilter, setDescriptionFilter] = useState('');
+  const [statutFilter, setStatutFilter] = useState('');
   const [availableCategories, setAvailableCategories] = useState([]);
   const [availableDescriptions, setAvailableDescriptions] = useState([]);
+  const [availableStatuts, setAvailableStatuts] = useState([]);
 
   const navigate = useNavigate();
   const [usersCache, setUsersCache] = useState({});
@@ -64,9 +66,11 @@ const ReclamationsAdmin = () => {
 
       const categories = [...new Set(recsWithNames.map(r => r.categorieName))];
       const descriptions = [...new Set(recsWithNames.map(r => r.description_probleme).filter(Boolean))];
+      const statuts = [...new Set(recsWithNames.map(r => r.statut).filter(Boolean))];
 
       setAvailableCategories(categories);
       setAvailableDescriptions(descriptions);
+      setAvailableStatuts(statuts);
 
       setReclamations(recsWithNames);
       setTotalPages(res.data.total_pages);
@@ -107,7 +111,8 @@ const ReclamationsAdmin = () => {
     const matchDate = dateFilter ? rec.date_creation && new Date(rec.date_creation).toISOString().split('T')[0] === dateFilter : true;
     const matchCategorie = categorieFilter ? rec.categorieName === categorieFilter : true;
     const matchDescription = descriptionFilter ? rec.description_probleme === descriptionFilter : true;
-    return matchDate && matchCategorie && matchDescription;
+    const matchStatut = statutFilter ? rec.statut === statutFilter : true;
+    return matchDate && matchCategorie && matchDescription && matchStatut;
   });
 
   if (loading) return <div className="loading">Chargement des réclamations...</div>;
@@ -147,9 +152,19 @@ const ReclamationsAdmin = () => {
               onChange={(e) => setDescriptionFilter(e.target.value)}
               className="filter-select"
             >
-              <option value="">Toutes les désignations</option>
+              <option value="">Toutes les descriptions</option>
               {availableDescriptions.map((desc, idx) => (
                 <option key={idx} value={desc}>{desc}</option>
+              ))}
+            </select>
+            <select
+              value={statutFilter}
+              onChange={(e) => setStatutFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">Tous les statuts</option>
+              {availableStatuts.map((stat, idx) => (
+                <option key={idx} value={stat}>{stat}</option>
               ))}
             </select>
           </div>
