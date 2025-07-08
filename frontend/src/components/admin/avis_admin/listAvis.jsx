@@ -1,4 +1,3 @@
-// src/components/Avis/ListAvis.jsx
 import React, { useEffect, useState } from "react";
 import {
   getPaginatedAvis,
@@ -21,21 +20,14 @@ export default function ListAvis() {
 
   useEffect(() => {
     fetchAvis();
-  }, [page]);
-
-  useEffect(() => {
-    let filtered = [...avisList];
-    if (selectedStars > 0) {
-      filtered = filtered.filter((a) => a.nbetoiles === selectedStars);
-    }
-    setFilteredAvis(filtered);
-  }, [avisList, selectedStars]);
+  }, [page, selectedStars]);
 
   const fetchAvis = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getPaginatedAvis(page, 7);
+      // On passe le filtre nbetoiles au backend si sélectionné
+      const response = await getPaginatedAvis(page, 7, selectedStars > 0 ? selectedStars : null);
       const { avis, total_pages } = response.data;
 
       const avisWithDetails = await Promise.all(
@@ -64,6 +56,7 @@ export default function ListAvis() {
       );
 
       setAvisList(avisWithDetails);
+      setFilteredAvis(avisWithDetails); // Mettre à jour filteredAvis avec les données reçues
       setTotalPages(total_pages);
     } catch (err) {
       setError("Erreur lors du chargement des avis");
@@ -133,7 +126,7 @@ export default function ListAvis() {
         <span className="pagination-page">Page {page} / {totalPages}</span>
         <button
           className="pagination-btn"
-          onClick={() => setPage((p) => p + 1)}
+          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
           disabled={page >= totalPages}
         >
           Suivant ➡️

@@ -18,6 +18,10 @@ export const deleteAvis = async (avisId) => {
   return await axios.delete(`${API_BASE_URL}/${avisId}`);
 };
 
-export const getPaginatedAvis = async (page = 1, limit = 7) => {
-  return await axios.get(`${API_BASE_URL}/paginated?page=${page}&limit=${limit}`);
+export const getPaginatedAvis = async (page = 1, limit = 7, nbetoiles = null) => {
+  const params = { page, limit };
+  if (nbetoiles !== null) {
+    params.nbetoiles = nbetoiles;
+  }
+  return await axios.get(`${API_BASE_URL}/paginated`, { params });
 };

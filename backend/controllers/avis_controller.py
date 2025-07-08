@@ -5,7 +5,7 @@ from bson import ObjectId
 from config import MONGO_URI, MONGO_DB
 from typing import List
 from fastapi import Query
-
+from typing import Optional
 
 avis_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -41,10 +41,18 @@ async def get_all_avis():
 
 
 @avis_router.get("/paginated", response_model=dict)
-async def get_avis_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+async def get_avis_paginated(
+    page: int = Query(1, ge=1),
+    limit: int = Query(7, ge=1),
+    nbetoiles: Optional[int] = Query(None, ge=1, le=5)
+):
     skip = (page - 1) * limit
-    total = await db.avis.count_documents({})
-    avis_cursor = await db.avis.find().skip(skip).limit(limit).to_list(length=limit)
+    filter_query = {}
+    if nbetoiles is not None:
+        filter_query["nbetoiles"] = nbetoiles
+
+    total = await db.avis.count_documents(filter_query)
+    avis_cursor = await db.avis.find(filter_query).skip(skip).limit(limit).to_list(length=limit)
 
     avis_list = []
     for avis in avis_cursor:

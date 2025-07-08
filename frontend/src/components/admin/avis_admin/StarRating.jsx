@@ -1,4 +1,3 @@
-// src/components/Avis/StarRating.jsx
 import React from "react";
 import "./StarRating.css";
 
@@ -10,6 +9,7 @@ const StarRating = ({ rate, handleRating }) => {
           key={i}
           onClick={() => handleRating(i)}
           className={`star ${i <= rate ? "filled" : ""}`}
+          style={{ cursor: "pointer", fontSize: "1.5rem", color: i <= rate ? "#ffc107" : "#e4e5e9" }}
         >
           ★
         </span>
