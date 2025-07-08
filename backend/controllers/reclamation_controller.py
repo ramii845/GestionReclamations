@@ -115,10 +115,20 @@ async def update_reclamation(reclamation_id: str, updated_data: Reclamation):
 
 @reclamation_router.delete("/{reclamation_id}")
 async def delete_reclamation(reclamation_id: str):
+    # Trouver la réclamation à supprimer
+    reclamation = await db.reclamations.find_one({"_id": ObjectId(reclamation_id)})
+    if not reclamation:
+        raise HTTPException(status_code=404, detail="Réclamation non trouvée")
+    
+    # Copier la réclamation dans la collection archive sans date d'archivage
+    await db.reclamations_archive.insert_one(reclamation)
+    
+    # Supprimer la réclamation originale
     result = await db.reclamations.delete_one({"_id": ObjectId(reclamation_id)})
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Réclamation non trouvée")
-    return {"message": "Réclamation supprimée avec succès"}
+        raise HTTPException(status_code=404, detail="Erreur lors de la suppression")
+
+    return {"message": "Réclamation archivée et supprimée avec succès"}
 
 class ReclamationUpdateImages(BaseModel):
     image_vehicule: Optional[List[str]] = []
