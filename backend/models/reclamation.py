@@ -4,7 +4,6 @@ from datetime import datetime
 from typing import List, Optional
 
 class Reclamation(BaseModel):
-    id: Optional[str] = None
     user_id: str
     categorie_id: str
     description_probleme: Optional[str] = ""  # URL ou nom du fichier

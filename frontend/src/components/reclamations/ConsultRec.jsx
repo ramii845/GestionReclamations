@@ -53,18 +53,19 @@ const ConsultRec = () => {
     const fetchData = async () => {
       try {
         const res = await getReclamationsByUser(user_id);
-        if (res.data.length > 0) {
-          const sorted = res.data.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
-          const last = sorted[0];
-          setLastReclamation(last);
+        if (res.data) {
+          setLastReclamation(res.data);
 
-          // si terminée, on affiche automatiquement le popup
-          if (last.statut === "Terminée") {
+          // Affiche popup automatiquement si statut = Terminée
+          if (res.data.statut === "Terminée") {
             setShowAvisPopup(true);
           }
+        } else {
+          setLastReclamation(null);
         }
       } catch (err) {
         console.error("Erreur récupération réclamations :", err);
+        setLastReclamation(null);
       } finally {
         setLoading(false);
       }
@@ -105,7 +106,7 @@ const ConsultRec = () => {
         nbetoiles: note,
         commentaire,
       };
-      const res = await createAvis(avis);
+      await createAvis(avis);
       toast.success("Merci ! Votre avis a été envoyé avec succès");
       setShowAvisPopup(false);
     } catch (err) {
@@ -152,14 +153,12 @@ const ConsultRec = () => {
         )}
       </div>
 
-      {/* ✅ Affiche automatiquement le pop-up si showAvisPopup = true */}
-   {!loading && lastReclamation?.statut === "Terminée" && showAvisPopup && (
-  <AvisPopup
-    onClose={() => setShowAvisPopup(false)}
-    onSubmit={handleAvisSubmit}
-  />
-)}
-
+      {!loading && lastReclamation?.statut === "Terminée" && showAvisPopup && (
+        <AvisPopup
+          onClose={() => setShowAvisPopup(false)}
+          onSubmit={handleAvisSubmit}
+        />
+      )}
     </div>
   );
 };

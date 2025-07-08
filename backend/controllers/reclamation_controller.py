@@ -77,24 +77,28 @@ async def get_reclamation_by_id(reclamation_id: str):
     reclamation = convert_mongo_doc(reclamation)
     return Reclamation(**reclamation)
 
-@reclamation_router.get("/user/{user_id}", response_model=List[Reclamation])
+@reclamation_router.get("/user/{user_id}", response_model=dict)
 async def get_reclamations_by_user(user_id: str):
-    reclamations = await db.reclamations.find({"user_id": user_id}).to_list(100)
-    if not reclamations:
-        raise HTTPException(status_code=404, detail="Aucune réclamation trouvée pour cet utilisateur")
+    # Recherche de la réclamation la plus récente de l'utilisateur
+    reclamation = await db.reclamations.find_one(
+        {"user_id": user_id},
+        sort=[("date_creation", -1)]  # -1 = tri décroissant = dernière d'abord
+    )
 
-    # Conversion de chaque document pour ajouter 'id' au lieu de '_id'
-    converted = []
-    for rec in reclamations:
-        rec["id"] = str(rec["_id"])
-        del rec["_id"]
-        # Convertir les champs datetime en ISO si besoin
-        for key, value in rec.items():
-            if isinstance(value, datetime):
-                rec[key] = value.isoformat()
-        converted.append(rec)
+    if not reclamation:
+        raise HTTPException(status_code=404, detail="utilisateur non trouvé")
 
-    return converted
+    # Ajout de l'ID
+    reclamation["id"] = str(reclamation["_id"])
+    del reclamation["_id"]
+
+    # Conversion datetime
+    for key, value in reclamation.items():
+        if isinstance(value, datetime):
+            reclamation[key] = value.isoformat()
+
+    return reclamation
+
 
 
 
