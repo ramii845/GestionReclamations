@@ -9,6 +9,8 @@ from datetime import datetime
 from fastapi import Query
 from typing import Optional
 from pydantic import BaseModel
+from models.notification import Notification  # si ce n’est pas déjà importé
+
 
 reclamation_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -36,7 +38,13 @@ async def create_reclamation(recom: Reclamation):
         raise HTTPException(status_code=404, detail="Catégorie non trouvée")
 
     # Insertion dans la collection 'reclamations' (pas 'recomdations')
-    result = await db.reclamations.insert_one(recom.model_dump())  # model_dump() est correct pour pydantic v2
+    result = await db.reclamations.insert_one(recom.model_dump()) 
+    notification = Notification(
+        user_id=recom.user_id,
+        message="Nouvelle réclamation déposée",
+        type="reclamation"
+    )
+    await db.notifications.insert_one(notification.dict()) # model_dump() est correct pour pydantic v2
 
     return {"id": str(result.inserted_id), "message": "Réclamation créée avec succès"}
 

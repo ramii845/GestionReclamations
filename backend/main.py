@@ -6,6 +6,7 @@ from controllers.reclamation_controller import reclamation_router
 from controllers.reclamationArchive_controller import archive_router
 import numpy as np
 from controllers.avis_controller import avis_router
+from controllers.notification_controller import notification_router
 import cv2
 
 app = FastAPI()
@@ -29,6 +30,8 @@ app.include_router(cat_router, prefix="/categories", tags=["categories"])
 app.include_router(reclamation_router, prefix="/reclamations", tags=["reclamations"])
 app.include_router(avis_router, prefix="/avis", tags=["avis"])
 app.include_router(archive_router, prefix="/archives", tags=["archives"])
+app.include_router(notification_router, prefix="/notifications", tags=["notifications"])
+
 
 
 # 🔵 Route d'accueil
