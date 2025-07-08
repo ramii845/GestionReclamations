@@ -12,7 +12,6 @@ const AvisPopup = ({ onClose, onSubmit }) => {
       localStorage.removeItem("CC_Token");
     navigate("/login");
     if (note < 1 || note > 5) return alert("Merci de choisir une note entre 1 et 5.");
-    if (commentaire.trim() === "") return alert("Le commentaire est requis.");
 
     setLoading(true);
     await onSubmit({ note, commentaire });
@@ -24,9 +23,8 @@ const AvisPopup = ({ onClose, onSubmit }) => {
       <div name="f1">
         <div className="popup-header">
         <h3 name="c4">
-  Votre réclamation a été traitée avec succès !<br />
-  Donnez-nous votre avis pour nous aider à nous améliorer.
-</h3>
+  Votre réclamation a été traitée avec succès !</h3>
+  
           <button name="v1" className="closeee" onClick={onClose}>
             &times;
           </button>
