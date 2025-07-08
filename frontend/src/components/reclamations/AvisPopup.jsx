@@ -23,7 +23,10 @@ const AvisPopup = ({ onClose, onSubmit }) => {
     <div name="v10" className="avis-popup-alert">
       <div name="f1">
         <div className="popup-header">
-          <h3 name="c4">Dites-nous ce que vous en pensez</h3>
+        <h3 name="c4">
+  Votre réclamation a été traitée avec succès !<br />
+  Donnez-nous votre avis pour nous aider à nous améliorer.
+</h3>
           <button name="v1" className="closeee" onClick={onClose}>
             &times;
           </button>
