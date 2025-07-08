@@ -297,3 +297,273 @@ html {
 .admin-buttons button:nth-child(4) {
   animation-delay: 0.4s;
 }
+
+
+
+/* Container principal des notifications - design professionnel */
+[name="ct"] {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 350px;
+  max-width: 90vw;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #3b82f6;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+/* Animation d'apparition élégante */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Titre des notifications - style professionnel */
+[name="nt"] {
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Icône notification moderne */
+[name="nt"]::before {
+  content: '🔔';
+  font-size: 1.1rem;
+  filter: grayscale(0.2);
+}
+
+/* Liste des notifications */
+[name="ut"] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Scrollbar personnalisée */
+[name="ut"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[name="ut"]::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 2px;
+}
+
+[name="ut"]::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+[name="ut"]::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Éléments de notification individuels */
+[name="ui"] {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #475569;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Effet hover élégant */
+[name="ui"]:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+/* Indicateur de statut */
+[name="ui"]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[name="ui"]:hover::before {
+  opacity: 1;
+}
+
+/* Bouton de fermeture professionnel */
+[name="btn-notif"] {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+[name="btn-notif"]:hover {
+  background: #f1f5f9;
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+[name="btn-notif"]:active {
+  transform: scale(0.95);
+}
+
+/* Animation de fermeture */
+[name="ct"].closing {
+  animation: slideOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideOutRight {
+  to {
+    transform: translateX(100%) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* Animation d'apparition progressive des éléments */
+[name="ui"] {
+  animation: fadeInUp 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+[name="ui"]:nth-child(1) { animation-delay: 0.1s; }
+[name="ui"]:nth-child(2) { animation-delay: 0.2s; }
+[name="ui"]:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  [name="ct"] {
+    right: 15px;
+    width: 320px;
+    top: 60px;
+    padding: 1rem;
+  }
+  
+  [name="nt"] {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  [name="ui"] {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  [name="btn-notif"] {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  [name="ct"] {
+    width: calc(100vw - 30px);
+    right: 15px;
+    left: 15px;
+  }
+}
+
+/* États de focus pour l'accessibilité */
+[name="btn-notif"]:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+[name="ui"]:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Variante sombre (optionnelle) */
+@media (prefers-color-scheme: dark) {
+  [name="ct"] {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-color: #475569;
+    border-left-color: #60a5fa;
+  }
+  
+  [name="nt"] {
+    color: #f1f5f9;
+  }
+  
+  [name="ui"] {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+    border-color: #475569;
+    color: #cbd5e1;
+  }
+  
+  [name="ui"]:hover {
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    border-color: #60a5fa;
+  }
+  
+  [name="btn-notif"] {
+    color: #94a3b8;
+  }
+  
+  [name="btn-notif"]:hover {
+    background: #475569;
+    color: #f87171;
+  }
+}
+
+/* Animation de pulsation pour les nouvelles notifications */
+[name="ct"].new-notification {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+

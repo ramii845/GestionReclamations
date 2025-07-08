@@ -31,3 +31,10 @@ async def mark_as_read(notif_id: str):
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="Notification non trouvée")
     return {"message": "Notification marquée comme lue"}
+@notification_router.put("/mark-read")
+async def mark_all_notifications_as_read():
+    result = await db.notifications.update_many(
+        {"is_read": False},
+        {"$set": {"is_read": True}}
+    )
+    return {"modified_count": result.modified_count, "message": "Toutes les notifications ont été marquées comme lues."}

@@ -37,14 +37,17 @@ async def create_reclamation(recom: Reclamation):
     if not categorie:
         raise HTTPException(status_code=404, detail="Catégorie non trouvée")
 
-    # Insertion dans la collection 'reclamations' (pas 'recomdations')
-    result = await db.reclamations.insert_one(recom.model_dump()) 
+    # Création de la réclamation
+    result = await db.reclamations.insert_one(recom.model_dump())
+
+    # Création de la notification
     notification = Notification(
-        user_id=recom.user_id,
-        message="Nouvelle réclamation déposée",
-        type="reclamation"
+        user_id={recom.user_id},  # à remplacer par un vrai ID d'admin
+        message=f"Nouvelle réclamation déposée par l'utilisateur {user['nom']}",
+        type="reclamation",
+        is_read=False
     )
-    await db.notifications.insert_one(notification.dict()) # model_dump() est correct pour pydantic v2
+    await db.notifications.insert_one(notification.dict())
 
     return {"id": str(result.inserted_id), "message": "Réclamation créée avec succès"}
 

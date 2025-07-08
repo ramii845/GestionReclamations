@@ -10,3 +10,7 @@ export const getAllNotifications = async () => {
 export const deleteNotification = async (id) => {
   return await axios.delete(`${API_BASE_URL}/${id}`);
 };
+
+export const markAllNotificationsAsRead = async () => {
+  return await axios.put(`${API_BASE_URL}/mark-read`);
+};
