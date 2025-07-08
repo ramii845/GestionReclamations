@@ -106,7 +106,7 @@ const ConsultRec = () => {
         commentaire,
       };
       const res = await createAvis(avis);
-      toast.success(res.data.message || "Avis envoyé !");
+      toast.success("Merci ! Votre avis a été envoyé avec succès");
       setShowAvisPopup(false);
     } catch (err) {
       toast.error(err.response?.data?.detail || "Erreur lors de l’ajout de l’avis");
