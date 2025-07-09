@@ -75,7 +75,7 @@ function App() {
 <Route path="/admin/editReclamation/:id"    element={<PrivateRouteAdmin element={<EditReclamation/>} /> } />
   <Route path="/admin/addReclamation"    element={<PrivateRouteAdmin  element={<AddReclamationAdmin/>} /> } />
   
- <Route path="/aa"     element={<ArchiveReclamation/>} /> 
+ <Route path="/admin/archive"          element={<PrivateRouteAdmin  element={<ArchiveReclamation/>} /> } />
 <Route path="*" element={<NotFoundPage />} />
 
         </Routes>

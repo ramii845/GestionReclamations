@@ -109,9 +109,14 @@ const Navbar = () => {
 {menuOpen && (
   <div className="user-menu">
     {role === "admin" ? (
+      <>
       <button onClick={() => { setMenuOpen(false); navigate("/admin/profil"); }}>
         Gérer mon compte
       </button>
+            <button onClick={() => { setMenuOpen(false); navigate("/admin/archive"); }}>
+        Liste des archives
+      </button>
+       </>
     ) : (
       <>
         <button onClick={() => { setMenuOpen(false); navigate("/profil"); }}>
