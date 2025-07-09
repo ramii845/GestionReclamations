@@ -98,7 +98,7 @@ const Navbar = () => {
         </span>
 
       <img
-  src={photo ? photo : "/images/logo3.png"}
+  src={photo ? photo : "https://res.cloudinary.com/ditzf19gl/image/upload/v1752069664/euxgou6ysoifehj1lxxb.jpg"}
   alt="Profil utilisateur"
   className="user-image"
   onClick={() => setMenuOpen(!menuOpen)}

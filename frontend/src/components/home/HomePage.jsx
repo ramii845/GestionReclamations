@@ -8,7 +8,7 @@ const HomePage = () => {
       <div className="intro-box">
 
         <div className="header-logo-title">
-          <img src="images/logo.jpg" alt="Logo voiture" className="logo" />
+          <img src="https://res.cloudinary.com/ditzf19gl/image/upload/v1752070418/v1ordmxctzkidfaqmykx.jpg" alt="Logo voiture" className="logo" />
           <h1 className="app-title">MyClaim</h1>
         </div>
 
@@ -19,7 +19,7 @@ const HomePage = () => {
           </p>
         </div>
 
-        <img src="images/image1.png" alt="Illustration" className="illustration" />
+        <img src="https://res.cloudinary.com/ditzf19gl/image/upload/v1752070247/nfg6onmhxjwoaxmvzkhd.png" alt="Illustration" className="illustration" />
 
         <div className="buttonContainer">
           <Link to="/login" className="btn-link">

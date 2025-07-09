@@ -152,7 +152,7 @@ data.append('upload_preset', 'iit2024G4');
         <div className="photo-upload-container" style={{ textAlign: 'center', marginBottom: '20px' }}>
           <label htmlFor="photo-input" className="camera-icon-label" style={{ cursor: 'pointer' }}>
             <img
-              src={photoFile ? URL.createObjectURL(photoFile) : (photo || "/images/camera.jpg")}
+              src={photoFile ? URL.createObjectURL(photoFile) : (photo || "https://res.cloudinary.com/ditzf19gl/image/upload/v1752069934/fokroapqqpmvxpzoydow.jpg")}
               alt="photo"
               className="camera-icon"
               style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }}

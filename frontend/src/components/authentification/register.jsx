@@ -138,7 +138,7 @@ const Register = () => {
           <div className="photo-upload-container">
             <label htmlFor="photo-input" className="camera-icon-label">
               <img
-                src={form.photoFile ? URL.createObjectURL(form.photoFile) : '/images/camera.jpg'}
+                src={form.photoFile ? URL.createObjectURL(form.photoFile) : 'https://res.cloudinary.com/ditzf19gl/image/upload/v1752069934/fokroapqqpmvxpzoydow.jpg'}
                 alt="photo"
                 className="camera-icon"
               />
