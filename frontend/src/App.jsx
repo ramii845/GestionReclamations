@@ -33,6 +33,7 @@ import EditReclamation from "./components/admin/reclamations_admin/EditReclamati
 import AddReclamationAdmin from "./components/admin/reclamations_admin/AddReaclamationAdmin.jsx";
 import ConsultRec from "./components/reclamations/ConsultRec.jsx";
 import AddAvis from "./components/avis/AddAvis.jsx";
+import ArchiveReclamation from "./components/admin/reclamations_admin/ReclamationArchive.jsx";
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
              <Route path="/confirmation" element={<PrivateRoute element={<Confirmation/>} />} />
              
                <Route path="/consulterEtat" element={<PrivateRoute element={<ConsultRec/>} />} />
-               <Route path="/donner-avis/:reclamation_id" element={<AddAvis />} />
+               <Route path="/donner-avis/:reclamation_id" element={<PrivateRoute element={<AddAvis />} /> } />
 
 
 
@@ -65,15 +66,16 @@ function App() {
 <Route path="/categories/edit/:id" element={<PrivateRouteAdmin element={<EditCategories />} />} />
 <Route path="/admin/addUser" element={<PrivateRouteAdmin element={<AddUserAdmin />} />} />
 <Route path="/admin/utilisateurs" element={<PrivateRouteAdmin element={<ListUsers />} />} />
-<Route path="/admin/edit/:user_id" element={<PrivateRouteAdmin element={<EditUserAdmin />} />} />
+<Route path="/admin/edit/:user_id" element={<PrivateRouteAdmin element={<EditUserAdmin />} />} /> 
 <Route path="/admin/avis" element={<PrivateRouteAdmin element={<ListAvis />} />} />
 
-<Route path="/admin/profil" element={<PrivateRouteAdmin element={<EditCompte />} />} />
-   <Route path="admin/reclamations" element={<ReclamationsAdmin />} />
-<Route path="/admin/editReclamation/:id" element={<EditReclamation/>} />
-  <Route path="/admin/addReclamation" element={<AddReclamationAdmin/>} />
-  
 
+<Route path="/admin/profil" element={<PrivateRouteAdmin element={<EditCompte />} />} />
+   <Route path="admin/reclamations"    element={<PrivateRouteAdmin element={<ReclamationsAdmin />} />} />
+<Route path="/admin/editReclamation/:id"    element={<PrivateRouteAdmin element={<EditReclamation/>} /> } />
+  <Route path="/admin/addReclamation"    element={<PrivateRouteAdmin  element={<AddReclamationAdmin/>} /> } />
+  
+ <Route path="/aa"     element={<ArchiveReclamation/>} /> 
 <Route path="*" element={<NotFoundPage />} />
 
         </Routes>

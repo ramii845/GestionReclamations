@@ -34,6 +34,27 @@ async def get_all_archives():
     archives = await db.reclamations_archive.find().to_list(100)
     archives = [convert_mongo_doc(a) for a in archives]
     return archives
+@archive_router.get("/paginated", response_model=dict)
+async def get_archives_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+    skip = (page - 1) * limit
+    total = await db.reclamations_archive.count_documents({})
+    archives = await db.reclamations_archive.find().skip(skip).limit(limit).to_list(length=limit)
+
+    for a in archives:
+        a["id"] = str(a["_id"])
+        del a["_id"]
+        for key, value in a.items():
+            if isinstance(value, datetime):
+                a[key] = value.isoformat()
+
+    return {
+        "status_code": 200,
+        "page": page,
+        "total_pages": (total + limit - 1) // limit,
+        "total_archives": total,
+        "archives": archives
+    }
+
 
 @archive_router.get("/{archive_id}", response_model=ReclamationArchive)
 async def get_archive_by_id(archive_id: str):
@@ -49,3 +70,4 @@ async def delete_archive(archive_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Archive non trouvée")
     return {"message": "Archive supprimée avec succès"}
+
