@@ -34,6 +34,41 @@ const ReclamationsAdmin = () => {
   const [usersCache, setUsersCache] = useState({});
   const [categoriesCache, setCategoriesCache] = useState({});
 
+  // Fonction pour retourner les descriptions selon le nom de catégorie
+  const getDescriptionsByCategorie = (nomCategorie) => {
+    if (nomCategorie === "Service commerciale") {
+      return [
+        "Accueil client à l’arrivée au concessionnaire",
+        "Crédibilité du service commercial",
+        "Service de livraison du véhicule",
+        "État du véhicule à la livraison",
+        "Problèmes liés à la pose d’accessoires",
+        "Autre problème lié au service commerciale",
+      ];
+    } else if (nomCategorie === "Service Après-Vente") {
+      return [
+        "Accueil du conseiller service",
+        "Qualité de l’intervention demandée",
+        "Respect des délais donnés",
+        "Facturation / Devis",
+        "Traitement du dossier de garantie",
+        "Service SAV succrsale sfax",
+        "Autre problème lié au service service Après-Vente",
+      ];
+    } else if (nomCategorie === "service Administratif") {
+      return [
+        "Erreur documents administratifs",
+        "Rejet injustifié de dossier",
+        "Erreur Client de coordoneeés",
+        "Recouvrement / Relevé compte",
+        "Autre problème lié au service Administratif",
+      ];
+    } else {
+      return [];
+    }
+  };
+
+  // Chargement des catégories au démarrage
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -56,6 +91,18 @@ const ReclamationsAdmin = () => {
     };
     fetchCategories();
   }, []);
+
+  // Mise à jour des descriptions quand la catégorie change
+  useEffect(() => {
+    const nomCategorie = availableCategories.find(c => c.id === categorieFilter)?.nomCategorie;
+    if (nomCategorie) {
+      const descriptions = getDescriptionsByCategorie(nomCategorie);
+      setAvailableDescriptions(descriptions);
+    } else {
+      setAvailableDescriptions([]);
+    }
+    setDescriptionFilter(''); // reset description filter à chaque changement de catégorie
+  }, [categorieFilter, availableCategories]);
 
   const fetchReclamations = async () => {
     setLoading(true);
@@ -124,9 +171,7 @@ const ReclamationsAdmin = () => {
           'Catégorie inconnue'
       }));
 
-      setAvailableDescriptions([
-        ...new Set(recs.map(r => r.description_probleme).filter(Boolean))
-      ]);
+      // On ne remplit plus availableDescriptions ici (car elles dépendent de la catégorie)
       setAvailableStatuts([
         ...new Set(recs.map(r => r.statut).filter(Boolean))
       ]);
