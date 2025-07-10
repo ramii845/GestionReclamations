@@ -38,11 +38,7 @@ export const getAllReclamations = async () => {
 };
 
 // Obtenir les réclamations paginées
-export const getPaginatedReclamations = async (page = 1, limit = 7) => {
-  return await axios.get(`${API_BASE_URL}/paginated`, {
-    params: { page, limit }
-  });
-};
+
 
 export const getReclamationsByUser = async (user_id) => {
   return await axios.get(`${API_BASE_URL}/user/${user_id}`);
@@ -58,4 +54,8 @@ export const addImagesToReclamation = async (reclamation_id, data) => {
 // Obtenir toutes les réclamations d’un utilisateur (liste)
 export const getAllReclamationsByUser = async (user_id) => {
   return await axios.get(`${API_BASE_URL}/list/${user_id}`);
+};
+
+export const getPaginatedReclamations = async (params = {}) => {
+  return await axios.get(`${API_BASE_URL}/paginated`, { params });
 };

@@ -59,10 +59,37 @@ async def get_all_reclamations():
 
 
 @reclamation_router.get("/paginated", response_model=dict)
-async def get_reclamations_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+async def get_reclamations_paginated(
+    page: int = Query(1, ge=1),
+    limit: int = Query(7, ge=1),
+    date_creation: Optional[str] = Query(None, description="Filtrer par date au format YYYY-MM-DD"),
+    categorie_id: Optional[str] = Query(None),
+    description_probleme: Optional[str] = Query(None),
+    statut: Optional[str] = Query(None),
+):
     skip = (page - 1) * limit
-    total = await db.reclamations.count_documents({})
-    reclamations = await db.reclamations.find().skip(skip).limit(limit).to_list(length=limit)
+
+    # Construire le filtre MongoDB dynamiquement
+    query_filter = {}
+
+    if date_creation:
+        # filtre par date (en supposant format ISO "YYYY-MM-DD")
+        date_start = datetime.fromisoformat(date_creation)
+        date_end = date_start.replace(hour=23, minute=59, second=59)
+        query_filter["date_creation"] = {"$gte": date_start, "$lte": date_end}
+
+    if categorie_id:
+        query_filter["categorie_id"] = categorie_id
+
+    if description_probleme:
+        # Pour un filtre texte simple exact, sinon utiliser $regex
+        query_filter["description_probleme"] = description_probleme
+
+    if statut:
+        query_filter["statut"] = statut
+
+    total = await db.reclamations.count_documents(query_filter)
+    reclamations = await db.reclamations.find(query_filter).skip(skip).limit(limit).to_list(length=limit)
 
     for rec in reclamations:
         rec["id"] = str(rec["_id"])
@@ -78,7 +105,6 @@ async def get_reclamations_paginated(page: int = Query(1, ge=1), limit: int = Qu
         "total_reclamations": total,
         "reclamations": reclamations
     }
-
 
 @reclamation_router.get("/{reclamation_id}", response_model=Reclamation)
 async def get_reclamation_by_id(reclamation_id: str):
@@ -176,6 +202,10 @@ async def add_images_to_reclamation(reclamation_id: str, updated_data: Reclamati
         raise HTTPException(status_code=404, detail="Réclamation non trouvée")
 
     return {"message": "Réclamation mise à jour avec succès"}
+
+
+
+
 
 
 
