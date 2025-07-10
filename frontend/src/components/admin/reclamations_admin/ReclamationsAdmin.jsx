@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PlusCircle } from 'react-bootstrap-icons';
 import './Reclamation.css';
 
+const fixedStatuts = ["En attente", "Prise en charge", "Terminée"];
+
 const ReclamationsAdmin = () => {
   const [reclamations, setReclamations] = useState([]);
   const [page, setPage] = useState(1);
@@ -28,7 +30,6 @@ const ReclamationsAdmin = () => {
   const [statutFilter, setStatutFilter] = useState('');
   const [availableCategories, setAvailableCategories] = useState([]);
   const [availableDescriptions, setAvailableDescriptions] = useState([]);
-  const [availableStatuts, setAvailableStatuts] = useState([]);
 
   const navigate = useNavigate();
   const [usersCache, setUsersCache] = useState({});
@@ -171,10 +172,8 @@ const ReclamationsAdmin = () => {
           'Catégorie inconnue'
       }));
 
-      // On ne remplit plus availableDescriptions ici (car elles dépendent de la catégorie)
-      setAvailableStatuts([
-        ...new Set(recs.map(r => r.statut).filter(Boolean))
-      ]);
+      // Ne plus mettre à jour availableStatuts ici
+      // setAvailableStatuts([...new Set(recs.map(r => r.statut).filter(Boolean))]);
 
       setReclamations(recsWithNames);
       setTotalPages(res.data.total_pages);
@@ -280,7 +279,7 @@ const ReclamationsAdmin = () => {
               className="filter-select"
             >
               <option value="">Tous les statuts</option>
-              {availableStatuts.map((stat, idx) => (
+              {fixedStatuts.map((stat, idx) => (
                 <option key={idx} value={stat}>
                   {stat}
                 </option>
