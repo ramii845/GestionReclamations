@@ -12,8 +12,8 @@ const AddReclamationAdmin = () => {
   const navigate = useNavigate();
 
   const [descriptionProbleme, setDescriptionProbleme] = useState("");
-  const [imageVehicule, setImageVehicule] = useState(null);
-  const [facturation, setFacturation] = useState(null);
+const [imageVehicule, setImageVehicule] = useState([]);
+const [facturation, setFacturation] = useState([]);
   const [autre, setAutre] = useState("");
   const [userId, setUserId] = useState("");
   const [categorieId, setCategorieId] = useState("");
@@ -57,10 +57,8 @@ const AddReclamationAdmin = () => {
     data.append("upload_preset", "iit2024G4");
     data.append("cloud_name", "ditzf19gl");
 
-    const url =
-      type === "image"
-        ? "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
-        : "https://api.cloudinary.com/v1_1/ditzf19gl/raw/upload";
+    const url ="https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
+       
 
     const res = await fetch(url, { method: "POST", body: data });
     const result = await res.json();
@@ -69,50 +67,53 @@ const AddReclamationAdmin = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!userId || !categorieId || !descriptionProbleme) {
-      toast.error("Veuillez remplir tous les champs obligatoires.");
-      return;
+  e.preventDefault();
+  if (!userId || !categorieId || !descriptionProbleme) {
+    toast.error("Veuillez remplir tous les champs obligatoires.");
+    return;
+  }
+
+  setUploading(true);
+  let imageVehiculeUrl = [];
+  let facturationUrl = [];
+
+  try {
+    if (imageVehicule.length > 0) {
+      const uploads = imageVehicule.map(file => uploadToCloudinary(file, "image"));
+      imageVehiculeUrl = await Promise.all(uploads);
     }
-
-    setUploading(true);
-    let imageVehiculeUrl = "";
-    let facturationUrl = "";
-
-    try {
-      if (imageVehicule) {
-        imageVehiculeUrl = await uploadToCloudinary(imageVehicule, "image");
-      }
-      if (facturation) {
-        facturationUrl = await uploadToCloudinary(facturation, "image");
-      }
-    } catch {
-      toast.error("Erreur lors de l'upload.");
-      setUploading(false);
-      return;
+    if (facturation.length > 0) {
+      const uploads = facturation.map(file => uploadToCloudinary(file, "image"));
+      facturationUrl = await Promise.all(uploads);
     }
+  } catch {
+    toast.error("Erreur lors de l'upload.");
+    setUploading(false);
+    return;
+  }
 
-    const reclamationData = {
-      user_id: userId,
-      categorie_id: categorieId,
-      description_probleme:
-        descriptionProbleme === "Autre" ? autre : descriptionProbleme,
-      autre,
-      image_vehicule: imageVehiculeUrl ? [imageVehiculeUrl] : [],
-facturation: facturationUrl ? [facturationUrl] : [],
-
-    };
-
-    try {
-      await createReclamation(reclamationData);
-      toast.success("Réclamation créée avec succès !",{ autoClose: 2000 });
-      navigate("/admin/reclamations");
-    } catch {
-      toast.error("Erreur lors de la création.",{ autoClose: 2000 });
-    } finally {
-      setUploading(false);
-    }
+  const reclamationData = {
+    user_id: userId,
+    categorie_id: categorieId,
+    description_probleme: descriptionProbleme === "Autre" ? autre : descriptionProbleme,
+    autre,
+    image_vehicule: imageVehiculeUrl,
+    facturation: facturationUrl,
   };
+
+  console.log("Données envoyées:", reclamationData);
+
+  try {
+    await createReclamation(reclamationData);
+    toast.success("Réclamation créée avec succès !", { autoClose: 2000 });
+    navigate("/admin/reclamations");
+  } catch {
+    toast.error("Erreur lors de la création.", { autoClose: 2000 });
+  } finally {
+    setUploading(false);
+  }
+};
+
 
   return (
     <div className="page-wrapper">
@@ -182,20 +183,22 @@ facturation: facturationUrl ? [facturationUrl] : [],
 
           <div>
             <label>Image du véhicule</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImageVehicule(e.target.files[0])}
-            />
+          <input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setImageVehicule(prev => [...prev, ...Array.from(e.target.files)])}
+/>
           </div>
 
           <div>
             <label>Document (image)</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFacturation(e.target.files[0])}
-            />
+         <input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setFacturation(prev => [...prev, ...Array.from(e.target.files)])}
+/>
           </div>
 
            <div className="d-flex justify-content-end mt-4">

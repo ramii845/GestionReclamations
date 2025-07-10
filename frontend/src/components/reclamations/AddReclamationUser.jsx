@@ -34,13 +34,9 @@ const uploadToCloudinary = async (file, type = "image") => {
       ? "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
       : "https://api.cloudinary.com/v1_1/ditzf19gl/raw/upload";
 
-  const res = await fetch(url, {
-    method: "POST",
-    body: data,
-  });
-
+  const res = await fetch(url, { method: "POST", body: data });
   const result = await res.json();
-  if (!result.secure_url) throw new Error("Échec de l’upload Cloudinary");
+  if (!result.secure_url) throw new Error("Échec d’upload Cloudinary");
   return result.secure_url;
 };
 
@@ -50,12 +46,13 @@ const AddReclamationUser = () => {
   const menuRef = useRef(null);
 
   const [descriptionProbleme, setDescriptionProbleme] = useState("");
-  const [imageVehicule, setImageVehicule] = useState(null);
-  const [facturation, setFacturation] = useState(null);
+  const [imageVehicule, setImageVehicule] = useState([]);
+  const [facturation, setFacturation] = useState([]);
   const [autre, setAutre] = useState("");
   const [nomCategorie, setNomCategorie] = useState("");
   const [listeDescriptions, setListeDescriptions] = useState([]);
   const [uploading, setUploading] = useState(false);
+
   const token = localStorage.getItem("CC_Token");
   const decoded = token ? decodeJWT(token) : null;
   const user_id = decoded?.user_id;
@@ -84,7 +81,7 @@ const AddReclamationUser = () => {
             "Facturation / Devis",
             "Traitement du dossier de garantie",
             "Service SAV succrsale sfax",
-            "Autre problème lié au service service Après-Vente"
+            "Autre problème lié au service service Après-Vente",
           ]);
         } else if (nom === "service Administratif") {
           setListeDescriptions([
@@ -92,12 +89,9 @@ const AddReclamationUser = () => {
             "Rejet injustifié de dossier",
             "Erreur Client de coordoneeés",
             "Recouvrement / Relevé compte",
-            "Autre problème lié au service Administratif"
+            "Autre problème lié au service Administratif",
           ]);
-        } 
-        
-        
-        else {
+        } else {
           setListeDescriptions([]);
         }
       } catch {
@@ -116,15 +110,18 @@ const AddReclamationUser = () => {
     }
 
     setUploading(true);
-    let imageVehiculeUrl = "";
-    let facturationUrl = "";
+    let imageVehiculeUrls = [];
+    let facturationUrls = [];
 
     try {
-      if (imageVehicule) {
-        imageVehiculeUrl = await uploadToCloudinary(imageVehicule, "image");
+      if (imageVehicule.length > 0) {
+        const uploads = Array.from(imageVehicule).map(file => uploadToCloudinary(file, "image"));
+        imageVehiculeUrls = await Promise.all(uploads);
       }
-      if (facturation) {
-        facturationUrl = await uploadToCloudinary(facturation, "image");
+
+      if (facturation.length > 0) {
+        const uploads = Array.from(facturation).map(file => uploadToCloudinary(file, "image"));
+        facturationUrls = await Promise.all(uploads);
       }
     } catch {
       toast.error("Échec d’upload vers Cloudinary.");
@@ -137,23 +134,22 @@ const AddReclamationUser = () => {
       categorie_id,
       description_probleme: descriptionProbleme,
       autre,
-       image_vehicule: imageVehiculeUrl ? [imageVehiculeUrl] : [],
-  facturation: facturationUrl ? [facturationUrl] : [],
+      image_vehicule: imageVehiculeUrls,
+      facturation: facturationUrls,
     };
 
     try {
       await createReclamation(reclamationData);
-      toast.success("Réclamation créée avec succès !",{ autoClose: 2000 });
+      toast.success("Réclamation créée avec succès !", { autoClose: 2000 });
       navigate("/confirmation");
     } catch {
-      toast.error("Erreur lors de la création de la réclamation.",{ autoClose: 2000 });
+      toast.error("Erreur lors de la création de la réclamation.", { autoClose: 2000 });
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    
     <div className="page-wrapper">
       <Navbar />
       <div className="add-reclamation-container" style={{ paddingTop: "80px" }}>
@@ -162,20 +158,19 @@ const AddReclamationUser = () => {
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
             <label>Description du problème *</label>
-              <select
-                value={descriptionProbleme}
-                onChange={(e) => setDescriptionProbleme(e.target.value)}
-                required
-              >
-                <option value="">-- Sélectionner un problème --</option>
-                {listeDescriptions.map((item, idx) => (
-                  <option key={idx} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>  
+            <select
+              value={descriptionProbleme}
+              onChange={(e) => setDescriptionProbleme(e.target.value)}
+              required
+            >
+              <option value="">-- Sélectionner un problème --</option>
+              {listeDescriptions.map((item, idx) => (
+                <option key={idx} value={item}>{item}</option>
+              ))}
+            </select>
           </div>
-            <div>
+
+          <div>
             <label>Détails du problème</label>
             <input
               type="text"
@@ -186,50 +181,35 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>
-              Image du véhicule <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
-                (si possible)
-              </span>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImageVehicule(e.target.files[0])}
-            />
+            <label>Images du véhicule (vous pouvez en sélectionner plusieurs)</label>
+ <input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setImageVehicule(prev => [...prev, ...Array.from(e.target.files)])}
+/>
           </div>
 
           <div>
-            <label>
-              Image Document  <span style={{ fontWeight: "normal", fontSize: "0.85rem", color: "#666" }}>
-                (si possible)
-              </span>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFacturation(e.target.files[0])}
-            />
+            <label>Documents / Facturation (vous pouvez en sélectionner plusieurs)</label>
+<input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setFacturation(prev => [...prev, ...Array.from(e.target.files)])}
+/>
           </div>
 
-        
-
           <button type="submit" disabled={uploading}>
-            {uploading ? "Envoyer" : "Envoyer"}
+            {uploading ? "Envoi en cours..." : "Envoyer"}
           </button>
         </form>
-<div style={{ marginTop: "15px", marginLeft: "-30px" }}>
-  <Link
-    to="/categories"
-    style={{
-      color: '#0c6b84',
-      fontWeight: '500',
-      textDecoration: 'none'
-    }}
-  >
-    Retour à la liste des catégories
-  </Link>
-</div>
 
+        <div style={{ marginTop: "15px", marginLeft: "-30px" }}>
+          <Link to="/categories" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
+            Retour à la liste des catégories
+          </Link>
+        </div>
       </div>
     </div>
   );
