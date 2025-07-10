@@ -98,8 +98,9 @@ const AddReclamationAdmin = () => {
       description_probleme:
         descriptionProbleme === "Autre" ? autre : descriptionProbleme,
       autre,
-      image_vehicule: imageVehiculeUrl,
-      facturation: facturationUrl,
+      image_vehicule: imageVehiculeUrl ? [imageVehiculeUrl] : [],
+facturation: facturationUrl ? [facturationUrl] : [],
+
     };
 
     try {

@@ -42,7 +42,7 @@ async def create_reclamation(recom: Reclamation):
 
     # Création de la notification
     notification = Notification(
-        user_id={recom.user_id},  # à remplacer par un vrai ID d'admin
+        user_id=recom.user_id,  # à remplacer par un vrai ID d'admin
         message=f"Nouvelle réclamation déposée par l'utilisateur {user['nom']}",
         type="reclamation",
         is_read=False
