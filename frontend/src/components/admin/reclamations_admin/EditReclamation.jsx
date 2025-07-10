@@ -11,8 +11,14 @@ const EditReclamation = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [reclamation, setReclamation] = useState(null);
   const [formData, setFormData] = useState({
+    user_id: '',
+    categorie_id: '',
+    description_probleme: '',
+    date_creation: '',
+    image_vehicule: [],
+    facturation: [],
+    autre: '',
     retour_client: '',
     action: '',
     statut: ''
@@ -22,8 +28,15 @@ const EditReclamation = () => {
     const fetchData = async () => {
       try {
         const res = await getReclamationById(id);
-        setReclamation(res.data);
+        // Mettre à jour tout formData pour avoir un objet complet
         setFormData({
+          user_id: res.data.user_id || '',
+          categorie_id: res.data.categorie_id || '',
+          description_probleme: res.data.description_probleme || '',
+          date_creation: res.data.date_creation || '',
+          image_vehicule: res.data.image_vehicule || [],
+          facturation: res.data.facturation || [],
+          autre: res.data.autre || '',
           retour_client: res.data.retour_client || '',
           action: res.data.action || '',
           statut: res.data.statut || ''
@@ -38,29 +51,23 @@ const EditReclamation = () => {
   }, [id]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const dataToSend = {
-        ...reclamation,
-        retour_client: formData.retour_client,
-        action: formData.action,
-        statut: formData.statut
-      };
-      delete dataToSend.id;
-
-      await updateReclamation(id, dataToSend);
+      // Envoyer tout formData complet
+      await updateReclamation(id, formData);
       toast.success("Réclamation mise à jour !");
       setTimeout(() => navigate('/admin/reclamations'), 2000);
     } catch (error) {
       console.error("Erreur mise à jour:", error.response?.data || error.message || error);
-      toast.error("Erreur lors de la mise à jour",{ autoClose: 2000 });
+      toast.error("Erreur lors de la mise à jour", { autoClose: 2000 });
     }
   };
 
@@ -73,9 +80,16 @@ const EditReclamation = () => {
     );
   }
 
-  if (!reclamation) {
-    return <div>Réclamation introuvable</div>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+        <Spinner animation="border" />
+        <span className="ms-2">Chargement...</span>
+      </div>
+    );
   }
+
+
 
   return (
     <>

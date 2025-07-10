@@ -13,7 +13,9 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = { matricule_vehicule, motdepasse };
+
+    const userData = { matricule_vehicule,
+      motdepasse };
 
   try {
   const res = await signin(userData);

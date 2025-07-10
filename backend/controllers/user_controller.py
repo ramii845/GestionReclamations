@@ -11,6 +11,8 @@ from bson import ObjectId
 from typing import List, Optional
 import httpx
 from fastapi import Query
+import re
+
 
 user_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -61,7 +63,14 @@ async def register(user: User):
 
 @user_router.post("/login/")
 async def signin(user_data: UserLogin):
-    existing_user = await db.users.find_one({"matricule_vehicule": user_data.matricule_vehicule})
+    # Recherche insensible à la casse du matricule_vehicule
+    existing_user = await db.users.find_one({
+        "matricule_vehicule": {
+            "$regex": f"^{re.escape(user_data.matricule_vehicule)}$", 
+            "$options": "i"
+        }
+    })
+    
     if not existing_user or not pwd_context.verify(user_data.motdepasse, existing_user["motdepasse"]):
         raise HTTPException(status_code=400, detail="matricule_vehicule ou mot de passe incorrect")
 

@@ -32,12 +32,19 @@ const Register = () => {
     const { name, value } = e.target;
 
     if (name === 'numero_telephone' && (!/^\d*$/.test(value) || value.length > 8)) return;
+if (name === 'matricule_vehicule') {
+  let val = value.toUpperCase().replace(/[^0-9TU]/gi, ''); // supprimer les caractères invalides
+  val = val.replace(/tu/gi, 'TU');
 
-    if (name === 'matricule_vehicule') {
-      if (value.length > 9) return;
-      const partialRegex = /^[0-9TUtu]*$/;
-      if (value && !partialRegex.test(value)) return;
-    }
+  // Forcer automatiquement l’insertion de TU au milieu
+ 
+
+  // Limiter à 9 caractères max
+  if (val.length > 9) return;
+
+  setForm({ ...form, [name]: val });
+  return;
+}
 
     setForm({ ...form, [name]: value, ...(name === 'marque' ? { modele: '' } : {}) });
   };
@@ -88,16 +95,17 @@ const Register = () => {
       return;
     }
 
-    if (
-      form.matricule_vehicule.length !== 9 ||
-      !/^\d.*(TU|tu).*\d$/.test(form.matricule_vehicule)
-    ) {
-      toast.error(
-        'Le matricule doit faire 9 caractères, commencer et terminer par un chiffre, et contenir "TU" au milieu.',
-        { autoClose: 3000 }
-      );
-      return;
-    }
+   if (
+  form.matricule_vehicule.length < 8 ||
+  !/^\d{3,4}TU\d{2,3}$/i.test(form.matricule_vehicule)
+) {
+  toast.error(
+    'Matricule invalide : il doit être au format 000TU000 ou 0000TU00 ',
+    { autoClose: 3000 }
+  );
+  return;
+}
+
 
     // Upload photo si existante
     let photoUrl = "";
