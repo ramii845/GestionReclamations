@@ -39,6 +39,17 @@ import ArchiveReclamation from "./components/admin/reclamations_admin/Reclamatio
 function App() {
   return (
     <CartProvider>
+            <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -81,17 +92,7 @@ function App() {
         </Routes>
       </Router>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+ 
     </CartProvider>
   );
 }

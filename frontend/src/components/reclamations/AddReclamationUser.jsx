@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { createReclamation } from "../../services/reclamationService";
+import { createReclamation, getAllReclamationsByUser } from "../../services/reclamationService";
 import { getCategorieById } from "../../services/categorieService";
 import { toast } from "react-toastify";
 import "./AddReclamationUser.css";
@@ -51,7 +51,6 @@ const AddReclamationUser = () => {
   const [autre, setAutre] = useState("");
   const [nomCategorie, setNomCategorie] = useState("");
   const [listeDescriptions, setListeDescriptions] = useState([]);
-  const [uploading, setUploading] = useState(false);
 
   const token = localStorage.getItem("CC_Token");
   const decoded = token ? decodeJWT(token) : null;
@@ -109,7 +108,22 @@ const AddReclamationUser = () => {
       return;
     }
 
-    setUploading(true);
+    // Vérifier s'il existe déjà une réclamation en cours
+    try {
+      const res = await getAllReclamationsByUser(user_id);
+      const reclamations = res.data || [];
+      const enCours = reclamations.find(
+        r => r.statut === "En attente" || r.statut === "Prise en charge"
+      );
+      if (enCours) {
+        toast.error("Vous avez déjà une réclamation en cours de traitement.");
+        return;
+      }
+    } catch (err) {
+      toast.error("Erreur lors de la vérification des réclamations.");
+      return;
+    }
+
     let imageVehiculeUrls = [];
     let facturationUrls = [];
 
@@ -125,7 +139,6 @@ const AddReclamationUser = () => {
       }
     } catch {
       toast.error("Échec d’upload vers Cloudinary.");
-      setUploading(false);
       return;
     }
 
@@ -144,8 +157,6 @@ const AddReclamationUser = () => {
       navigate("/confirmation");
     } catch {
       toast.error("Erreur lors de la création de la réclamation.", { autoClose: 2000 });
-    } finally {
-      setUploading(false);
     }
   };
 
@@ -182,26 +193,26 @@ const AddReclamationUser = () => {
 
           <div>
             <label>Images du véhicule (vous pouvez en sélectionner plusieurs)</label>
- <input
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setImageVehicule(prev => [...prev, ...Array.from(e.target.files)])}
-/>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => setImageVehicule(prev => [...prev, ...Array.from(e.target.files)])}
+            />
           </div>
 
           <div>
             <label>Documents / Facturation (vous pouvez en sélectionner plusieurs)</label>
-<input
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setFacturation(prev => [...prev, ...Array.from(e.target.files)])}
-/>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => setFacturation(prev => [...prev, ...Array.from(e.target.files)])}
+            />
           </div>
 
-          <button type="submit" disabled={uploading}>
-            {uploading ? "Envoi en cours..." : "Envoyer"}
+          <button type="submit">
+            Envoyer
           </button>
         </form>
 

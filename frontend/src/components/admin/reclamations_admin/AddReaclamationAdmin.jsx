@@ -69,7 +69,7 @@ const [facturation, setFacturation] = useState([]);
   const handleSubmit = async (e) => {
   e.preventDefault();
   if (!userId || !categorieId || !descriptionProbleme) {
-    toast.error("Veuillez remplir tous les champs obligatoires.");
+    toast.error("Veuillez remplir tous les champs obligatoires.",{ autoClose: 2000 });
     return;
   }
 
@@ -87,7 +87,7 @@ const [facturation, setFacturation] = useState([]);
       facturationUrl = await Promise.all(uploads);
     }
   } catch {
-    toast.error("Erreur lors de l'upload.");
+    toast.error("Erreur lors de l'upload.",{ autoClose: 2000 });
     setUploading(false);
     return;
   }

@@ -53,3 +53,9 @@ export const addImagesToReclamation = async (reclamation_id, data) => {
     headers: { "Content-Type": "application/json" }
   });
 };
+
+
+// Obtenir toutes les réclamations d’un utilisateur (liste)
+export const getAllReclamationsByUser = async (user_id) => {
+  return await axios.get(`${API_BASE_URL}/list/${user_id}`);
+};

@@ -22,10 +22,16 @@ const Login = () => {
   const result = res.data;
 
   localStorage.setItem('CC_Token', result.token);
-  toast.success('Connexion réussie !', { autoClose: 2000 });
+  
 
-  if (result.role === 'admin') navigate('/adminPage');
-  else navigate('/categories');
+if (result.role === 'admin') {
+  toast.success('Connexion réussie !',{ autoClose: 2000 });
+  navigate('/adminPage');
+} else {
+  toast.success('Connexion réussie !',{ autoClose: 2000 });
+  navigate('/categories');
+}
+
 
 } catch (err) {
   console.error("Erreur dans catch :", err);
