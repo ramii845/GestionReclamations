@@ -120,7 +120,7 @@ async def get_reclamation_by_id(reclamation_id: str):
     return Reclamation(**reclamation)
 
 @reclamation_router.get("/user/{user_id}", response_model=dict)
-async def get_reclamations_by_user(user_id: str):
+async def get_reclamations_by_user_id(user_id: str):
     # Recherche de la réclamation la plus récente de l'utilisateur
     reclamation = await db.reclamations.find_one(
         {"user_id": user_id},
@@ -208,22 +208,13 @@ async def add_images_to_reclamation(reclamation_id: str, updated_data: Reclamati
 
     return {"message": "Réclamation mise à jour avec succès"}
 
-
-
-
-
-
-
 @reclamation_router.get("/list/{user_id}", response_model=List[dict])
 async def get_reclamations_by_user(user_id: str):
-    reclamations = await db.reclamations.find(
-        {"user_id": user_id}
-    ).to_list(100)  # limite à 100 réclamations, modifie selon besoin
-
+    reclamations = await db.reclamations.find({"user_id": user_id}).to_list(100)
+    
     if not reclamations:
-        raise HTTPException(status_code=404, detail="utilisateur non trouvé")
+        return []  # <-- NE PAS renvoyer 404 ici
 
-    # Transformation des champs
     for reclamation in reclamations:
         reclamation["id"] = str(reclamation["_id"])
         del reclamation["_id"]
@@ -232,3 +223,6 @@ async def get_reclamations_by_user(user_id: str):
                 reclamation[key] = value.isoformat()
 
     return reclamations
+
+
+

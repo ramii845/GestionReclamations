@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminPage.css";
 import Navbar from "../Navbar/Navbar";
-import { markAllNotificationsAsRead,getAllNotifications } from "../../services/notificationService"; 
+import { markAllNotificationsAsRead,getAllNotifications,deleteUnreadNotifications } from "../../services/notificationService"; 
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -10,36 +10,39 @@ const AdminPage = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const res = await getAllNotifications();
-        const allNotifications = res.data || [];
-
-        setNotifications(allNotifications);
-
-        // ✅ S'il existe au moins une notification non lue, on affiche l'alerte
-        const unread = allNotifications.some(n => !n.is_read);
-        setShowAlert(unread);
-      } catch (err) {
-        console.error("Erreur de chargement des notifications");
-      }
-    };
-
-    fetchNotifications();
-  }, []);
-
-  const closeAlert = async () => {
-    setShowAlert(false); // Masquer l'alerte immédiatement
-
+  const fetchNotifications = async () => {
     try {
-      await markAllNotificationsAsRead(); // ✅ Mettre à jour dans la base (is_read = true)
-
       const res = await getAllNotifications();
-      setNotifications(res.data); // Recharger après mise à jour
+      const allNotifications = res.data || [];
+
+      setNotifications(allNotifications);
+      const unread = allNotifications.some(n => !n.is_read);
+      setShowAlert(unread);
+
+      // ✅ Supprimer les notifications non lues du backend (en base)
+      if (unread) {
+        await deleteUnreadNotifications();
+      }
     } catch (err) {
-      console.error("Erreur lors de la mise à jour des notifications", err);
+      console.error("Erreur de chargement des notifications");
     }
   };
+
+  fetchNotifications();
+}, []);
+
+
+const closeAlert = async () => {
+  setShowAlert(false);
+  try {
+    await markAllNotificationsAsRead();
+    await deleteUnreadNotifications();  // ✅ Supprime aussi
+    const res = await getAllNotifications();
+    setNotifications(res.data);
+  } catch (err) {
+    console.error("Erreur lors de la suppression des notifications", err);
+  }
+};
 
   return (
     <div>

@@ -78,11 +78,10 @@ export default function ListAvis() {
   return (
     <div className="avis-container">
       <Navbar />
-      <h3 className="avis-title">Liste des avis</h3>
+      <h3 className="avis-title">Avis des client</h3>
 
       <div className="avis-filters">
         <div className="avis-filter-stars">
-          <label className="avis-label">Filtrer par nombre d'étoiles :</label>
           <StarRating rate={selectedStars} handleRating={setSelectedStars} />
           {selectedStars > 0 && (
             <button className="clear-filter-btn" onClick={() => setSelectedStars(0)}>

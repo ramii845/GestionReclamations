@@ -38,3 +38,8 @@ async def mark_all_notifications_as_read():
         {"$set": {"is_read": True}}
     )
     return {"modified_count": result.modified_count, "message": "Toutes les notifications ont été marquées comme lues."}
+
+@notification_router.delete("/delete-unread")
+async def delete_unread_notifications():
+    result = await db.notifications.delete_many({"is_read": False})
+    return {"deleted_count": result.deleted_count}
