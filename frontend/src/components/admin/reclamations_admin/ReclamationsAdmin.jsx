@@ -128,7 +128,10 @@ const ReclamationsAdmin = () => {
       const usersFetched = await Promise.all(
         userIdsToFetch.map(id =>
           getUserbyId(id)
-            .then(r => ({ id, nom: r.data.nom }))
+            .then(r => ({ id, nom: r.data.nom ,
+              numero_telephone: r.data.numero_telephone
+
+            }))
             .catch(() => ({ id, nom: 'Utilisateur inconnu' }))
         )
       );
@@ -145,12 +148,16 @@ const ReclamationsAdmin = () => {
       );
 
       setUsersCache(prev => {
-        const copy = { ...prev };
-        usersFetched.forEach(u => {
-          copy[u.id] = u.nom;
-        });
-        return copy;
-      });
+  const copy = { ...prev };
+  usersFetched.forEach(u => {
+    copy[u.id] = {
+      nom: u.nom,
+      numero_telephone: u.numero_telephone
+    };
+  });
+  return copy;
+});
+
 
       setCategoriesCache(prev => {
         const copy = { ...prev };
@@ -166,6 +173,11 @@ const ReclamationsAdmin = () => {
           usersCache[r.user_id] ||
           usersFetched.find(u => u.id === r.user_id)?.nom ||
           'Utilisateur inconnu',
+          userPhone:
+  usersCache[r.user_id]?.numero_telephone ||
+  usersFetched.find(u => u.id === r.user_id)?.numero_telephone ||
+  '-',
+
         categorieName:
           categoriesCache[r.categorie_id] ||
           catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie ||
@@ -292,6 +304,7 @@ const ReclamationsAdmin = () => {
               <tr>
                 <th>Date création</th>
                 <th>Nom utilisateur</th>
+                <th>Téléphone</th>
                 <th>Nom catégorie</th>
                 <th>Description</th>
                 <th>Détails</th>
@@ -313,6 +326,7 @@ const ReclamationsAdmin = () => {
                       : '-'}
                   </td>
                   <td>{rec.userName}</td>
+                  <td>{rec.userPhone}</td>
                   <td>{rec.categorieName}</td>
                   <td>{rec.description_probleme || '-'}</td>
                   <td>{rec.autre || '-'}</td>
