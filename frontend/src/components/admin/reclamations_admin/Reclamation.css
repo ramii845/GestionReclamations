@@ -104,6 +104,21 @@ background-color: #0cada2;
   color: white;
 }
 
+[name="tableA_reclamations"] {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: #ffffff;
+}
+
+[name="theadA_reclamations"] {
+background-color: #0cad2c;
+
+
+
+  color: white;
+}
+
 [name="ligne_entete"] {
   border: none;
 }

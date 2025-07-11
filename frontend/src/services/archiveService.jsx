@@ -25,8 +25,6 @@ export const deleteArchive = async (id) => {
 };
 
 // 🔹 Obtenir les archives paginées
-export const getPaginatedArchives = async (page = 1, limit = 7) => {
-  return await axios.get(`${API_BASE_URL}/paginated`, {
-    params: { page, limit }
-  });
+export const getPaginatedArchives = async (params = {}) => {
+  return await axios.get(`${API_BASE_URL}/paginated`, { params });
 };
