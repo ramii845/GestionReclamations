@@ -7,7 +7,6 @@ import HomePage from "./components/home/HomePage";
 import Register from "./components/authentification/register";
 import Login from "./components/authentification/login";
 import AdminPage from "./components/admin/AdminPage";
-import UserPage from "./components/user/userPage";
 import ResetPasswordPage from "./components/authentification/ResetPasswordPage";
 import CategorieList from "./components/categories/CategorieList";
 import AddReclamationUser from "./components/reclamations/AddReclamationUser";
@@ -34,6 +33,7 @@ import AddReclamationAdmin from "./components/admin/reclamations_admin/AddReacla
 import ConsultRec from "./components/reclamations/ConsultRec.jsx";
 import AddAvis from "./components/avis/AddAvis.jsx";
 import ArchiveReclamation from "./components/admin/reclamations_admin/ReclamationArchive.jsx";
+import Logout from "./components/authentification/logout.jsx";
 
 
 function App() {
@@ -56,9 +56,11 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+ <Route path="/logout" element={<Logout/>} />
+
 
           {/* user */}
-          <Route path="/userPage" element={<PrivateRoute element={<UserPage />} />} />
+     
           <Route path="/categories" element={<PrivateRoute element={<CategorieList />} />} />
           <Route path="/categories/:categorie_id" element={<PrivateRoute element={<AddReclamationUser />} />} />
           <Route path="/profil" element={<PrivateRoute element={<EditUser />} />} />
