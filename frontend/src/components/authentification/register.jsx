@@ -96,7 +96,7 @@ if (name === 'matricule_vehicule') {
     }
 
    if (
-  form.matricule_vehicule.length < 8 ||
+    (form.matricule_vehicule.length !== 9 && form.matricule_vehicule.length !== 10)||
   !/^\d{3,4}TU\d{2,3}$/i.test(form.matricule_vehicule)
 ) {
   toast.error(
