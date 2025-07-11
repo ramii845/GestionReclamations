@@ -1,51 +1,463 @@
-.reclamation-table {
+/* Container principal */
+[name="wrapperr_reclamations"] {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 1.5rem;
+}
+
+[name="containerr_reclamations"] {
+  max-width: 1600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Header avec titre et bouton */
+[name="actions_headerr"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+[name="titre_reclamations"] {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Bouton ajouter avec couleur professionnelle */
+[name="btn_ajouterr_reclamation"] {
+  background: #1e83af;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+[name="btn_ajouterr_reclamation"]:hover {
+  background: #1e53af ;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* Zone des filtres */
+[name="zone_filtres"] {
+  display: flex;
+  gap: 1.25rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+[name="filtre_date"],
+[name="filtre_categorie"],
+[name="filtre_description"],
+[name="filtre_statut"] {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  min-width: 160px;
+}
+
+[name="filtre_date"]:focus,
+[name="filtre_categorie"]:focus,
+[name="filtre_description"]:focus,
+[name="filtre_statut"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Table des réclamations */
+[name="table_reclamations"] {
   width: 100%;
-  border-collapse: collapse; /* Important pour que les bordures soient bien nettes */
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: #ffffff;
 }
 
-.reclamation-table th,
-.reclamation-table td {
-  border: 1px solid #dddddd; /* Bordure claire et fine */
-  padding: 10px 12px;
+[name="thead_reclamations"] {
+background-color: #0cada2;
+
+
+
+  color: white;
+}
+
+[name="ligne_entete"] {
+  border: none;
+}
+
+[name="col"],
+[name="col_modifier"],
+[name="col_supprimer"] {
+  padding: 1rem 0.75rem;
   text-align: left;
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
-
-.reclamation-table tr:nth-child(even) {
-  background-color: #fafafa; /* Ligne paire en fond plus clair */
+/* Colonnes d'action avec largeur appropriée */
+[name="col_modifier"],
+[name="col_supprimer"] {
+  width: 100px;
+  text-align: center;
+  padding: 1rem 0.5rem;
 }
 
-.reclamation-table tr:hover {
-  background-color: #e6f0ff; /* Highlight au survol pour meilleure lisibilité */
+/* Corps du tableau */
+[name="tbody_reclamations"] tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
 }
-.filters {
+
+[name="tbody_reclamations"] tr:nth-child(even) {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+[name="tbody_reclamations"] tr:hover {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+}
+
+[name="col_date_creation"],
+[name="col1"],
+[name="col_1"] {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border-right: 1px solid #e5e7eb;
+  color: #374151;
+  line-height: 1.4;
+  font-size: 0.875rem;
+}
+
+/* Colonnes d'action avec largeur contrôlée */
+[name="col_modifier"],
+[name="col_supprimert"] {
+  padding: 0.75rem 0.5rem;
+  vertical-align: middle;
+  border-right: 1px solid #e5e7eb;
+  width: 100px;
+  text-align: center;
+}
+
+/* Liens de documents */
+[name^="lien_incident"],
+[name^="lien_document"] {
+  display: inline-block;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 6px;
+  margin: 0.125rem;
+  transition: all 0.3s ease;
+  border: 1px solid #bfdbfe;
+}
+
+[name^="lien_incident"]:hover,
+[name^="lien_document"]:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Boutons d'action - couleurs professionnelles */
+[name^="btn_modifier"] {
+   background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 90px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+}
+
+[name^="btn_modifier"]:hover {
+ background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+[name^="btn_supprimer"] {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 90px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+}
+
+[name^="btn_supprimer"]:hover {
+   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+}
+
+/* Pagination */
+[name="pagination"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 1px solid #e2e8f0;
+}
+
+[name="btn_precedent"],
+[name="btn_suivant"] {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+[name="btn_precedent"]:hover:not(:disabled),
+[name="btn_suivant"]:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+[name="btn_precedent"]:disabled,
+[name="btn_suivant"]:disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+}
+
+[name="info_page"] {
+  font-weight: 500;
+  color: #475569;
+  font-size: 0.95rem;
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Modal de confirmation */
+[name="overlay_modal"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+[name="contenu_modal"] {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  max-width: 450px;
+  width: 90%;
+  border: 1px solid #e2e8f0;
+}
+
+[name="titre_modal"] {
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+[name="texte_modal"] {
+  color: #6b7280;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+[name="actions_modal"] {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-.filter-input,
-.filter-select {
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 0.95rem;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
+[name="btn_annuler_modal"] {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
-.filter-input:focus,
-.filter-select:focus {
-  outline: none;
-  border-color: #10b981;
+[name="btn_annuler_modal"]:hover {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  transform: translateY(-1px);
 }
 
-.doc-link {
-  display: block;
-  color: #0c6b84;
-  text-decoration: underline;
-  font-size: 0.85rem;
+[name="btn_confirmer_modal"] {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
 }
 
+[name="btn_confirmer_modal"]:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  [name^="btn_modifier"],
+  [name^="btn_supprimer"] {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    min-width: 40px;
+    max-width: 40px;
+  }
+  
+  [name="table_reclamations"] {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  [name="actions_headerr"] {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  [name="zone_filtres"] {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem;
+  }
+  
+  [name="filtre_date"],
+  [name="filtre_categorie"],
+  [name="filtre_description"],
+  [name="filtre_statut"] {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  [name="table_reclamations"] {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  [name="pagination"] {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  [name="wrapperr_reclamations"] {
+    padding: 1rem;
+  }
+  
+  [name="actions_headerr"] {
+    padding: 1rem;
+  }
+  
+  [name="titre_reclamations"] {
+    font-size: 1.5rem;
+  }
+  
+  [name="table_reclamations"] {
+    font-size: 0.75rem;
+  }
+}
+
+/* Amélioration de la lisibilité */
+[name="table_reclamations"] td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Largeurs optimisées pour les colonnes importantes */
+[name="table_reclamations"] th:nth-child(1),
+[name="table_reclamations"] td:nth-child(1) {
+  min-width: 100px;
+}
+
+[name="table_reclamations"] th:nth-child(2),
+[name="table_reclamations"] td:nth-child(2) {
+  min-width: 120px;
+}
+
+[name="table_reclamations"] th:nth-child(12),
+[name="table_reclamations"] td:nth-child(12),
+[name="table_reclamations"] th:nth-child(13),
+[name="table_reclamations"] td:nth-child(13) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}

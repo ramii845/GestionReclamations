@@ -167,23 +167,21 @@ const ReclamationsAdmin = () => {
         return copy;
       });
 
-      const recsWithNames = recs.map(r => ({
-        ...r,
-        userName:
-          usersCache[r.user_id] ||
-          usersFetched.find(u => u.id === r.user_id)?.nom ||
-          'Utilisateur inconnu',
-          userPhone:
-  usersCache[r.user_id]?.numero_telephone ||
-  usersFetched.find(u => u.id === r.user_id)?.numero_telephone ||
-  '-',
-
-        categorieName:
-          categoriesCache[r.categorie_id] ||
-          catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie ||
-          'Catégorie inconnue'
-      }));
-
+    const recsWithNames = recs.map(r => ({
+  ...r,
+  userName:
+    usersCache[r.user_id]?.nom ||
+    usersFetched.find(u => u.id === r.user_id)?.nom ||
+    'Utilisateur inconnu',
+  userPhone:
+    usersCache[r.user_id]?.numero_telephone ||
+    usersFetched.find(u => u.id === r.user_id)?.numero_telephone ||
+    '-',
+  categorieName:
+    categoriesCache[r.categorie_id] ||
+    catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie ||
+    'Catégorie inconnue'
+}));
       // Ne plus mettre à jour availableStatuts ici
       // setAvailableStatuts([...new Set(recs.map(r => r.statut).filter(Boolean))]);
 
@@ -238,200 +236,210 @@ const ReclamationsAdmin = () => {
     }
   };
 
-  return (
-    <>
-      <Navbar />
-      <div className="list-wrapper">
-        <div className="list-container">
-          <div className="header-actions">
-            <h2 className="title">Liste des Réclamations</h2>
-            <button
-              className="btn-add"
-              onClick={() => navigate('/admin/addReclamation')}
-            >
-              <PlusCircle className="me-2" size={18} />
-              Ajouter
-            </button>
-          </div>
+ return (
+  <>
+    <Navbar name="navbar" />
+    <div className="list-wrapper" name="wrapperr_reclamations">
+      <div className="list-container" name="containerr_reclamations">
+        <div className="header-actions" name="actions_headerr">
+          <h2 className="titlee" name="titre_reclamations">Liste des Réclamations</h2>
+          <button
+            className="btn-add"
+            name="btn_ajouterr_reclamation"
+            onClick={() => navigate('/admin/addReclamation')}
+          >
+            <PlusCircle className="me-2" size={18} />
+            Ajouter
+          </button>
+        </div>
 
-          <div className="filters">
-            <input
-              type="date"
-              value={dateFilter}
-              onChange={e => setDateFilter(e.target.value)}
-              className="filter-input"
-            />
-            <select
-              value={categorieFilter}
-              onChange={e => setCategorieFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">Toutes les catégories</option>
-              {availableCategories.map(cat => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.nomCategorie}
-                </option>
-              ))}
-            </select>
-            <select
-              value={descriptionFilter}
-              onChange={e => setDescriptionFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">Toutes les descriptions</option>
-              {availableDescriptions.map((desc, idx) => (
-                <option key={idx} value={desc}>
-                  {desc}
-                </option>
-              ))}
-            </select>
-            <select
-              value={statutFilter}
-              onChange={e => setStatutFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">Tous les statuts</option>
-              {fixedStatuts.map((stat, idx) => (
-                <option key={idx} value={stat}>
-                  {stat}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="filters" name="zone_filtres">
+          <input
+            type="date"
+            value={dateFilter}
+            onChange={e => setDateFilter(e.target.value)}
+            className="filter-input"
+            name="filtre_date"
+          />
+          <select
+            value={categorieFilter}
+            onChange={e => setCategorieFilter(e.target.value)}
+            className="filter-select"
+            name="filtre_categorie"
+          >
+            <option value="">Toutes les catégories</option>
+            {availableCategories.map(cat => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nomCategorie}
+              </option>
+            ))}
+          </select>
+          <select
+            value={descriptionFilter}
+            onChange={e => setDescriptionFilter(e.target.value)}
+            className="filter-select"
+            name="filtre_description"
+          >
+            <option value="">Toutes les descriptions</option>
+            {availableDescriptions.map((desc, idx) => (
+              <option key={idx} value={desc}>
+                {desc}
+              </option>
+            ))}
+          </select>
+          <select
+            value={statutFilter}
+            onChange={e => setStatutFilter(e.target.value)}
+            className="filter-select"
+            name="filtre_statut"
+          >
+            <option value="">Tous les statuts</option>
+            {fixedStatuts.map((stat, idx) => (
+              <option key={idx} value={stat}>
+                {stat}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <table className="reclamation-table">
-            <thead>
-              <tr>
-                <th>Date création</th>
-                <th>Nom utilisateur</th>
-                <th>Téléphone</th>
-                <th>Nom catégorie</th>
-                <th>Description</th>
-                <th>Détails</th>
-                <th>Incident</th>
-                <th>Document</th>
-                <th>Avancement</th>
-                <th>Action</th>
-                <th>Statut</th>
-                <th>Modifier</th>
-                <th>Supprimer</th>
+        <table className="reclamation-table" name="table_reclamations">
+          <thead name="thead_reclamations">
+            <tr name="ligne_entete">
+              <th name="col">Date création</th>
+              <th name="col">Nom utilisateur</th>
+              <th name="col">Téléphone</th>
+              <th name="col">Nom catégorie</th>
+              <th name="col">Description</th>
+              <th name="col">Détails</th>
+              <th name="col">Incident</th>
+              <th name="col">Document</th>
+              <th name="col">Avancement</th>
+              <th name="col">Action</th>
+              <th name="col">Statut</th>
+              <th name="col_modifier">Modifier</th>
+              <th name="col_supprimer">Supprimer</th>
+            </tr>
+          </thead>
+          <tbody name="tbody_reclamations">
+            {reclamations.map((rec, index) => (
+              <tr key={rec.id} name={`ligne_reclamation_${index}`}>
+                <td name="col_date_creation">
+                  {rec.date_creation
+                    ? new Date(rec.date_creation).toLocaleDateString('fr-FR')
+                    : '-'}
+                </td>
+                <td name="col1">{rec.userName}</td>
+                <td name="col1">{rec.userPhone}</td>
+                <td name="col1">{rec.categorieName}</td>
+                <td name="col1">{rec.description_probleme || '-'}</td>
+                <td name="col1">{rec.autre || '-'}</td>
+                <td name="col1">
+                  {rec.image_vehicule?.length > 0
+                    ? rec.image_vehicule.map((url, idx) => (
+                        <a
+                          key={idx}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={getFileName(url)}
+                          className="doc-link"
+                          name={`lien_incident_${index}_${idx}`}
+                        >
+                          Voir_image_{idx + 1}
+                        </a>
+                      ))
+                    : '-'}
+                </td>
+                <td name="col_1">
+                  {rec.facturation?.length > 0
+                    ? rec.facturation.map((url, idx) => (
+                        <a
+                          key={idx}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={getFileName(url)}
+                          className="doc-link"
+                          name={`lien_document_${index}_${idx}`}
+                        >
+                          Voir_image_{idx + 1}
+                        </a>
+                      ))
+                    : '-'}
+                </td>
+                <td name="col_1">{rec.retour_client || '-'}</td>
+                <td name="col_1">{rec.action || '-'}</td>
+                <td name="col_1">{rec.statut || '-'}</td>
+              
+                <td name="col_modifier">
+                  <button
+                    className="btn-editt"
+                    onClick={() => navigate(`/admin/editReclamation/${rec.id}`)}
+                    name={`btn_modifier_${index}`}
+                  >
+                    <i className="fa-solid fa-pen-to-square"></i> Modifier
+                  </button>
+                </td>
+                <td name="col_supprimert">
+                  <button
+                    className="btn-delete"
+                    onClick={() => openConfirm(rec)}
+                    name={`btn_supprimer_${index}`}
+                  >
+                    <i className="fa-solid fa-trash"></i> Supprimer
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {reclamations.map((rec, index) => (
-                <tr key={index}>
-                  <td>
-                    {rec.date_creation
-                      ? new Date(rec.date_creation).toLocaleDateString('fr-FR')
-                      : '-'}
-                  </td>
-                  <td>{rec.userName}</td>
-                  <td>{rec.userPhone}</td>
-                  <td>{rec.categorieName}</td>
-                  <td>{rec.description_probleme || '-'}</td>
-                  <td>{rec.autre || '-'}</td>
-                  <td>
-                    {rec.image_vehicule?.length > 0
-                      ? rec.image_vehicule.map((url, idx) => (
-                          <a
-                            key={idx}
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={getFileName(url)}
-                            className="doc-link"
-                          >
-                            Voir_image_{idx + 1}
-                          </a>
-                        ))
-                      : '-'}
-                  </td>
-                  <td>
-                    {rec.facturation?.length > 0
-                      ? rec.facturation.map((url, idx) => (
-                          <a
-                            key={idx}
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={getFileName(url)}
-                            className="doc-link"
-                          >
-                            Voir_image_{idx + 1}
-                          </a>
-                        ))
-                      : '-'}
-                  </td>
-                  <td>{rec.retour_client || '-'}</td>
-                  <td>{rec.action || '-'}</td>
-                  <td>{rec.statut || '-'}</td>
-                  <td>
-                    <button
-                      className="btn-edit"
-                      onClick={() =>
-                        navigate(`/admin/editReclamation/${rec.id}`)
-                      }
-                    >
-                      <i className="fa-solid fa-pen-to-square"></i> Modifier
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn-delete"
-                      onClick={() => openConfirm(rec)}
-                    >
-                      <i className="fa-solid fa-trash"></i> Supprimer
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
 
-          <div className="pagination">
-            <button
-              disabled={page <= 1}
-              onClick={() => setPage(p => p - 1)}
-              className="pagination-btn"
-            >
-              ⬅ Précédent
-            </button>
-            <span className="page-info">
-              Page {page} / {totalPages}
-            </span>
-            <button
-              disabled={page >= totalPages}
-              onClick={() => setPage(p => p + 1)}
-              className="pagination-btn"
-            >
-              Suivant ➡
+        <div className="pagination" name="pagination">
+          <button
+            disabled={page <= 1}
+            onClick={() => setPage(p => p - 1)}
+            className="pagination-btn"
+            name="btn_precedent"
+          >
+            ⬅ Précédent
+          </button>
+          <span className="page-info" name="info_page">
+            Page {page} / {totalPages}
+          </span>
+          <button
+            disabled={page >= totalPages}
+            onClick={() => setPage(p => p + 1)}
+            className="pagination-btn"
+            name="btn_suivant"
+          >
+            Suivant ➡
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {showConfirm && (
+      <div className="modal-overlay" name="overlay_modal">
+        <div className="modal-content" name="contenu_modal">
+          <h3 name="titre_modal">Confirmer la suppression</h3>
+          <p name="texte_modal">Voulez-vous vraiment supprimer cette réclamation ?</p>
+          <div className="modal-actions" name="actions_modal">
+            <button onClick={cancelDelete} name="btn_annuler_modal">Annuler</button>
+            <button onClick={handleDelete} className="confirm-delete" name="btn_confirmer_modal">
+              Supprimer
             </button>
           </div>
         </div>
       </div>
+    )}
 
-      {showConfirm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Confirmer la suppression</h3>
-            <p>Voulez-vous vraiment supprimer cette réclamation ?</p>
-            <div className="modal-actions">
-              <button onClick={cancelDelete}>Annuler</button>
-              <button onClick={handleDelete} className="confirm-delete">
-                Supprimer
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-      />
-    </>
-  );
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      name="toast_container"
+    />
+  </>
+);
 };
-
-export default ReclamationsAdmin;
+export default ReclamationsAdmin
