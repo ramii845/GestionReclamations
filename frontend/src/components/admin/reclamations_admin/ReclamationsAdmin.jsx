@@ -313,6 +313,7 @@ const ReclamationsAdmin = () => {
               <th name="col">Détails</th>
               <th name="col">Incident</th>
               <th name="col">Document</th>
+              <th name="col">Reponse</th>
               <th name="col">Avancement</th>
               <th name="col">Action</th>
               <th name="col">Statut</th>
@@ -367,6 +368,7 @@ const ReclamationsAdmin = () => {
                       ))
                     : '-'}
                 </td>
+                 <td name="col_1">{rec.retour_admin || '-'}</td>
                 <td name="col_1">{rec.retour_client || '-'}</td>
                 <td name="col_1">{rec.action || '-'}</td>
                 <td name="col_1">{rec.statut || '-'}</td>
