@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import { updateUser, getUserbyId } from "../../services/authService";
 import Navbar from "../Navbar/Navbar";
 import './EditUser.css';
@@ -132,7 +132,7 @@ data.append('upload_preset', 'iit2024G4');
     try {
       await updateUser(decodedUser.user_id, updatedUser);
       toast.success("Profil mis à jour avec succès !",{ autoClose: 2000 });
-      navigate("/categories");
+     setTimeout(() => navigate("/categories"),1500);
     } catch (error) {
       console.error(error);
       toast.error("Erreur lors de la mise à jour du profil.",{ autoClose: 2000 });
@@ -204,6 +204,7 @@ data.append('upload_preset', 'iit2024G4');
           </Link>
         </div>
       </div>
+          <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

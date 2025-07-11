@@ -54,7 +54,6 @@ const AddCategories = () => {
   return (
     <>
       <Navbar />
-      <ToastContainer />
       <div className="add-container">
         <div className="add-card">
           <h2 className="add-title">Ajouter une service</h2>
@@ -90,6 +89,7 @@ const AddCategories = () => {
             </div>
           </form>
         </div>
+            <ToastContainer position="top-right" autoClose={3000} />
       </div>
     </>
   );

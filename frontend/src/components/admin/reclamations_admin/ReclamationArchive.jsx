@@ -378,12 +378,7 @@ const res = await getPaginatedArchives({
       </div>
     )}
 
-    <ToastContainer
-      position="top-right"
-      autoClose={3000}
-      hideProgressBar={false}
-      name="toast_container"
-    />
+        <ToastContainer position="top-right" autoClose={3000} />
   </>
   );
 };

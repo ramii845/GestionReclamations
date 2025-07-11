@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AvisPopup.css";
 import { useNavigate } from "react-router-dom";
+import { toast,ToastContainer  } from "react-toastify";
 
 const AvisPopup = ({ onClose, onSubmit }) => {
   const [note, setNote] = useState(0);
@@ -11,7 +12,8 @@ const AvisPopup = ({ onClose, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.removeItem("CC_Token");
-    navigate("/login");
+    toast.success("Votre avis a bien été reçu. Merci pour votre retour précieux !", { autoClose: 2000 });
+   setTimeout(() =>  navigate("/login",2000));
     if (note < 1 || note > 5) return alert("Merci de choisir une note entre 1 et 5.");
 
     setLoading(true);
@@ -64,6 +66,7 @@ const AvisPopup = ({ onClose, onSubmit }) => {
           </button>
         </form>
       </div>
+          <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

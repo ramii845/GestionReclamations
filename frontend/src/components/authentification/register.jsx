@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { signup } from '../../services/authService'; // adapter si besoin
 import './registerForm.css';
 
@@ -130,9 +130,9 @@ if (name === 'matricule_vehicule') {
     };
 
     try {
-      await signup(userData); // signup attend un JSON
+      await signup(userData); 
       toast.success('Inscription réussie ! Vous pouvez vous connecter.', { autoClose: 2000 });
-      navigate('/login');
+     setTimeout(() => navigate('/login'),1500);
     } catch (error) {
       toast.error(error.response?.data?.detail || 'Erreur lors de l’inscription', { autoClose: 3000 });
     }
@@ -290,7 +290,9 @@ if (name === 'matricule_vehicule') {
           </div>
         </form>
       </div>
+        <ToastContainer position="top-right" autoClose={3000} />
     </div>
+    
   );
 };
 

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { createReclamation, getAllReclamationsByUser } from "../../services/reclamationService";
 import { getCategorieById } from "../../services/categorieService";
-import { toast } from "react-toastify";
+import { toast,ToastContainer  } from "react-toastify";
 import "./AddReclamationUser.css";
 import "../Navbar/Navbar.css";
 import Navbar from "../Navbar/Navbar";
@@ -154,7 +154,7 @@ const AddReclamationUser = () => {
     try {
       await createReclamation(reclamationData);
       toast.success("Réclamation créée avec succès !", { autoClose: 2000 });
-      navigate("/confirmation");
+     setTimeout(() => navigate("/confirmation",1500));
     } catch {
       toast.error("Erreur lors de la création de la réclamation.", { autoClose: 2000 });
     }
@@ -222,6 +222,7 @@ const AddReclamationUser = () => {
           </Link>
         </div>
       </div>
+          <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

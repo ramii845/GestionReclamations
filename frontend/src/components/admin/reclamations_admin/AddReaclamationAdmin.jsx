@@ -106,7 +106,7 @@ const [facturation, setFacturation] = useState([]);
   try {
     await createReclamation(reclamationData);
     toast.success("Réclamation créée avec succès !", { autoClose: 2000 });
-    navigate("/admin/reclamations");
+    setTimeout(() =>navigate("/admin/reclamations"),1500);
   } catch {
     toast.error("Erreur lors de la création.", { autoClose: 2000 });
   } finally {

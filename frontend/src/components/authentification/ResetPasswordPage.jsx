@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { resetPassword } from '../../services/authService';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AuthForm.css';
 
@@ -20,7 +20,7 @@ const ResetPasswordPage = () => {
     e.preventDefault();
 
     if (nouveau_motdepasse !== confirmation) {
-      toast.error("Les mots de passe ne correspondent pas.",{ autoClose: 2000 });
+      toast.error("Les mots de passe ne correspondent pas.");
       return;
     }
 
@@ -135,6 +135,7 @@ const ResetPasswordPage = () => {
           </Link>
         </div>
       </form>
+        <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

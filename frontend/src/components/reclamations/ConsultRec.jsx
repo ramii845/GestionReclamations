@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getReclamationsByUser, addImagesToReclamation } from "../../services/reclamationService";
 import { createAvis } from "../../services/avisServices";
 import Navbar from "../Navbar/Navbar";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import "./ConsultRec.css";
 import AvisPopup from "./AvisPopup"; // composant popup
 
@@ -159,6 +159,7 @@ const ConsultRec = () => {
           onSubmit={handleAvisSubmit}
         />
       )}
+          <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

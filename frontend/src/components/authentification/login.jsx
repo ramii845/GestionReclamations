@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signin } from '../../services/authService';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer} from 'react-toastify';
 import './AuthForm.css';
 
 const Login = () => {
@@ -26,10 +26,10 @@ const Login = () => {
 
 if (result.role === 'admin') {
   toast.success('Connexion réussie !',{ autoClose: 2000 });
-  navigate('/adminPage');
+   setTimeout(() =>navigate('/adminPage'),1500);
 } else {
   toast.success('Connexion réussie !',{ autoClose: 2000 });
-  navigate('/categories');
+   setTimeout(() =>navigate('/categories'),1500);
 }
 
 
@@ -120,6 +120,7 @@ toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { auto
           </Link>
         </p>
       </form>
+       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
