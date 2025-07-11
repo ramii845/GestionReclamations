@@ -114,7 +114,7 @@ const Navbar = () => {
         Gérer mon compte
       </button>
             <button onClick={() => { setMenuOpen(false); navigate("/admin/archive"); }}>
-        Liste des archives
+       Consulter l’archive
       </button>
        </>
     ) : (

@@ -192,7 +192,7 @@ const res = await getPaginatedArchives({
     <div className="list-wrapper" name="wrapperr_reclamations">
       <div className="list-container" name="containerr_reclamations">
         <div className="header-actions" name="actions_headerr">
-          <h2 className="titlee" name="titre_reclamations">Liste des Archive</h2>
+          <h2 className="titlee" name="titre_reclamations">Liste des réclamations archivées</h2>
   
         </div>
 
@@ -329,7 +329,7 @@ const res = await getPaginatedArchives({
                   <button
                     className="btn-delete"
                     onClick={() => openConfirm(rec)}
-                    name={`btn_supprimer_${index}`}
+                    name={`btn_supprimerr_${index}`}
                   >
                     <i className="fa-solid fa-trash"></i> Supprimer
                   </button>

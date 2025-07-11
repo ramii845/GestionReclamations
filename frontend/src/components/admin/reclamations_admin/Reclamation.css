@@ -230,7 +230,7 @@ background-color: #0cad2c;
 }
 
 [name^="btn_supprimer"] {
-  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  background: #dc26dc;
   color: white;
   border: none;
   padding: 0.4rem 0.75rem;
@@ -249,7 +249,31 @@ background-color: #0cad2c;
 }
 
 [name^="btn_supprimer"]:hover {
-   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+   background:  #dc26be ;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+}
+[name^="btn_supprimerr"] {
+  background: #dc4126;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 90px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+}
+
+[name^="btn_supprimerr"]:hover {
+   background:  #dc3226 ;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
 }

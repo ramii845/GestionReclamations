@@ -211,7 +211,7 @@ const ReclamationsAdmin = () => {
   const handleDelete = async () => {
     try {
       await deleteReclamation(reclamationToDelete.id);
-      toast.success(`Réclamation supprimée`);
+      toast.success(`Réclamation Archivée`);
       if (reclamations.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
@@ -386,7 +386,7 @@ const ReclamationsAdmin = () => {
                     onClick={() => openConfirm(rec)}
                     name={`btn_supprimer_${index}`}
                   >
-                    <i className="fa-solid fa-trash"></i> Supprimer
+                    <i className="fa-solid fa-trash"></i> Archiver
                   </button>
                 </td>
               </tr>
@@ -422,11 +422,11 @@ const ReclamationsAdmin = () => {
       <div className="modal-overlay" name="overlay_modal">
         <div className="modal-content" name="contenu_modal">
           <h3 name="titre_modal">Confirmer la suppression</h3>
-          <p name="texte_modal">Voulez-vous vraiment supprimer cette réclamation ?</p>
+          <p name="texte_modal">Voulez-vous vraiment Archiver cette réclamation ?</p>
           <div className="modal-actions" name="actions_modal">
             <button onClick={cancelDelete} name="btn_annuler_modal">Annuler</button>
             <button onClick={handleDelete} className="confirm-delete" name="btn_confirmer_modal">
-              Supprimer
+              Archiver
             </button>
           </div>
         </div>
