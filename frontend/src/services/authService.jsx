@@ -23,10 +23,19 @@ export const updateUser = async (userId, updatedUserData) => {
 export const getUserbyId = async (userId) => {
   return await axios.get(`${API_BASE_URL}/${userId}`);
 };
-export const getUsersPaginated = async (page = 1, limit = 7) => {
-  return await axios.get(`${API_BASE_URL}/paginated?page=${page}&limit=${limit}`);
-};
+
 export const deleteUser = async (userId) => {
   return await axios.delete(`${API_BASE_URL}/${userId}`);
+};
+
+export const getUsersPaginated = async (page = 1, limit = 7, nom = "", matricule_vehicule = "") => {
+  return await axios.get(`${API_BASE_URL}/paginated`, {
+    params: {
+      page,
+      limit,
+      nom: nom || undefined,
+      matricule_vehicule: matricule_vehicule || undefined
+    }
+  });
 };
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getUsersPaginated,
-  deleteUser,
-} from '../../../services/authService';
-import { Link, useNavigate } from 'react-router-dom';
+import { getUsersPaginated, deleteUser } from '../../../services/authService';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../Navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,25 +14,52 @@ const ListUsers = () => {
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+
   const [searchNom, setSearchNom] = useState('');
   const [searchMatricule, setSearchMatricule] = useState('');
+
+  // États pour debounce
+  const [debouncedNom, setDebouncedNom] = useState('');
+  const [debouncedMatricule, setDebouncedMatricule] = useState('');
+
   const navigate = useNavigate();
 
-  const fetchUsers = async () => {
-    try {
-      const res = await getUsersPaginated(page);
-      setUsers(res.data.users);
-      setTotalPages(res.data.total_pages);
-      setLoading(false);
-    } catch (error) {
-      console.error('Erreur chargement utilisateurs', error);
-      setLoading(false);
-    }
+  // On change des inputs: on met la page à 1 ici (une seule fois par modification)
+  const handleNomChange = (e) => {
+    setSearchNom(e.target.value);
+    setPage(1);
   };
 
+  const handleMatriculeChange = (e) => {
+    setSearchMatricule(e.target.value);
+    setPage(1);
+  };
+
+  // Debounce sur les filtres pour appliquer la recherche sans bloquer la saisie
   useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedNom(searchNom);
+      setDebouncedMatricule(searchMatricule);
+    }, 600);
+
+    return () => clearTimeout(handler);
+  }, [searchNom, searchMatricule]);
+
+  // Fetch users quand page ou filtres debounced changent
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const res = await getUsersPaginated(page, 7, debouncedNom, debouncedMatricule);
+        setUsers(res.data.users);
+        setTotalPages(res.data.total_pages);
+      } catch (error) {
+        toast.error('Erreur chargement utilisateurs');
+      }
+      setLoading(false);
+    };
     fetchUsers();
-  }, [page]);
+  }, [page, debouncedNom, debouncedMatricule]);
 
   const openConfirm = (user) => {
     setUserToDelete(user);
@@ -51,30 +75,27 @@ const ListUsers = () => {
     try {
       await deleteUser(userToDelete.id);
       toast.success(`Utilisateur supprimé : ${userToDelete.nom}`, { autoClose: 2000 });
-      fetchUsers();
-    } catch (error) {
-      toast.error("Erreur suppression !", { autoClose: 2000 });
+      if (users.length === 1 && page > 1) {
+        setPage(page - 1);
+      } else {
+        setPage(page); // reload même page
+      }
+    } catch {
+      toast.error("Erreur suppression !");
     }
     setShowConfirm(false);
     setUserToDelete(null);
   };
 
-  const filteredUsers = users.filter((user) => {
-    return (
-      user.nom.toLowerCase().includes(searchNom.toLowerCase()) &&
-      user.matricule_vehicule.toLowerCase().includes(searchMatricule.toLowerCase())
-    );
-  });
-
-  if (loading) return <div className="loading">Chargement des utilisateurs...</div>;
+  if (loading) return <div className="loading">Chargement des clients...</div>;
 
   return (
     <>
       <Navbar />
-      <div className="list-wrapper">
-        <div className="list-container">
+      <div className="list-wrapperr">
+        <div className="list-containerr">
           <div className="header-actions">
-            <h2 className="title">Liste des Utilisateurs</h2>
+            <h2 className="title">Liste des Clients</h2>
             <button className="btn-add" onClick={() => navigate('/admin/addUser')}>
               <PlusCircle className="me-2" size={18} />
               Ajouter
@@ -86,13 +107,15 @@ const ListUsers = () => {
               type="text"
               placeholder="Rechercher par nom..."
               value={searchNom}
-              onChange={(e) => setSearchNom(e.target.value)}
+              onChange={handleNomChange}
+              className="search-input"
             />
             <input
               type="text"
               placeholder="Rechercher par matricule..."
               value={searchMatricule}
-              onChange={(e) => setSearchMatricule(e.target.value)}
+              onChange={handleMatriculeChange}
+              className="search-input"
             />
           </div>
 
@@ -109,8 +132,8 @@ const ListUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user, index) => (
-                <tr key={index}>
+              {users.map((user) => (
+                <tr key={user.id}>
                   <td>{user.nom}</td>
                   <td>{user.matricule_vehicule}</td>
                   <td>{user.marque}</td>

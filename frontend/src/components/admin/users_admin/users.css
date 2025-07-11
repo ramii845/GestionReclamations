@@ -1,21 +1,4 @@
-body {
-  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
 
-html {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  min-height: 100%;
-}
 
 .list-wrapper {
   padding: 100px 20px 40px;
@@ -23,7 +6,7 @@ html {
   background: transparent;
 }
 
-.list-container {
+.list-containerr {
   max-width: 1400px;
   margin: auto;
   padding: 40px;

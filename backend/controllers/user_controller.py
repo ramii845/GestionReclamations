@@ -116,10 +116,33 @@ async def delete_user(user_id: str):
 
 # 🔵 1. Route pagination en premier
 @user_router.get("/paginated", response_model=dict)
-async def get_users_paginated(page: int = Query(1, ge=1), limit: int = Query(7, ge=1)):
+async def get_users_paginated(
+    page: int = Query(1, ge=1),
+    limit: int = Query(7, ge=1),
+    nom: Optional[str] = Query(None),
+    matricule_vehicule: Optional[str] = Query(None)
+):
     skip = (page - 1) * limit
-    total = await db.users.count_documents({})
-    users = await db.users.find().skip(skip).limit(limit).to_list(length=limit)
+
+    # Construire filtre dynamique insensible à la casse pour nom et matricule_vehicule
+    query_filter = {}
+
+    if nom:
+        query_filter["nom"] = {"$regex": nom, "$options": "i"}
+
+    if matricule_vehicule:
+        query_filter["matricule_vehicule"] = {"$regex": matricule_vehicule, "$options": "i"}
+
+    total = await db.users.count_documents(query_filter)
+
+    users = await (
+        db.users
+        .find(query_filter)
+        .sort("_id", -1)  # Tri du plus récent au plus ancien
+        .skip(skip)
+        .limit(limit)
+        .to_list(length=limit)
+    )
 
     for user in users:
         user["id"] = str(user["_id"])
@@ -132,6 +155,7 @@ async def get_users_paginated(page: int = Query(1, ge=1), limit: int = Query(7, 
         "total_users": total,
         "users": users
     }
+
 
 # 🔵 2. Route reset password
 @user_router.post("/reset-password/")
