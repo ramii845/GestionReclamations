@@ -93,7 +93,7 @@ const ListUsers = () => {
     <>
       <Navbar />
       <div className="list-wrapperr">
-        <div className="list-containerr">
+        <div className="list-container1">
           <div className="header-actions">
             <h2 className="title">Liste des Clients</h2>
             <button className="btn-add" onClick={() => navigate('/admin/addUser')}>

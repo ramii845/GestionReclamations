@@ -1,12 +1,12 @@
 
 
-.list-wrapper {
+.list-wrapperr {
   padding: 100px 20px 40px;
   min-height: calc(100vh - 80px);
   background: transparent;
 }
 
-.list-containerr {
+.list-container {
   max-width: 1400px;
   margin: auto;
   padding: 40px;
@@ -16,6 +16,21 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+.list-container1 {
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* Décaler vers le haut de 30px */
+  transform: translateY(-200px);
+}
+
 
 .title {
   font-size: 32px;
