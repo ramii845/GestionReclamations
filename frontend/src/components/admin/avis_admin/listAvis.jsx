@@ -8,6 +8,8 @@ import { getReclamationById } from "../../../services/reclamationService";
 import "./Avis.css";
 import Navbar from "../../Navbar/Navbar";
 import StarRating from "./StarRating";
+import Swal from "sweetalert2";
+
 
 export default function ListAvis() {
   const [avisList, setAvisList] = useState([]);
@@ -65,15 +67,29 @@ export default function ListAvis() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Voulez-vous vraiment supprimer cet avis ?")) return;
+const handleDelete = async (id) => {
+  const result = await Swal.fire({
+    title: "Êtes-vous sûr ?",
+    text: "Cette action supprimera définitivement l'avis.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#e74c3c",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Oui, supprimer",
+    cancelButtonText: "Annuler",
+  });
+
+  if (result.isConfirmed) {
     try {
       await deleteAvis(id);
-      fetchAvis();
+      await fetchAvis();
+      Swal.fire("Supprimé !", "L'avis a été supprimé avec succès.", "success");
     } catch {
-      alert("Erreur lors de la suppression");
+      Swal.fire("Erreur", "Impossible de supprimer l'avis.", "error");
     }
-  };
+  }
+};
+
 
   return (
     <div className="avis-container">

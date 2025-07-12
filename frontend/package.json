@@ -45,6 +45,7 @@
     "react-scripts": "^5.0.1",
     "react-toastify": "^11.0.5",
     "styled-components": "^6.1.19",
+    "sweetalert2": "^11.22.2",
     "swiper": "^11.2.9",
     "use-shopping-cart": "^3.2.0"
   },
