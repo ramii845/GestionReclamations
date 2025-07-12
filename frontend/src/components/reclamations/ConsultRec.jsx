@@ -81,7 +81,7 @@ const ConsultRec = () => {
     if (!reclamationId) return toast.error("Aucune réclamation trouvée.");
 
     if (reponseUtilite === null)
-      return toast.error("Veuillez choisir Oui ou Non.");
+      return toast.warning("Veuillez choisir Oui ou Non.");
 
     try {
       setUploading(true);

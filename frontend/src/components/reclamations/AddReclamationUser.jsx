@@ -116,7 +116,7 @@ const AddReclamationUser = () => {
         r => r.statut === "En attente" || r.statut === "Prise en charge"
       );
       if (enCours) {
-        toast.error("Vous avez déjà une réclamation en cours de traitement.");
+       toast.warning("Cher client, vous pouvez envoyer une autre réclamation à la condition que la dernière réclamation soit clôturée");
         return;
       }
     } catch (err) {
@@ -168,7 +168,7 @@ const AddReclamationUser = () => {
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
-            <label>Description du problème *</label>
+            <label>Description de la réclamation *</label>
             <select
               value={descriptionProbleme}
               onChange={(e) => setDescriptionProbleme(e.target.value)}
@@ -182,7 +182,7 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>Détails du problème</label>
+            <label>Détails de la réclamation</label>
             <input
               type="text"
               value={autre}

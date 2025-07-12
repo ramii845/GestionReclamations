@@ -86,20 +86,26 @@ if (name === 'matricule_vehicule') {
 
     // Validation simple avant soumission
     if (form.motdepasse !== form.motdepasse2) {
-      toast.error('Les mots de passe ne correspondent pas');
+      toast.warning('Les mots de passe ne correspondent pas');
       return;
     }
 
-    if (form.numero_telephone.length !== 8) {
-      toast.error('Le numéro de téléphone doit contenir exactement 8 chiffres');
-      return;
-    }
+  const num = parseInt(form.numero_telephone, 10);
+  if (
+    form.numero_telephone.length !== 8 ||
+    isNaN(num) ||
+    num < 20000000 ||
+    num > 99999999
+  ) {
+    toast.warning("Veuillez saisir un numéro de téléphone valide, composé de 8 chiffres");
+    return;
+  }
 
    if (
-    (form.matricule_vehicule.length !== 9 && form.matricule_vehicule.length !== 10)||
+    (form.matricule_vehicule.length !== 8 && form.matricule_vehicule.length !== 9)||
   !/^\d{3,4}TU\d{2,3}$/i.test(form.matricule_vehicule)
 ) {
-  toast.error(
+  toast.warning(
     'Matricule invalide : il doit être au format 000TU000 ou 0000TU00 ',
     { autoClose: 3000 }
   );
@@ -176,7 +182,7 @@ if (name === 'matricule_vehicule') {
               placeholder="Exemple: 0000TU000"
               value={form.matricule_vehicule}
               onChange={handleChange}
-              minLength={9}
+              minLength={8}
               maxLength={9}
               required
             />

@@ -20,7 +20,7 @@ const ResetPasswordPage = () => {
     e.preventDefault();
 
     if (nouveau_motdepasse !== confirmation) {
-      toast.error("Les mots de passe ne correspondent pas.");
+      toast.warning("Les mots de passe ne correspondent pas.");
       return;
     }
 
