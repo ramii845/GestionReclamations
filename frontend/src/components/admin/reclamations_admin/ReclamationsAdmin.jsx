@@ -262,7 +262,7 @@ useEffect(() => {
         <div className="header-actions" name="actions_headerr">
           <h2 className="titlee" name="titre_reclamations">Liste des Réclamations</h2>
           <button
-            className="btn-add"
+            className="btn-add1"
             name="btn_ajouterr_reclamation"
             onClick={() => navigate('/admin/addReclamation')}
           >

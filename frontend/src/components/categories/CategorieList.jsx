@@ -70,7 +70,8 @@ const CategorieList = () => {
   return (
     <div>
   <Navbar/>
-     <h2 className="title">Liste des Services</h2>
+   <h2 className="title1">Bienvenue chez l'agence Auto Lion</h2>
+     <h2 className="title2">Liste des Services</h2>
       <div className="categorie-container">
    
         <div className="categorie-grid">

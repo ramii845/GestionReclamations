@@ -95,8 +95,8 @@ const ListUsers = () => {
       <div className="list-wrapperr">
         <div className="list-container1">
           <div className="header-actions">
-            <h2 className="title">Liste des Clients</h2>
-            <button className="btn-add" onClick={() => navigate('/admin/addUser')}>
+            <h2 className="titlec">Liste des Clients</h2>
+            <button className="btn-add1" onClick={() => navigate('/admin/addUser')}>
               <PlusCircle className="me-2" size={18} />
               Ajouter
             </button>
@@ -141,7 +141,7 @@ const ListUsers = () => {
                   <td>{user.numero_telephone}</td>
                   <td>
                     <button
-                      className="btn-edit"
+                      className="btn-edit1"
                       onClick={() => navigate(`/admin/edit/${user.id}`)}
                     >
                       <i className="fa-solid fa-pen-to-square"></i> Modifier

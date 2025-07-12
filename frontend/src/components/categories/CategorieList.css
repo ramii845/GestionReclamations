@@ -1,6 +1,7 @@
+/* Styles globaux pour le body et html */
 body {
   font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Couleurs de fond d'origine */
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -10,49 +11,64 @@ body {
 }
 
 html {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Couleurs de fond d'origine */
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   min-height: 100%;
 }
 
-/* Titre principal */
-.title {
-  font-size: 2.2rem;
+/* Titre "bienVenu" */
+.title1 {
+  font-size: 2.5rem;
   font-weight: 700;
+  background: rgb(0, 162, 255);/* Couleurs d'origine */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-top: 100px; /* Espace sous la navbar */
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+/* Titre "Liste des Services" */
+.title2 {
+  font-size: 2rem;
+  font-weight: 600;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 150px 0 30px 0;
-  letter-spacing: -0.5px;
   text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: -0.3px;
   position: relative;
-  animation: fadeInDown 0.6s ease-out;
+  animation: fadeInDown 0.6s ease-out 0.2s;
 }
 
-.title::after {
+.title2::after {
   content: "";
   position: absolute;
-  bottom: -8px;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Couleurs d'origine */
   border-radius: 2px;
-  animation: expandWidth 0.8s ease-out 0.3s both;
+  animation: expandWidth 0.8s ease-out 0.5s both;
 }
 
-/* Conteneur principal */
+/* Conteneur principal des catégories */
 .categorie-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5px;
-  min-height: calc(100vh - 200px);
+  padding: 20px;
+  min-height: calc(100vh - 250px); /* Ajuster la hauteur */
   background: transparent;
   position: relative;
 }
@@ -60,11 +76,12 @@ html {
 /* Grille des catégories */
 .categorie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 35px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Permet 2 colonnes sur grand écran */
+  gap: 30px;
   width: 100%;
-  max-width: 900px;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
+  max-width: 750px; /* Limite la largeur pour que 2 cartes + gap tiennent */
+  margin: 0 auto; /* Centre la grille */
+  animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 /* Carte de catégorie */
@@ -72,9 +89,9 @@ html {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2); /* Ombres et bordures neutres */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Bordures neutres */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
   display: flex;
@@ -101,7 +118,7 @@ html {
 }
 
 .categorie-card:hover {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-8px) scale(1.02);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.98);
 }
@@ -113,9 +130,9 @@ html {
 /* Image */
 .categorie-card img {
   width: 100%;
-  height: 240px;
+  height: 240px; /* Hauteur de l'image ajustée */
   object-fit: cover;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 0;
 }
@@ -125,11 +142,11 @@ html {
   filter: brightness(1.05) saturate(1.05);
 }
 
-/* Bouton catégorie */
+/* Bouton catégorie - couleurs d'origine */
 .categorie-btn {
   margin: 20px 24px 24px;
   padding: 16px 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Couleurs d'origine */
   color: white;
   border: none;
   border-radius: 10px;
@@ -142,7 +159,7 @@ html {
   position: relative;
   overflow: hidden;
   z-index: 2;
-  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3); /* Ombre ajustée */
   text-align: center;
   width: calc(100% - 48px);
 }
@@ -163,7 +180,7 @@ html {
 }
 
 .categorie-btn:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%); /* Couleurs d'origine au survol */
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
 }
@@ -211,7 +228,7 @@ html {
     width: 0;
   }
   to {
-    width: 60px;
+    width: 80px; /* Ajusté pour le titre */
   }
 }
 
@@ -228,58 +245,37 @@ html {
 .categorie-card:nth-child(4) {
   animation-delay: 0.4s;
 }
+.categorie-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.categorie-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .title {
-    margin: 90px 0 25px 0;
-    font-size: 2rem;
+  .title1 {
+    margin-top: 90px;
+    font-size: 2.2rem;
   }
-
+  .title2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+  .title2::after {
+    width: 70px;
+  }
   .categorie-container {
-    min-height: calc(100vh - 180px);
+    min-height: calc(100vh - 200px);
   }
-
   .categorie-grid {
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 30px;
-    max-width: 800px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    max-width: 700px; /* Ajusté pour 2 colonnes */
   }
-
   .categorie-card img {
     height: 220px;
   }
-}
-
-@media (max-width: 768px) {
-  .title {
-    margin: 80px 0 20px 0;
-    font-size: 1.9rem;
-  }
-
-  .title::after {
-    width: 50px;
-  }
-
-  .categorie-container {
-    padding: 15px;
-    min-height: calc(100vh - 160px);
-  }
-
-  .categorie-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-    max-width: 450px;
-  }
-
-  .categorie-card {
-    border-radius: 14px;
-  }
-
-  .categorie-card img {
-    height: 200px;
-  }
-
   .categorie-btn {
     margin: 18px 20px 20px;
     padding: 14px 24px;
@@ -287,41 +283,95 @@ html {
   }
 }
 
-@media (max-width: 480px) {
-  .title {
-    margin: 70px 0 15px 0;
-    font-size: 1.7rem;
+@media (max-width: 768px) {
+  .title1 {
+    margin-top: 80px;
+    font-size: 2rem;
   }
-
+  .title2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+  .title2::after {
+    width: 60px;
+  }
   .categorie-container {
-    padding: 10px;
-    min-height: calc(100vh - 140px);
+    padding: 15px;
+    min-height: calc(100vh - 180px);
   }
-
   .categorie-grid {
-    gap: 18px;
-    max-width: 100%;
+    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    gap: 20px;
+    max-width: 400px; /* Limite la largeur pour les mobiles */
   }
-
   .categorie-card {
-    border-radius: 12px;
+    border-radius: 14px;
   }
-
   .categorie-card img {
-    height: 150px;
+    height: 200px;
   }
-
   .categorie-btn {
-    margin: 14px 16px 16px;
-    padding: 10px 18px;
+    margin: 16px 18px 18px;
+    padding: 12px 20px;
     font-size: 0.9rem;
   }
 }
 
+@media (max-width: 480px) {
+  .title1 {
+    margin-top: 70px;
+    font-size: 1.8rem;
+  }
+  .title2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .title2::after {
+    width: 50px;
+    height: 3px;
+  }
+  .categorie-container {
+    padding: 10px;
+    min-height: calc(100vh - 160px);
+  }
+  .categorie-grid {
+    gap: 15px;
+  }
+  .categorie-card {
+    border-radius: 12px;
+  }
+  .categorie-card img {
+    height: 160px;
+  }
+  .categorie-btn {
+    margin: 14px 16px 16px;
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Règle pour centrer la dernière carte sur les écrans PC (à partir de 769px) */
+@media (min-width: 769px) {
+  .categorie-grid:has(.categorie-card:nth-last-child(1):nth-child(odd)) {
+    /* Cette règle s'applique si la grille contient un nombre impair de cartes et que la dernière est impaire */
+    grid-template-columns: repeat(2, 1fr); /* Assure 2 colonnes */
+    justify-content: center; /* Centre les colonnes si l'espace le permet */
+  }
+
+  .categorie-grid:has(.categorie-card:nth-last-child(1):nth-child(odd)) .categorie-card:last-child {
+    grid-column: span 2; /* La dernière carte s'étend sur les deux colonnes */
+    justify-self: center; /* Centre la carte horizontalement */
+    max-width: 350px; /* Limite la largeur de la carte pour qu'elle ne soit pas trop grande */
+    width: 100%; /* S'assure qu'elle prend la largeur disponible dans sa max-width */
+  }
+}
+
+
 /* Focus accessibility */
-.categorie-card:focus {
-  outline: 2px solid #667eea;
-  outline-offset: 2px;
+.categorie-card:focus-within {
+  outline: 2px solid #667eea; /* Couleur d'origine */
+  outline-offset: 4px;
+  border-color: #667eea; /* Couleur d'origine */
 }
 
 .categorie-btn:focus {
@@ -332,22 +382,25 @@ html {
 /* Performance optim */
 .categorie-card,
 .categorie-btn {
-  will-change: transform;
+  will-change: transform, box-shadow;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .categorie-card,
   .categorie-btn,
-  .title {
-    animation: none;
-    transition: none;
+  .title1,
+  .title2 {
+    animation: none !important;
+    transition: none !important;
   }
-
+  .categorie-card::before,
+  .categorie-btn::before {
+    transition: none !important;
+  }
   .categorie-card:hover {
     transform: none;
   }
-
   .categorie-btn:hover {
     transform: none;
   }
@@ -355,35 +408,49 @@ html {
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  }
+  html {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  }
+  .title1, .title2 {
+    background: linear-gradient(135deg, #9f7aea 0%, #d6bcfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .title2::after {
+    background: linear-gradient(135deg, #9f7aea 0%, #d6bcfa 100%);
+  }
   .categorie-card {
-    background: rgba(30, 30, 30, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(159, 122, 234, 0.2);
+    box-shadow: 0 8px 25px rgba(159, 122, 234, 0.05);
   }
-
+  .categorie-card:hover {
+    background: rgba(30, 41, 59, 1);
+    box-shadow: 0 18px 35px rgba(159, 122, 234, 0.15);
+  }
   .categorie-btn {
-    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+    background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+    box-shadow: 0 4px 15px rgba(159, 122, 234, 0.2);
+  }
+  .categorie-btn:hover {
+    background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%);
+    box-shadow: 0 8px 20px rgba(159, 122, 234, 0.3);
+  }
+  .categorie-card:focus-within {
+    outline-color: #9f7aea;
   }
 }
 
-.categorie-grid:has(.categorie-card:nth-child(3):last-child),
-.categorie-grid:has(.categorie-card:nth-child(5):last-child),
-.categorie-grid:has(.categorie-card:nth-child(7):last-child),
-.categorie-grid:has(.categorie-card:nth-child(9):last-child),
-.categorie-grid:has(.categorie-card:nth-child(11):last-child)
-{
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-}
-
-.categorie-grid:has(.categorie-card:nth-child(3):last-child) .categorie-card:nth-child(3),
-.categorie-grid:has(.categorie-card:nth-child(5):last-child) .categorie-card:nth-child(5),
-.categorie-grid:has(.categorie-card:nth-child(7):last-child) .categorie-card:nth-child(7) ,
-.categorie-grid:has(.categorie-card:nth-child(3):last-child) .categorie-card:nth-child(9),
-.categorie-grid:has(.categorie-card:nth-child(5):last-child) .categorie-card:nth-child(11)
-
-{
-  grid-column: span 2;
-  justify-self: center;
-  width: 50%;
-  max-width: none;
+/* Styles pour le texte de bienvenue (si utilisé) */
+.welcome-text {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 20px;
+  color: #4a5568; /* Couleur harmonisée */
+  position: relative;
+  z-index: 10;
 }
