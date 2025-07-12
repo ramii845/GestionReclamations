@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPaginatedArchives, deleteArchive } from '../../../services/archiveService';
+import { getPaginatedArchives, deleteArchive,getAllArchives} from '../../../services/archiveService';
 import { getUserbyId } from '../../../services/authService';
 import { getCategorieById, getAllCategories } from '../../../services/categorieService';
 import Navbar from '../../Navbar/Navbar';
@@ -25,6 +25,7 @@ const ArchiveReclamation = () => {
   const [statutFilter, setStatutFilter] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const [reclamationToDelete, setReclamationToDelete] = useState(null);
+  const [totalCount, setTotalCount] = useState(0);
   const navigate = useNavigate();
 
   const fixedStatuts = ["En attente", "Prise en charge", "Terminée"];
@@ -75,6 +76,18 @@ const ArchiveReclamation = () => {
       }
     };
     fetchCategories();
+  }, []);
+    useEffect(() => {
+    const fetchTotalCount = async () => {
+      try {
+        const res = await getAllArchives();
+        setTotalCount(res.data.length);
+      } catch (err) {
+        console.error("Erreur total réclamations", err);
+      }
+    };
+  
+    fetchTotalCount();
   }, []);
 
   useEffect(() => {
@@ -360,6 +373,9 @@ const res = await getPaginatedArchives({
             Suivant ➡
           </button>
         </div>
+                                <div style={{ textAlign: "right", padding: "10px 20px", fontWeight: "bold", color: "#555" }}>
+  Total : {totalCount} réclamations archivées
+</div>
       </div>
     </div>
 

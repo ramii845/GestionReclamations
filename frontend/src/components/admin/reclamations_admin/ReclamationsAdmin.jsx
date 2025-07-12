@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   getPaginatedReclamations,
-  deleteReclamation
+  deleteReclamation,getAllReclamations
 } from '../../../services/reclamationService';
 import { getUserbyId } from '../../../services/authService';
 import {
@@ -30,10 +30,13 @@ const ReclamationsAdmin = () => {
   const [statutFilter, setStatutFilter] = useState('');
   const [availableCategories, setAvailableCategories] = useState([]);
   const [availableDescriptions, setAvailableDescriptions] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const navigate = useNavigate();
+
   const [usersCache, setUsersCache] = useState({});
   const [categoriesCache, setCategoriesCache] = useState({});
+  
+  const navigate = useNavigate();
 
   // Fonction pour retourner les descriptions selon le nom de catégorie
   const getDescriptionsByCategorie = (nomCategorie) => {
@@ -193,6 +196,20 @@ const ReclamationsAdmin = () => {
     }
     setLoading(false);
   };
+ const fetchTotalCount = async () => {
+  try {
+    const res = await getAllReclamations();
+    setTotalCount(res.data.length);
+  } catch (err) {
+    console.error("Erreur total réclamations", err);
+  }
+};
+
+useEffect(() => {
+  fetchTotalCount();
+}, []);
+
+
 
   useEffect(() => {
     fetchReclamations();
@@ -212,6 +229,7 @@ const ReclamationsAdmin = () => {
     try {
       await deleteReclamation(reclamationToDelete.id);
       toast.success(`Réclamation Archivée`);
+       fetchTotalCount();
       if (reclamations.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
@@ -417,6 +435,9 @@ const ReclamationsAdmin = () => {
             Suivant ➡
           </button>
         </div>
+                          <div style={{ textAlign: "right", padding: "10px 20px", fontWeight: "bold", color: "#555" }}>
+  Total : {totalCount} réclamations
+</div>
       </div>
     </div>
 
@@ -430,7 +451,10 @@ const ReclamationsAdmin = () => {
             <button onClick={handleDelete} className="confirm-delete" name="btn_confirmer_modal">
               Archiver
             </button>
+  
           </div>
+  
+
         </div>
       </div>
     )}
