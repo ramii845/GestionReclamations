@@ -287,7 +287,7 @@ if (name === 'matricule_vehicule') {
           </div>
 
           <button className="buttonRegister" type="submit" disabled={uploading}>
-            {uploading ? 'Chargement...' : 'Créer un compte'}
+          Créer un compte
           </button>
 
           <div className="redirect-login">

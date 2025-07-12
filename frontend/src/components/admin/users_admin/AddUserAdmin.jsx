@@ -90,7 +90,7 @@ const AddUserAdmin = () => {
       <Navbar />
       <Card className="add-user-card">
         <Card.Body>
-          <Card.Title className="mb-4">Ajouter un utilisateur</Card.Title>
+          <Card.Title className="mb-4">Ajouter un client</Card.Title>
           <Form onSubmit={handleSubmit}>
 
             <Form.Group className="mb-3" controlId="formNom">

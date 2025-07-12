@@ -1,122 +1,350 @@
-/* Barre de navigation principale */
+/* Navbar principale */
 .navbar {
   width: 100%;
-  height: 60px;
-  background-color: #0c847e;
+  height: 70px;
+  background: linear-gradient(135deg, #0c847e 0%, #086660 100%); /* Dégradé de vert */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Espacer les sections gauche, centre et droite */
   align-items: center;
-  padding: 0 25px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  position: fixed; /* fixée en haut */
+  padding: 0 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
 }
 
-/* Container principal pour éviter que le contenu soit caché derrière la navbar */
-.categorie-container {
-  padding-top: 70px;
+/* Section gauche: Logo + texte société */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espacement entre les éléments */
+  flex-shrink: 0; /* Empêche cette section de rétrécir */
 }
 
-/* Texte "Accueil" à gauche */
-.navbar-accueil {
-  color: #e6f9f9;
-  font-weight: 600;
-  font-size: 1.1rem;
+.navbar-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar-company-info {
+  color: #e6f9f9; /* Couleur de texte claire */
+  font-size: 0.85rem;
+  line-height: 1.2;
+  font-weight: 500;
+  white-space: nowrap; /* Empêche le texte de se casser sur plusieurs lignes */
+}
+
+.navbar-company-info strong {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Conteneur pour le lien "Accueil" */
+.navbar-linksa {
+  text-align: center;
+  display: flex; /* Assurer que c'est un conteneur flex pour l'alignement */
+  align-items: center; /* Centrer verticalement son contenu */
+}
+
+.navbar-linksa span {
+  color: white; /* Couleur de texte blanche pour une meilleure visibilité */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Ombre pour un meilleur contraste */
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
   user-select: none;
-  transition: color 0.3s;
+  position: relative;
+  display: inline-block; /* IMPORTANT: Pour que le soulignement fonctionne bien */
+  line-height: 1.2; /* Assurer une hauteur de ligne cohérente */
 }
 
-.navbar-accueil:hover {
-  color: #a0dedc;
+.navbar-linksa span::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #a0dedc; /* Soulignement au survol */
+  transition: width 0.3s ease;
 }
 
-/* Conteneur user avec nom à gauche et logo à droite */
+.navbar-linksa span:hover {
+  color: #a0dedc; /* Couleur au survol */
+  transform: translateY(-2px);
+}
+
+.navbar-linksa span:hover::after {
+  width: 100%;
+}
+
+/* Groupe de droite pour Consultation Réclamation et User Info */
+.navbar-right-group {
+  display: flex;
+  align-items: center;
+  gap: 35px; /* Espacement entre les éléments du groupe de droite */
+  flex-shrink: 0; /* Empêche cette section de rétrécir */
+}
+
+/* Conteneur pour le lien "Consultation Réclamation" */
+.navbar-linksc {
+  display: flex; /* Assurer que c'est un conteneur flex pour l'alignement */
+  align-items: center; /* Centrer verticalement son contenu */
+}
+
+.navbar-linksc span {
+  color: white; /* Couleur de texte blanche pour une meilleure visibilité */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Ombre pour un meilleur contraste */
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+  user-select: none;
+  position: relative;
+  display: inline-block; /* IMPORTANT: Assurer le même comportement que navbar-linksa span */
+  white-space: nowrap; /* Empêche le texte de se casser sur une seule ligne si possible */
+  line-height: 1.2; /* Assurer une hauteur de ligne cohérente */
+}
+
+.navbar-linksc span::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #a0dedc; /* Soulignement au survol */
+  transition: width 0.3s ease;
+}
+
+.navbar-linksc span:hover {
+  color: #a0dedc; /* Couleur au survol */
+  transform: translateY(-2px);
+}
+
+.navbar-linksc span:hover::after {
+  width: 100%;
+}
+
+/* Section utilisateur (maintenant dans navbar-right-group) */
 .navbar-user {
   position: relative;
   display: flex;
   align-items: center;
-  margin-right: 50px;
+  gap: 12px; /* Espacement entre nom et image */
+  flex-shrink: 0; /* Empêche cette section de rétrécir */
 }
 
-/* Nom utilisateur affiché à gauche du logo */
 .user-name {
   color: white;
   font-weight: 600;
-  margin-left: 0; /* pas de marge à gauche, on peut ajuster */
-  margin-right: 10px; /* espace entre nom et logo */
   font-size: 1rem;
   user-select: none;
   white-space: nowrap;
+  margin-right: 5px; /* Petit espace avant l'image */
+  line-height: 1.2; /* Assurer une hauteur de ligne cohérente */
 }
 
-/* Image de l'utilisateur (logo) */
 .user-image {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Effet hover sur le logo */
 .user-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
-/* Menu déroulant affiché sous le logo */
+/* Menu déroulant utilisateur */
 .user-menu {
   position: absolute;
-  top: 60px; /* sous le logo */
-  right: 30px;
+  top: 65px; /* Positionnement sous la navbar */
+  right: 0;
   background-color: white;
   color: #0c847e;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* Ombre plus douce */
   display: flex;
   flex-direction: column;
-  min-width: 160px;
+  min-width: 180px; /* Largeur minimale pour les boutons */
   z-index: 200;
+  animation: fadeInScale 0.2s ease-out forwards; /* Animation d'apparition */
+  transform-origin: top right;
 }
 
-/* Boutons dans le menu utilisateur */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .user-menu button {
-  padding: 10px 15px;
+  padding: 12px 18px; /* Padding ajusté */
   background: none;
   border: none;
   text-align: left;
-  font-size: 14px;
+  font-size: 15px; /* Taille de police légèrement augmentée */
   color: #0c847e;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .user-menu button:hover {
-  background-color: #f0fdfd;
+  background-color: #e0f7f7; /* Couleur de survol plus douce */
+  color: #086660; /* Texte légèrement plus foncé au survol */
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+.user-menu button:last-child {
+  border-top: 1px solid #f0fdfd; /* Séparateur pour Déconnexion */
+}
+
+/* Responsive mobile */
+@media (max-width: 992px) {
   .navbar {
-    padding: 0 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 4px 10px;
+    align-items: center;
+    justify-content: space-between; /* Espacer les sections principales */
+    gap: 10px; /* Espacement général entre les éléments principaux */
   }
 
+  .navbar-left {
+    flex-shrink: 1;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0;
+  }
+
+  .navbar-linksa {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    margin-right: 10px; /* Espacement entre "Accueil" et le groupe de droite */
+  }
+
+  .navbar-right-group {
+    width: auto;
+    flex-shrink: 1;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* Aligner son contenu au début */
+    align-items: center;
+    gap: 10px; /* Espacement entre Consultation et User */
+    margin-bottom: 0;
+  }
+
+  .navbar-linksa span,
+  .navbar-linksc span,
+  .user-name {
+    font-size: 0.65rem;
+    white-space: normal; /* Permettre le retour à la ligne si nécessaire */
+    overflow: visible; /* Assurer que le texte n'est pas coupé */
+    text-overflow: clip; /* Désactiver l'ellipsis */
+    max-width: none; /* Supprimer la limitation de largeur */
+    line-height: 1.2; /* Assurer une hauteur de ligne cohérente pour l'alignement vertical */
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Spécifique pour "Consultation Réclamation" pour s'assurer qu'il s'affiche entièrement */
+  .navbar-linksc span {
+    max-width: 120px; /* Augmenter la largeur maximale pour ce lien spécifique */
+    white-space: normal; /* Permettre le retour à la ligne si le texte est trop long */
+    text-align: center; /* Centrer le texte s'il se casse sur plusieurs lignes */
+  }
+
+  .user-image {
+    width: 25px;
+    height: 25px;
+  }
+
+  /* Menu déroulant utilisateur */
   .user-menu {
-    right: 10px;
-    min-width: 140px;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideUpMenu 0.3s ease-out forwards;
+    transform-origin: bottom center;
   }
 
- .user-name {
-  font-size: 0.85rem;
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @keyframes slideUpMenu {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .user-menu button {
+    text-align: center;
+    padding: 8px;
+  }
 }
 
+@media (max-width: 576px) {
+  .navbar {
+    padding: 3px 8px;
+  }
+
+  .navbar-logo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .navbar-company-info {
+    font-size: 0.45rem;
+    max-width: 80px;
+  }
+
+  .navbar-linksa span,
+  .user-name {
+    font-size: 0.55rem;
+    max-width: 55px;
+  }
+
+  .navbar-linksc span {
+    font-size: 0.55rem; /* Ajuster la taille de police pour les très petits écrans */
+    max-width: 90px; /* Ajuster la largeur maximale pour les très petits écrans */
+  }
+
+  .user-image {
+    width: 22px;
+    height: 22px;
+  }
 }
