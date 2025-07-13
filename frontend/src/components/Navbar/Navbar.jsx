@@ -71,7 +71,7 @@ const Navbar = () => {
         <div className="navbar-company-info">
           <strong>STE AUTO LION</strong><br />
           Agent officiel Peugeot<br />
-          Route de Gabès Km 1.5 - 3000 Sfax
+          Route de Gabès Km 1.5 - Sfax
         </div>
       </div>
       <div className="navbar-linksa">

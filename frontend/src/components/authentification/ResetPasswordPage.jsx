@@ -26,7 +26,7 @@ const ResetPasswordPage = () => {
 
     try {
       const res = await resetPassword({
-        matricule_vehicule,
+       matricule_vehicule: matricule_vehicule.toUpperCase(),
         nouveau_motdepasse,
       });
 

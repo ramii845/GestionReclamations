@@ -52,7 +52,7 @@ async def upload_to_cloudinary(file: UploadFile) -> str:
 async def register(user: User):
     existing_user = await db.users.find_one({"matricule_vehicule": user.matricule_vehicule})
     if existing_user:
-        raise HTTPException(status_code=400, detail="matricule_vehicule déjà utilisé")
+        raise HTTPException(status_code=400, detail="Matricule déjà utilisé")
 
     hashed_password = pwd_context.hash(user.motdepasse)
     user_data = user.dict()
@@ -160,7 +160,12 @@ async def get_users_paginated(
 # 🔵 2. Route reset password
 @user_router.post("/reset-password/")
 async def reset_password(data: ResetPasswordRequest):
-    user = await db.users.find_one({"matricule_vehicule": data.matricule_vehicule})
+    user = await db.users.find_one({
+        "matricule_vehicule": {
+            "$regex": f"^{re.escape(data.matricule_vehicule)}$",
+            "$options": "i"
+        }
+    })
     if not user:
         raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
 
