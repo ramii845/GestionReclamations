@@ -149,6 +149,7 @@ const ConsultRec = () => {
               <div><strong>Date :</strong> {new Date(lastReclamation.date_creation).toLocaleDateString("fr-FR")}</div>
               <div><strong>Description :</strong> {lastReclamation.description_probleme || "-"}</div>
               <div><strong>Détails :</strong> {lastReclamation.autre || "-"}</div>
+              <div><strong>Retour agence :</strong> {lastReclamation.retour_client|| "-"}</div>
               <div><strong>Statut :</strong> {lastReclamation.statut || "-"}</div>
 
               {lastReclamation.statut === "En attente" ? null : (

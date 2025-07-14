@@ -206,7 +206,7 @@ const [facturation, setFacturation] = useState([]);
                       <Button variant="primary" type="submit">
                         Enregistrer
                       </Button>
-                         <Button variant="secondary" className="me-2" onClick={() => navigate("/admin/utilisateurs")}>
+                         <Button variant="secondary" className="me-2" onClick={() => navigate("/admin/reclamations")}>
                         Annuler
                       </Button>
                     </div>
