@@ -47,26 +47,33 @@ async def get_avis_paginated(
     nbetoiles: Optional[int] = Query(None, ge=1, le=5)
 ):
     skip = (page - 1) * limit
-    filter_query = {}
+    query_filter = {}
     if nbetoiles is not None:
-        filter_query["nbetoiles"] = nbetoiles
+        query_filter["nbetoiles"] = nbetoiles
 
-    total = await db.avis.count_documents(filter_query)
-    avis_cursor = await db.avis.find(filter_query).skip(skip).limit(limit).to_list(length=limit)
+    total = await db.avis.count_documents(query_filter)
 
-    avis_list = []
-    for avis in avis_cursor:
-        avis["id"] = str(avis["_id"])
-        del avis["_id"]
-        avis_list.append(avis)
+    avis = await (
+        db.avis
+        .find(query_filter)
+        .sort("_id", -1)  # Tri du plus récent au plus ancien
+        .skip(skip)
+        .limit(limit)
+        .to_list(length=limit)
+    )
+
+    for avis_doc in avis:
+        avis_doc["id"] = str(avis_doc["_id"])
+        del avis_doc["_id"]
 
     return {
         "status_code": 200,
         "page": page,
         "total_pages": (total + limit - 1) // limit,
         "total_avis": total,
-        "avis": avis_list
+        "avis": avis,
     }
+
 
 
 @avis_router.get("/reclamation/{reclamation_id}", response_model=List[Avis])
