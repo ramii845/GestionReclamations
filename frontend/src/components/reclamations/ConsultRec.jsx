@@ -102,16 +102,25 @@ const ConsultRec = () => {
           imageUrl,
         ];
       }
+      if (
+      reponseUtilite === true &&
+      lastReclamation.retour_admin === "confirmé"
+    ) {
+      return toast.info("Vous avez déjà confirmé cette réclamation.");
+    }
+    if (
+      reponseUtilite === false &&
+      lastReclamation.retour_admin === "non confirmé"
+    ) {
+      return toast.info("Vous avez déjà donné cette réponse.");
+    }
 
       await updateReclamation(reclamationId, updatedData);
       toast.success("Votre retour a bien été pris en compte. Merci pour votre réponse.");
       setImage(null);
       setReponseUtilite(null);
 
-      if (lastReclamation.statut === "Prise en charge" && reponseUtilite === true) {
-        setShowAvisPopup(true);
-        return; // Arrête la navigation, popup affiché
-      }
+    
 
       setTimeout(() => {
         navigate("/logout");
@@ -213,10 +222,13 @@ const ConsultRec = () => {
         )}
       </div>
 
-      {/* Afficher popup si statut Terminée ou Prise en charge ET showAvisPopup = true */}
-      {!loading && (lastReclamation?.statut === "Terminée" || lastReclamation?.statut === "Prise en charge") && showAvisPopup && (
-        <AvisPopup onClose={() => setShowAvisPopup(false)} onSubmit={handleAvisSubmit} />
-      )}
+    {!loading && lastReclamation?.statut === "Terminée" && showAvisPopup && (
+  <AvisPopup
+    onClose={() => setShowAvisPopup(false)}
+    onSubmit={handleAvisSubmit}
+  />
+)}
+
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

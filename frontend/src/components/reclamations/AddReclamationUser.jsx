@@ -154,7 +154,7 @@ const AddReclamationUser = () => {
     try {
       await createReclamation(reclamationData);
       toast.success("Réclamation créée avec succès !", { autoClose: 2000 });
-     setTimeout(() => navigate("/confirmation",1500));
+     setTimeout(() => navigate("/confirmation",2000));
     } catch {
       toast.error("Erreur lors de la création de la réclamation.", { autoClose: 2000 });
     }
