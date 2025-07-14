@@ -134,88 +134,92 @@ const ConsultRec = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <Navbar />
-      <div className="consult-rec-container">
-        <h2>Ma Réclamation</h2>
+  <div className="page-wrapper">
+    <Navbar />
+    <div className="consult-rec-container">
+      <h2>Ma Réclamation</h2>
 
-        {loading ? (
-          <p>Chargement...</p>
-        ) : !lastReclamation ? (
-          <p>Aucune réclamation trouvée.</p>
-        ) : (
-          <form onSubmit={handleSubmitAll}>
-            <div className="rec-details">
-              <div><strong>Date :</strong> {new Date(lastReclamation.date_creation).toLocaleDateString("fr-FR")}</div>
-              <div><strong>Description :</strong> {lastReclamation.description_probleme || "-"}</div>
-              <div><strong>Détails :</strong> {lastReclamation.autre || "-"}</div>
-              <div><strong>Retour agence :</strong> {lastReclamation.retour_client|| "-"}</div>
-              <div><strong>Statut :</strong> {lastReclamation.statut || "-"}</div>
+      {loading ? (
+        <p>Chargement...</p>
+      ) : !lastReclamation ? (
+        <p>Aucune réclamation trouvée.</p>
+      ) : (
+        <form onSubmit={handleSubmitAll}>
+          <div className="rec-details">
+            <div><strong>Date :</strong> {new Date(lastReclamation.date_creation).toLocaleDateString("fr-FR")}</div>
+            <div><strong>Description :</strong> {lastReclamation.description_probleme || "-"}</div>
+            <div><strong>Détails :</strong> {lastReclamation.autre || "-"}</div>
+            <div><strong>Retour agence :</strong> {lastReclamation.retour_client || "-"}</div>
+            <div><strong>Statut :</strong> {lastReclamation.statut || "-"}</div>
 
-              {lastReclamation.statut === "En attente" ? null : (
-                <>
-                  <div style={{ marginTop: "20px", textAlign: "center" }}>
-                    <strong>Cette information vous a-t-elle été utile ?</strong>
-                    <div style={{ marginTop: "10px", display: "flex", justifyContent: "center", gap: "40px" }}>
-                      <label>
-                        <input
-                          type="radio"
-                          name="utilite"
-                          value="oui"
-                          checked={reponseUtilite === true}
-                          onChange={() => setReponseUtilite(true)}
-                        />
-                        Oui
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="utilite"
-                          value="non"
-                          checked={reponseUtilite === false}
-                          onChange={() => setReponseUtilite(false)}
-                        />
-                        Non
-                      </label>
-                    </div>
+            {lastReclamation.statut === "En attente" || lastReclamation.statut === "Terminée" ? null : (
+              <>
+                <div style={{ marginTop: "20px", textAlign: "center" }}>
+                  <strong>Cette information vous a-t-elle été utile ?</strong>
+                  <div style={{ marginTop: "10px", display: "flex", justifyContent: "center", gap: "40px" }}>
+                    <label>
+                      <input
+                        type="radio"
+                        name="utilite"
+                        value="oui"
+                        checked={reponseUtilite === true}
+                        onChange={() => {
+                          setReponseUtilite(true);
+                          if (lastReclamation.statut === "Prise en charge") {
+                            setShowAvisPopup(true);
+                          }
+                        }}
+                      />
+                      Oui
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="utilite"
+                        value="non"
+                        checked={reponseUtilite === false}
+                        onChange={() => setReponseUtilite(false)}
+                      />
+                      Non
+                    </label>
                   </div>
+                </div>
 
-                  <div style={{ marginTop: "20px", textAlign: "left" }}>
-                    <strong>Ajouter une image :</strong>
-                  </div>
+                <div style={{ marginTop: "20px", textAlign: "left" }}>
+                  <strong>Ajouter une image :</strong>
+                </div>
 
-                  <div className="add-image-section" style={{ marginTop: "15px" }}>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setImage(e.target.files[0])}
-                    />
-                  </div>
+                <div className="add-image-section" style={{ marginTop: "15px" }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={uploading}
-                    className="image-upload-button"
-                    style={{ marginTop: "10px" }}
-                  >
-                    {uploading ? "Envoyer" : "Envoyer"}
-                  </button>
-                </>
-              )}
-            </div>
-          </form>
-        )}
-      </div>
-
-      {!loading && lastReclamation?.statut === "Terminée" && showAvisPopup && (
-        <AvisPopup
-          onClose={() => setShowAvisPopup(false)}
-          onSubmit={handleAvisSubmit}
-        />
+                <button
+                  type="submit"
+                  disabled={uploading}
+                  className="image-upload-button"
+                  style={{ marginTop: "10px" }}
+                >
+                  {uploading ? "Envoyer" : "Envoyer"}
+                </button>
+              </>
+            )}
+          </div>
+        </form>
       )}
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
-  );
+
+    {/* ✅ Popup visible pour "Terminée" ou "Prise en charge" avec "oui" */}
+    {!loading && lastReclamation?.statut === "Terminée" && showAvisPopup && (
+      <AvisPopup onClose={() => setShowAvisPopup(false)} onSubmit={handleAvisSubmit} />
+    )}
+    <ToastContainer position="top-right" autoClose={3000} />
+  </div>
+);
+
 };
 
 export default ConsultRec;

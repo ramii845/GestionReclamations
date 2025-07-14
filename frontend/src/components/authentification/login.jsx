@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signin } from '../../services/authService';
-import { toast,ToastContainer} from 'react-toastify';
+import { getReclamationsByUser } from '../../services/reclamationService';
+import { toast, ToastContainer } from 'react-toastify';
 import './AuthForm.css';
 
 const Login = () => {
@@ -13,36 +14,39 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const userData = { matricule_vehicule, motdepasse };
 
-    const userData = { matricule_vehicule,
-      motdepasse };
+    try {
+      const res = await signin(userData);
+      const result = res.data;
 
-  try {
-  const res = await signin(userData);
-  const result = res.data;
+      localStorage.setItem('CC_Token', result.token);
 
-  localStorage.setItem('CC_Token', result.token);
-  
+      const tokenPayload = JSON.parse(atob(result.token.split('.')[1]));
+      const role = tokenPayload.role;
+      const user_id = tokenPayload.user_id;
 
-if (result.role === 'admin') {
-  toast.success('Connexion réussie !',{ autoClose: 2000 });
-   setTimeout(() =>navigate('/adminPage'),1500);
-} else {
-  toast.success('Connexion réussie !',{ autoClose: 2000 });
-   setTimeout(() =>navigate('/categories'),1500);
-}
+      toast.success('Connexion réussie !', { autoClose: 2000 });
 
+      if (role === 'admin') {
+        setTimeout(() => navigate('/adminPage'), 1500);
+      } else {
+        try {
+          const rec = await getReclamationsByUser(user_id);
+          if (rec?.data?.id) {
+            setTimeout(() => navigate('/consulterEtat'), 1500);
+          } else {
+            setTimeout(() => navigate('/categories'), 1500);
+          }
+        } catch (err) {
+          setTimeout(() => navigate('/categories'), 1500);
+        }
+      }
 
-} catch (err) {
-  console.error("Erreur dans catch :", err);
-
-toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { autoClose: 2000 });
-
-
-}
-
-
-
+    } catch (err) {
+      console.error("Erreur dans catch :", err);
+      toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { autoClose: 2000 });
+    }
   };
 
   return (
@@ -107,20 +111,14 @@ toast.error("Connexion échouée : veuillez vérifier vos identifiants.", { auto
           </Link>
         </div>
 
-        <p
-          className="text-center text-sm pt-4"
-          style={{ color: '#555', fontWeight: 'normal' }}
-        >
+        <p className="text-center text-sm pt-4" style={{ color: '#555', fontWeight: 'normal' }}>
           Vous n’avez pas de compte ?{' '}
-          <Link
-            to="/register"
-            style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}
-          >
+          <Link to="/register" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
             S’inscrire
           </Link>
         </p>
       </form>
-       <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
