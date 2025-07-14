@@ -3,48 +3,63 @@ import { createCategorie } from "../../../services/categorieService";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../Navbar/Navbar";
+import { FilePond, registerPlugin } from "react-filepond";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./AddCategories.css"; // Import du fichier CSS
+import "./AddCategories.css";
 
-// ... (imports inchangés)
-import "./AddCategories.css"; // Import CSS
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddCategories = () => {
   const [nomCategorie, setNomCategorie] = useState("");
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [imageCategorie, setImageCategorie] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
-  const handleUploadImage = async () => {
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "iit2024G4");
+  const serverOptions = () => ({
+    load: (source, load) => {
+      fetch(source)
+        .then((res) => res.blob())
+        .then((blob) => load(blob));
+    },
+    process: (fieldName, file, metadata, load, error, progress, abort) => {
+      setIsUploading(true);
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "iit2024G4");
+      data.append("cloud_name", "ditzf19gl");
 
-    const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload",
-      formData
-    );
-    return res.data.secure_url;
-  };
+      axios
+        .post("https://api.cloudinary.com/v1_1/ditzf19gl/image/upload", data)
+        .then((res) => {
+          setImageCategorie(res.data.secure_url); // enregistrer l'URL de l'image
+          load(res.data.secure_url); // informer FilePond
+        })
+        .catch(() => {
+          error("Erreur upload image");
+          abort();
+        })
+        .finally(() => {
+          setIsUploading(false);
+        });
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!imageCategorie) return toast.error("Veuillez ajouter une image.");
     try {
-      const imageUrl = await handleUploadImage();
-      await createCategorie({ nomCategorie, imageCategorie: imageUrl });
+      await createCategorie({ nomCategorie, imageCategorie });
       toast.success("Catégorie ajoutée avec succès !");
       setTimeout(() => navigate("/admin/services"), 2000);
     } catch (err) {
-      console.error("Erreur ajout catégorie:", err,{ autoClose: 2000 });
+      console.error("Erreur ajout catégorie:", err);
       toast.error("Erreur lors de l'ajout de la catégorie.");
     }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    setPreview(URL.createObjectURL(file));
   };
 
   const handleCancel = () => {
@@ -56,9 +71,9 @@ const AddCategories = () => {
       <Navbar />
       <div className="add-container">
         <div className="add-card">
-          <h2 className="add-title">Ajouter une service</h2>
+          <h2 className="add-title">Ajouter un service</h2>
           <form onSubmit={handleSubmit}>
-            <label className="form-label">📝 Nom du service </label>
+            <label className="form-label">📝 Nom du service</label>
             <input
               type="text"
               placeholder="Nom catégorie"
@@ -68,28 +83,36 @@ const AddCategories = () => {
               className="form-input"
             />
 
-            <label className="form-label">🖼️ Image du service </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              required
-              className="form-file"
+            <label className="form-label">🖼️ Image du service</label>
+            <FilePond
+              allowMultiple={false}
+              acceptedFileTypes={["image/*"]}
+              server={serverOptions()}
+              name="file"
+              labelIdle='Glissez-déposez ou <span class="filepond--label-action">Parcourir</span>'
             />
 
-            {preview && (
-              <div className="preview-container">
-                <img src={preview} alt="preview" className="preview-image" />
-              </div>
-            )}
-
             <div className="btn-group">
-              <button type="submit"  name="c1" className="submit-btn2">Ajouter</button>
-              <button type="button" name="c2" onClick={handleCancel} className="cancel-btn2">Annuler</button>
+              <button
+                type="submit"
+                name="c1"
+                className="submit-btn2"
+                disabled={isUploading}
+              >
+                {isUploading ? "Envoi en cours..." : "Ajouter"}
+              </button>
+              <button
+                type="button"
+                name="c2"
+                onClick={handleCancel}
+                className="cancel-btn2"
+              >
+                Annuler
+              </button>
             </div>
           </form>
         </div>
-            <ToastContainer position="top-right" autoClose={3000} />
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     </>
   );
