@@ -71,7 +71,7 @@ const CategorieList = () => {
     <div>
   <Navbar/>
    <h2 className="title1">Bienvenue chez l'agence Auto Lion</h2>
-    <h4>Vous pouvez soumettre votre réclamation en choisissant le service concerné</h4>
+    <h4 className="p1">Vous pouvez soumettre votre réclamation en choisissant le service concerné</h4>
      <h2 className="title2">Liste des Services</h2>
       <div className="categorie-container">
    

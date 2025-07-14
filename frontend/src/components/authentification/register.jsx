@@ -25,7 +25,8 @@ const Register = () => {
   const modelesParMarque = {
     Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
     Citroen: ['C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo', 'BERLINGO VAN', 'C4 X', 'Jumper'],
-    Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO']
+    Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'],
+    Autre:['Autre']
   };
 
   const handleChange = (e) => {
@@ -170,7 +171,7 @@ if (name === 'matricule_vehicule') {
           <p className="text-xl font-bold mb-6">Créer un compte</p>
 
           <div className="input-group">
-            <p className="text-sm font-semibold">Nom et Prénom</p>
+            <p className="text-sm font-semibold">Nom du propriétaire</p>
             <input type="text" name="nom" value={form.nom} onChange={handleChange} required />
           </div>
 

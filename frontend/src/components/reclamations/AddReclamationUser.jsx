@@ -218,7 +218,7 @@ const AddReclamationUser = () => {
 
         <div style={{ marginTop: "15px", marginLeft: "-30px" }}>
           <Link to="/categories" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
-            Retour à la liste des catégories
+            Retour à la page d'accueil
           </Link>
         </div>
       </div>
