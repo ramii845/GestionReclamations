@@ -40,7 +40,7 @@ const ListUsers = () => {
     const handler = setTimeout(() => {
       setDebouncedNom(searchNom);
       setDebouncedMatricule(searchMatricule);
-    }, 600);
+    },2000);
 
     return () => clearTimeout(handler);
   }, [searchNom, searchMatricule]);
@@ -75,6 +75,7 @@ const ListUsers = () => {
     try {
       await deleteUser(userToDelete.id);
       toast.success(`Utilisateur supprimé : ${userToDelete.nom}`, { autoClose: 2000 });
+       setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userToDelete.id));
       if (users.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
