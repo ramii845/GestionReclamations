@@ -6,7 +6,7 @@ const Logout = () => {
 useEffect(() => {
 localStorage.removeItem("CC_Token");
 
-navigate("/login");
+navigate("/");
 }, [navigate]);
 return (
 <div>

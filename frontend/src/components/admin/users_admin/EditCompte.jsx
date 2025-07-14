@@ -200,7 +200,7 @@ data.append('upload_preset', 'iit2024G4');
 
         <div style={{ marginTop: "15px", textAlign: "center" }}>
           <Link to="/categories" style={{ color: '#0c6b84', fontWeight: '500', textDecoration: 'none' }}>
-            Retour à la liste des catégories
+            Retour à la page d'accueil
           </Link>
         </div>
       </div>

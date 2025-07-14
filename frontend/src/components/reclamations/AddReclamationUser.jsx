@@ -116,7 +116,7 @@ const AddReclamationUser = () => {
         r => r.statut === "En attente" || r.statut === "Prise en charge"
       );
       if (enCours) {
-       toast.warning("Cher client, vous pouvez envoyer une autre réclamation à la condition que la dernière réclamation soit clôturée");
+       toast.warning("Cher client, vous pouvez envoyer une autre réclamation à la condition que la dernière réclamation soit clôturée",{ autoClose: 3000 });
         return;
       }
     } catch (err) {

@@ -76,7 +76,7 @@ const closeAlert = async () => {
               Gérer les services
             </button>
             <button onClick={() => navigate("/admin/utilisateurs")}>
-              Gérer les utilisateurs
+              Gérer les clients
             </button>
             <button onClick={() => navigate("/admin/avis")}>
               Consulter les avis
