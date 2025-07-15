@@ -40,7 +40,12 @@ export default function ListAvis() {
             userName = userResp.data.nom || userResp.data.name || userName;
           } catch {}
 
-          let dateCreation = "Date inconnue";
+          let dateCreation = new Date().toLocaleDateString("fr-FR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+});
+
           try {
             const recResp = await getReclamationById(a.reclamation_id);
             if (recResp.data.date_creation) {
