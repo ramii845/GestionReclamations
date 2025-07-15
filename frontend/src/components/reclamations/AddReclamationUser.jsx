@@ -192,7 +192,7 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>Images du véhicule (vous pouvez en sélectionner plusieurs)</label>
+            <label>Images du véhicule (vous pouvez sélectionner plusieurs fichiers si nécessaire)</label>
             <input
               type="file"
               accept="image/*"
@@ -202,7 +202,7 @@ const AddReclamationUser = () => {
           </div>
 
           <div>
-            <label>Documents / Facturation (vous pouvez en sélectionner plusieurs)</label>
+            <label>Documents / Facturation (vous pouvez sélectionner plusieurs fichiers si nécessaire)</label>
             <input
               type="file"
               accept="image/*"
