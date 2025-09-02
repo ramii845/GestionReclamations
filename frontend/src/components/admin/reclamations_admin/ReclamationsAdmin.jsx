@@ -172,16 +172,24 @@ const ReclamationsAdmin = () => {
         return copy;
       });
 
- const recsWithNames = recs.map(r => {
+    const recsWithNames = recs.map(r => {
   const user = usersCache[r.user_id] || usersFetched.find(u => u.id === r.user_id);
-  const cat = categoriesCache[r.categorie_id] || catsFetched.find(c => c.id === r.categorie_id);
 
   return {
     ...r,
-    userName: user?.nom || 'Utilisateur inconnu',
-    userPhone: user?.numero_telephone || '-',
+    userName:
+      usersCache[r.user_id]?.nom ||
+      usersFetched.find(u => u.id === r.user_id)?.nom ||
+      'Utilisateur inconnu',
+    userPhone:
+      usersCache[r.user_id]?.numero_telephone ||
+      usersFetched.find(u => u.id === r.user_id)?.numero_telephone ||
+      '-',
     matricule: user?.matricule_vehicule || '-',
-    categorieName: cat?.nomCategorie || 'Catégorie inconnue'
+    categorieName:
+      categoriesCache[r.categorie_id] ||
+      catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie ||
+      'Catégorie inconnue'
   };
 });
 
