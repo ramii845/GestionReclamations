@@ -34,7 +34,6 @@ const [facturation, setFacturation] = useState([]);
     "Facturation / Devis",
     "Traitement du dossier de garantie",
     "Autre problème lié au service service Après-Vente",
-    "Autre"
   ];
 
   useEffect(() => {
@@ -169,7 +168,6 @@ const [facturation, setFacturation] = useState([]);
             </select>
           </div>
 
-          {descriptionProbleme === "Autre" && (
             <div>
               <label>Veuillez préciser</label>
               <input
@@ -179,7 +177,7 @@ const [facturation, setFacturation] = useState([]);
                 required
               />
             </div>
-          )}
+         
 
           <div>
             <label>Image du véhicule</label>

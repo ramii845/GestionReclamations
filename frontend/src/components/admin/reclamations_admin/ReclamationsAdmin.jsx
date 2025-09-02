@@ -132,7 +132,8 @@ const ReclamationsAdmin = () => {
         userIdsToFetch.map(id =>
           getUserbyId(id)
             .then(r => ({ id, nom: r.data.nom ,
-              numero_telephone: r.data.numero_telephone
+              numero_telephone: r.data.numero_telephone,
+              matricule_vehicule:r.data.matricule_vehicule
 
             }))
             .catch(() => ({ id, nom: 'Utilisateur inconnu' }))
@@ -155,7 +156,8 @@ const ReclamationsAdmin = () => {
   usersFetched.forEach(u => {
     copy[u.id] = {
       nom: u.nom,
-      numero_telephone: u.numero_telephone
+      numero_telephone: u.numero_telephone,
+      matricule_vehicule:u.matricule_vehicule
     };
   });
   return copy;
@@ -170,21 +172,19 @@ const ReclamationsAdmin = () => {
         return copy;
       });
 
-    const recsWithNames = recs.map(r => ({
-  ...r,
-  userName:
-    usersCache[r.user_id]?.nom ||
-    usersFetched.find(u => u.id === r.user_id)?.nom ||
-    'Utilisateur inconnu',
-  userPhone:
-    usersCache[r.user_id]?.numero_telephone ||
-    usersFetched.find(u => u.id === r.user_id)?.numero_telephone ||
-    '-',
-  categorieName:
-    categoriesCache[r.categorie_id] ||
-    catsFetched.find(c => c.id === r.categorie_id)?.nomCategorie ||
-    'Catégorie inconnue'
-}));
+ const recsWithNames = recs.map(r => {
+  const user = usersCache[r.user_id] || usersFetched.find(u => u.id === r.user_id);
+  const cat = categoriesCache[r.categorie_id] || catsFetched.find(c => c.id === r.categorie_id);
+
+  return {
+    ...r,
+    userName: user?.nom || 'Utilisateur inconnu',
+    userPhone: user?.numero_telephone || '-',
+    matricule: user?.matricule_vehicule || '-',
+    categorieName: cat?.nomCategorie || 'Catégorie inconnue'
+  };
+});
+
       // Ne plus mettre à jour availableStatuts ici
       // setAvailableStatuts([...new Set(recs.map(r => r.statut).filter(Boolean))]);
 
@@ -326,6 +326,7 @@ useEffect(() => {
               <th name="col">Date création</th>
               <th name="col">Cleint</th>
               <th name="col">Téléphone</th>
+              <th name="col">Matricule</th>
               <th name="col">Service</th>
               <th name="col">Description</th>
               <th name="col">Réclamataion</th>
@@ -349,6 +350,7 @@ useEffect(() => {
                 </td>
                 <td name="col1">{rec.userName}</td>
                 <td name="col1">{rec.userPhone}</td>
+                <td name="col1">{rec.matricule}</td>
                 <td name="col1">{rec.categorieName}</td>
                 <td name="col1">{rec.description_probleme || '-'}</td>
                 <td name="col1">{rec.autre || '-'}</td>
